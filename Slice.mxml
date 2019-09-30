@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+		   width="100%" height="100%"
+		   horizontalScrollPolicy="off" verticalScrollPolicy="off"
+		   backgroundColor="0xFFFFFF"
+		   mouseDown="mouseDownHandler(event)"
+		   mouseMove="mouseMoveHandler(event)"
+		   mouseUp="mouseUpHandler(event)"
+		   mouseOut="mouseOutHandler(event)"
+		   resize="resizeHandler(event)" xmlns:ui="flex.utils.ui.*" xmlns:local="*">
+<!--	<mx:Metadata>
+		[Event(name="complete", type="flash.events.Event")]
+	</mx:Metadata>-->
+	<mx:Script>
+		<![CDATA[
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			
+			[Bindable] public var topText:String;
+			[Bindable] public var bottomText:String;
+			[Bindable] public var leftText:String;
+			[Bindable] public var rightText:String;
+			
+			private var _volume:Volume;
+			public function set volume(v:Volume):void
+			{
+				_volume=v;
+			}
+			public function get volume():Volume
+			{
+				return _volume;
+			}
+			
+			public var dataWidth:int;
+			public var dataHeight:int;
+			public var physWidth:Number;
+			public var physHeight:Number;
+			
+			public var ready:Boolean=false;
+			
+			protected function resizeHandler(event:ResizeEvent):void
+			{
+				if(physWidth/physHeight<width/height)
+				{
+					image.height=height;
+					image.y=0;
+					image.width=height*physWidth/physHeight;
+					image.x=(width-image.width)/2;
+				}
+				else
+				{
+					image.width=width;
+					image.x=0;
+					image.height=width*physHeight/physWidth;
+					image.y=(height-image.height)/2;
+				}
+				aligNavi();
+				
+				const g:Graphics=clipmask.graphics;
+				g.clear();
+				g.beginFill(0xFFFFFF);
+				g.drawRect(0,0,width,height);
+				g.endFill();
+			}
+
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				DrawOverlay();
+			}
+			
+			protected function image_resizeHandler(event:ResizeEvent):void
+			{
+				DrawOverlay();
+			}
+
+			public var sliceDescriptor:SliceDescriptor;
+			[Bindable] public var plane:String;
+			
+			protected var _midX:Number;
+			public function get midX():Number{return _midX;}
+			
+			protected var _midY:Number;
+			public function get midY():Number{return _midY;}
+			
+			public function DrawOverlay():void
+			{
+				if(!ready)return;
+				CheckPick();
+				const g:Graphics=marker.graphics;
+				g.clear();
+				const rate:Number=image.width/dataWidth;
+				_midX=sliceDescriptor.midpoint[plane.charAt(0)]*rate;
+				_midY=sliceDescriptor.midpoint[plane.charAt(1)]*rate;
+				if(!dragPick)
+				{
+					g.lineStyle(1,0xFF0000);
+					g.beginFill(0xFF0000);
+					g.drawCircle(midX,midY,4);
+					g.endFill();
+				}
+				g.lineStyle(1,rotPick?0xFFFF00:0xFF0000);
+				g.beginFill(0xFF,0.2);
+				g.moveTo(sliceDescriptor.topleft[plane.charAt(0)]*rate,sliceDescriptor.topleft[plane.charAt(1)]*rate);
+				g.lineTo(sliceDescriptor.topright[plane.charAt(0)]*rate,sliceDescriptor.topright[plane.charAt(1)]*rate);
+				if(!rotPick)g.lineStyle(1,0xFF00);
+				g.lineTo(sliceDescriptor.bottomright[plane.charAt(0)]*rate,sliceDescriptor.bottomright[plane.charAt(1)]*rate);
+				if(!rotPick)g.lineStyle(1,0xFF);
+				g.lineTo(sliceDescriptor.bottomleft[plane.charAt(0)]*rate,sliceDescriptor.bottomleft[plane.charAt(1)]*rate);
+				if(!rotPick)g.lineStyle(1,0xFF00FF);
+				g.lineTo(sliceDescriptor.topleft[plane.charAt(0)]*rate,sliceDescriptor.topleft[plane.charAt(1)]*rate);
+				g.endFill();
+				if(dragPick)
+				{
+					g.lineStyle(1,0xFFFF00);
+					g.beginFill(0xFFFF00);
+					g.drawCircle(midX,midY,4);
+					g.endFill();
+				}
+			}
+
+			public var pickLock:Boolean;
+			protected var _dragPick:Boolean;
+			public function get dragPick():Boolean{return _dragPick;}
+			protected var _rotPick:Boolean;
+			public function get rotPick():Boolean{return _rotPick;}
+			
+			public function CheckPick():void
+			{
+				if(pickLock)return;
+				_dragPick=false;
+				_rotPick=false;
+				const rate:Number=image.width/dataWidth;
+				if(RangeCheck(marker.mouseX,sliceDescriptor.midpoint[plane.charAt(0)]*rate,5) && RangeCheck(marker.mouseY,sliceDescriptor.midpoint[plane.charAt(1)]*rate,5))
+					_dragPick=true;
+				else if((image.mouseX>=0) && (image.mouseX<image.width) && (image.mouseY>=0) && (image.mouseY<image.height))
+					_rotPick=true;
+			}
+			
+			public static function RangeCheck(val:Number,mid:Number,spread:Number):Boolean
+			{
+				if(val<mid-spread)return false;
+				if(val>mid+spread)return false;
+				return true;
+			}
+			
+			protected function mouseDownHandler(event:MouseEvent):void
+			{
+				if(!QuickNII.navilock)
+					beginDrag();
+			}
+			
+			protected function mouseOutHandler(event:MouseEvent):void
+			{
+				if(mouseX<0 || mouseX>width || mouseY<0 || mouseY>height) // ??
+				{
+					if(pickLock)
+						endDrag();
+				}
+				DrawOverlay();
+			}
+			
+			protected function mouseUpHandler(event:MouseEvent):void
+			{
+				endDrag();
+			}
+			
+			protected function mouseMoveHandler(event:MouseEvent):void
+			{
+				if(pickLock)
+				{
+					doDrag();
+				}
+				else
+					DrawOverlay();
+			}
+			
+			public var downX:Number;
+			public var downY:Number;
+			private function beginDrag():void
+			{
+				sliceDescriptor.CommitChanges();
+				downX=mouseX;
+				downY=mouseY;
+				pickLock=true;
+			}
+			
+			private function endDrag():void
+			{
+				sliceDescriptor.CommitChanges();
+				pickLock=false;
+			}
+			
+			private function doDrag():void
+			{
+				if(dragPick)
+				{
+					const rate:Number=image.width/dataWidth;
+					sliceDescriptor.BaseShift(plane,(mouseX-downX)/rate,(mouseY-downY)/rate);
+				}
+				else if(rotPick)
+				{
+//					const v1:Vector3D=new Vector3D(midX-downX,midY-downY);
+//					const v2:Vector3D=new Vector3D(midX-mouseX,midY-mouseY);
+					const v1:Vector3D=new Vector3D(midX-downX+image.x,midY-downY+image.y);
+					const v2:Vector3D=new Vector3D(midX-mouseX+image.x,midY-mouseY+image.y);					
+					const cross:Vector3D=v1.crossProduct(v2);
+					var angle:Number=Vector3D.angleBetween(v1,v2)*180/Math.PI;
+					if(cross.z<0)angle=360-angle;
+					sliceDescriptor.BaseRotate(plane,plane!="xzy"?angle:-angle);
+				}
+			}
+			
+			public function onLeft(event:MouseEvent):void{sliceDescriptor.Shift(plane,-1,0);sliceDescriptor.StopRedo();}
+			public function onRight(event:MouseEvent):void{sliceDescriptor.Shift(plane,1,0);sliceDescriptor.StopRedo();}
+			public function onUp(event:MouseEvent):void{sliceDescriptor.Shift(plane,0,-1);sliceDescriptor.StopRedo();}
+			public function onDown(event:MouseEvent):void{sliceDescriptor.Shift(plane,0,1);sliceDescriptor.StopRedo();}
+			public function onCCW(event:MouseEvent):void{sliceDescriptor.Rotate(plane,plane!="xzy"?-1:1);sliceDescriptor.StopRedo();}
+			public function onCW(event:MouseEvent):void{sliceDescriptor.Rotate(plane,plane!="xzy"?1:-1);sliceDescriptor.StopRedo();}
+
+			private function aligNavi():void
+			{
+				topLabel.x=(width-topLabel.width)/2;
+				bottomLabel.x=(width-bottomLabel.width)/2;
+				topLabel.y=image.y;//0;
+				bottomLabel.y=image.y+image.height-bottomLabel.height;//height-bottomLabel.height;
+				leftLabel.y=(height-leftLabel.height)/2;
+				rightLabel.y=(height-rightLabel.height)/2;
+				leftLabel.x=image.x;//0;
+				rightLabel.x=image.x+image.width-rightLabel.width;//width-rightLabel.width;
+				
+				axes.x=-0.5;
+				axes.y=height-0.3-axes.height;
+			}
+			
+			// placeholder
+//			[Bindable] public var flipx:Boolean;
+//			[Bindable] public var flipy:Boolean;
+		]]>
+		
+	</mx:Script>
+<!--	<mx:Canvas id="filtercanvas" focusEnabled="false">-->
+	<mx:Image id="image" maintainAspectRatio="false" focusEnabled="false"
+			  resize="image_resizeHandler(event)"/>
+<!--	</mx:Canvas>-->
+<!--	<local:Axes id="axes"
+				flipx="{flipx}" flipy="{flipy}"
+				sxx="{sxx}" sxy="{sxy}"
+				syx="{syx}" syy="{syy}"
+				szx="{szx}" szy="{szy}" focusEnabled="false"/>-->
+	<local:Axes id="axes"
+				labels="{plane}"
+				focusEnabled="false"/>
+<!--	<mx:Label id="topLabel" text="{topText}" color="0xFFFF00" focusEnabled="false"/>
+	<mx:Label id="bottomLabel" text="{bottomText}" color="0xFFFF00" focusEnabled="false"/>
+	<mx:Label id="leftLabel" text="{leftText}" color="0xFFFF00" rotationZ="90" focusEnabled="false"/>
+	<mx:Label id="rightLabel" text="{rightText}" color="0xFFFF00" rotationZ="90" focusEnabled="false"/>-->
+	<mx:Image id="topLabel" source="{topText}" focusEnabled="false"/>
+	<mx:Image id="bottomLabel" source="{bottomText}" focusEnabled="false"/>
+	<mx:Image id="leftLabel" source="{leftText}" focusEnabled="false"/>
+	<mx:Image id="rightLabel" source="{rightText}" focusEnabled="false"/>
+	<mx:Canvas id="marker" x="{image.x}" y="{image.y}" focusEnabled="false" mask="{clipmask}"/>
+	<mx:UIComponent id="clipmask"/>
+	<mx:Button icon="@Embed(source='icons/LeftArrow.png')" x="0" y="0" width="22" height="22" click="onLeft(event)" visible="{!QuickNII.navilock}" enabled="{!QuickNII.navilock}"/>
+	<mx:Button icon="@Embed(source='icons/RightArrow.png')" x="22" y="0" width="22" height="22" click="onRight(event)" visible="{!QuickNII.navilock}" enabled="{!QuickNII.navilock}"/>
+	<mx:Button icon="@Embed(source='icons/UpArrow.png')" x="46" y="0" width="22" height="22" click="onUp(event)" visible="{!QuickNII.navilock}" enabled="{!QuickNII.navilock}"/>
+	<mx:Button icon="@Embed(source='icons/DownArrow.png')" x="68" y="0" width="22" height="22" click="onDown(event)" visible="{!QuickNII.navilock}" enabled="{!QuickNII.navilock}"/>
+	<mx:Button icon="@Embed(source='icons/RotCCW.png')" x="92" y="0" width="22" height="22" click="onCCW(event)" visible="{!QuickNII.navilock}" enabled="{!QuickNII.navilock}"/>
+	<mx:Button icon="@Embed(source='icons/RotCW.png')" x="114" y="0" width="22" height="22" click="onCW(event)" visible="{!QuickNII.navilock}" enabled="{!QuickNII.navilock}"/>
+</mx:Canvas>

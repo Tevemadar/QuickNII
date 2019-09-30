@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="50" height="50" backgroundColor="0x808080" backgroundAlpha="0.5">
+	<mx:Script>
+		<![CDATA[
+			public var labels:String;
+//			public var flipx:Boolean;
+//			public var flipy:Boolean;
+			public var axisrate:Number=0.8;
+			
+//			public var sxx:Number;
+//			public var sxy:Number;
+//			public var syx:Number;
+//			public var syy:Number;
+//			public var szx:Number;
+//			public var szy:Number;
+//			
+//			private var cx:uint=0xFF0000;
+//			private var cy:uint=0x80FF00;
+//			private var cz:uint=0x8000FF;
+//
+//			public function set colorx(color:uint):void
+//			{
+//				cx=color;
+//				invalidateProperties();
+//			}
+//			public function set colory(color:uint):void
+//			{
+//				cy=color;
+//				invalidateProperties();
+//			}
+//			public function set colorz(color:uint):void
+//			{
+//				cz=color;
+//				invalidateProperties();
+//			}
+			
+//			public function set axisrate(rate:Number):void
+//			{
+//				_axisrate=rate;
+//				invalidateProperties();
+//			}
+//			
+//			public function set flipx(flip:Boolean):void
+//			{
+//				_flipx=flip;
+//				invalidateProperties();
+//			}
+//			public function set flipy(flip:Boolean):void
+//			{
+//				_flipy=flip;
+//				invalidateProperties();
+//			}
+			
+			protected function DrawX(x:Number,y:Number):void
+			{
+				graphics.moveTo(x-2.5,y-2);
+				graphics.lineTo(x+2.5,y+2);
+				graphics.moveTo(x-2.5,y+2);
+				graphics.lineTo(x+2.5,y-2);
+			}
+			protected function DrawY(x:Number,y:Number):void
+			{
+				graphics.moveTo(x-2,y-2);
+				graphics.lineTo(x,y+0.5);
+				graphics.moveTo(x-2,y+3);
+				graphics.lineTo(x+2,y-2);
+			}
+			protected function DrawZ(x:Number,y:Number):void
+			{
+				graphics.moveTo(x-2.5,y-2);
+				graphics.lineTo(x+2.5,y-2);
+				graphics.lineTo(x-2.5,y+2);
+				graphics.lineTo(x+2.5,y+2);
+			}
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				
+				const fx:Boolean=true;//labels.charAt(0)=="y";//false;//flipx;
+				const fy:Boolean=true;//labels.charAt(1)=="z";//false;//flipy;
+				const size:Number=10;
+				const arrow:Number=2;
+				const circle:Number=4;
+				
+				const xx:Number=fx?size/2:width-1-size/2;
+				const xy:Number=fy?height-1-size/2:size/2;
+				const yx:Number=width-1-xx;
+				const yy:Number=height-1-xy;
+				const zx:Number=fx?width-1-5*size/4:5*size/4;
+				const zy:Number=fy?height-1-5*size/4:5*size/4;
+				
+				graphics.clear();
+				graphics.lineStyle(1,0xFF00);
+				switch(labels.charAt(0))
+				{
+					case "x":DrawX(xx,xy);break;
+					case "y":DrawY(xx,xy);break;
+					case "z":DrawZ(xx,xy);break;
+				}
+				switch(labels.charAt(1))
+				{
+					case "x":DrawX(yx,yy);break;
+					case "y":DrawY(yx,yy);break;
+					case "z":DrawZ(yx,yy);break;
+				}
+				switch(labels.charAt(2))
+				{
+					case "x":DrawX(zx,zy);break;
+					case "y":DrawY(zx,zy);break;
+					case "z":DrawZ(zx,zy);break;
+				}
+				
+				const u:Number=fx?size:width-1-size;
+				const v:Number=fy?size:height-1-size;
+				
+				graphics.moveTo(yx,v);
+				graphics.lineTo(yx+arrow,v+(fy?arrow:-arrow));
+				graphics.moveTo(yx-arrow,v+(fy?arrow:-arrow));
+				graphics.lineTo(yx,v);
+				
+				graphics.lineTo(yx,xy);
+				
+				graphics.lineTo(u,xy);
+				graphics.lineTo(u+(fx?arrow:-arrow),xy-arrow);
+				graphics.moveTo(u+(fx?arrow:-arrow),xy+arrow);
+				graphics.lineTo(u,xy);
+				
+				graphics.drawCircle(yx,xy,circle);
+				if(fx==fy)
+					graphics.drawCircle(yx,xy,1);
+				else
+				{
+					const s:Number=circle*Math.SQRT1_2;
+					graphics.moveTo(yx-s,xy-s);
+					graphics.lineTo(yx+s,xy+s);
+					graphics.moveTo(yx+s,xy-s);
+					graphics.lineTo(yx-s,xy+s);
+				}
+			}
+			
+//			override protected function commitProperties():void
+//			{
+//				super.commitProperties();
+//				graphics.clear();
+//				const midx:Number=width/2;
+//				const midy:Number=height/2;
+//				const cl:Number=Math.min(midx,midy)*_axisrate;
+//				graphics.moveTo(midx,midy);
+//				graphics.lineStyle(1,cx);
+//				graphics.lineTo(midx-cl*(_flipx?sxx:-sxx),midy-cl*(_flipy?sxy:-sxy));
+//				graphics.moveTo(midx,midy);
+//				graphics.lineStyle(1,cy);
+//				graphics.lineTo(midx-cl*(_flipx?syx:-syx),midy-cl*(_flipy?syy:-syy));
+//				graphics.moveTo(midx,midy);
+//				graphics.lineStyle(1,cz);
+//				graphics.lineTo(midx-cl*(_flipx?szx:-szx),midy-cl*(_flipy?szy:-szy));
+//			}
+		]]>
+	</mx:Script>
+</mx:Canvas>
