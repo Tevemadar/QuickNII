@@ -5,66 +5,52 @@
 			import mx.collections.ArrayCollection;
 			import mx.events.DataGridEvent;
 			import mx.events.ResizeEvent;
-			
+
 			public var main:QuickNII;
-			
+
 			public var xdim:int;
 			public var ydim:int;
 			public var zdim:int;
-			
-			public static const flipxselected:Boolean=true;
-			public static const flipyselected:Boolean=true;
-			public static const flipzselected:Boolean=true;
-			
+
 			[Bindable] protected var rows:ArrayCollection=new ArrayCollection; 
-			
-			public function initTransformations(transforms:Vector.<NamedTransformation>):void
-			{
+
+			public function initTransformations(transforms:Vector.<NamedTransformation>):void {
 				rows.addItem(new NamedTransformation("Voxels",1,0,0,0,0,1,0,0,0,0,1,0));
 				for(var i:int=0;i<transforms.length;i++)
 					rows.addItem(transforms[i]);
 			}
-			
-			public function setVox(x:Number,y:Number,z:Number):void
-			{
-				if(flipxselected)x=xdim-1-x;
-				if(flipyselected)y=ydim-1-y;
-				if(flipzselected)z=zdim-1-z;
+
+			public function setVox(x:Number,y:Number,z:Number):void {
+				x=xdim-1-x;
+				y=ydim-1-y;
+				z=zdim-1-z;
 
 				for(var i:int=0;i<rows.length;i++)
 					rows.getItemAt(i).setVox(x,y,z);
 			}
-			
-			public function updateFrom(idx:int):void
-			{
+
+			public function updateFrom(idx:int):void {
 				const base:NamedTransformation=rows.getItemAt(idx) as NamedTransformation;
-				const basex:Number=flipxselected?xdim-1-base.voxx:base.voxx;
-				const basey:Number=flipyselected?ydim-1-base.voxy:base.voxy;
-				const basez:Number=flipzselected?zdim-1-base.voxz:base.voxz;
+				const basex:Number=xdim-1-base.voxx;
+				const basey:Number=ydim-1-base.voxy;
+				const basez:Number=zdim-1-base.voxz;
 				main.cut.setlocation(basex,basey,basez);
 			}
 
-			protected function canvas1_resizeHandler(event:ResizeEvent):void
-			{
+			protected function canvas1_resizeHandler(event:ResizeEvent):void {
 				gray.y=outline.y=decompcfg.y=navilock.y=trfs.y+trfs.height+10;
-				//=ctrl_R.y=ctrl_G.y=ctrl_B.y
 				min.y=height-10-min.height;
 				max.y=min.y-10-max.height;
-//				flipx.y=flipy.y=flipz.y=gray.y+gray.height+10;
 				min.width=max.width=width-10-10;
 			}
 
-			protected function canvas1_mouseOverHandler(event:MouseEvent):void
-			{
+			protected function canvas1_mouseOverHandler(event:MouseEvent):void {
 				main.SliceMix.drawMidCross();
 			}
 
-			protected function trfs_itemFocusOutHandler(event:DataGridEvent):void
-			{
+			protected function trfs_itemFocusOutHandler(event:DataGridEvent):void {
 				updateFrom(event.rowIndex);
 			}
-			
-			public function blah():void{}
 		]]>
 	</mx:Script>
 	<mx:CheckBox id="gray" label="Grayscale" change="main.refresh()" x="10" selected="true" enabled="false" y="168"/>
@@ -82,16 +68,6 @@
 	<mx:DataGrid id="trfs" x="10" y="10" editable="true" width="700" sortableColumns="false" itemFocusOut="trfs_itemFocusOutHandler(event)" dataProvider="{rows}" draggableColumns="false">
 		<mx:columns>
 			<mx:DataGridColumn dataField="name" sortable="false" headerText="Transformation" editable="false"/>
-<!--			<mx:DataGridColumn sortable="false" headerText="Transformation" editable="false">
-				<mx:itemRenderer>
-					<mx:Component>
-						<mx:HBox>
-							<mx:Label width="0"/>
-							<mx:CheckBox label="{data.name}" selected="{data.selected}"/>
-						</mx:HBox>
-					</mx:Component>
-				</mx:itemRenderer>
-			</mx:DataGridColumn>-->
 			<mx:DataGridColumn dataField="x" headerText="x"/>
 			<mx:DataGridColumn dataField="y" headerText="y"/>
 			<mx:DataGridColumn dataField="z" headerText="z"/>

@@ -4,8 +4,7 @@
 		<![CDATA[
 			import mx.events.ResizeEvent;
 
-			protected function canvas1_resizeHandler(event:ResizeEvent):void
-			{
+			protected function canvas1_resizeHandler(event:ResizeEvent):void {
 				legend.y=height-legend.height-10;
 				legend.x=width/3-legend.width/2;
 				chartcfg.y=legend.y+(legend.height-chartcfg.height)/2;
@@ -13,7 +12,6 @@
 				linechart.width=width-20;
 				linechart.height=legend.y-20;
 			}
-
 		]]>
 	</mx:Script>
 	<mx:LineChart x="10" y="10" id="linechart" showDataTips="true" showDataTipTargets="true">
@@ -33,12 +31,6 @@
 			<mx:String>Rotation2</mx:String>
 			<mx:String>HStretch</mx:String>
 			<mx:String>VStretch</mx:String>
-<!--			<mx:String>HPosition</mx:String>
-			<mx:String>HSpacing</mx:String>
-			<mx:String>VPosition</mx:String>
-			<mx:String>VSpacing</mx:String>
-			<mx:String>Rotation3</mx:String>-->
-<!--			<mx:String>CustomAngle</mx:String>-->
 		</mx:ArrayList>
 	</mx:ComboBox>
 </mx:Canvas>

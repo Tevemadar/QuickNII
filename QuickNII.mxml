@@ -142,7 +142,7 @@
 			private const xsock:Socket=new Socket;
 			private const ysock:Socket=new Socket;
 			private const zsock:Socket=new Socket;
-			/*private*/ const fsock:Socket=new Socket;
+			private const fsock:Socket=new Socket;
 			protected function configdata(e:Event):void
 			{
 				if(hdrlen==0 && configsock.bytesAvailable>=4)
@@ -174,7 +174,7 @@
 			}
 			
 			protected var setName:String;
-			/*private*/ var volumes:Vector.<Volume>=new Vector.<Volume>;
+			private var volumes:Vector.<Volume>=new Vector.<Volume>;
 			[Bindable] protected var currentVolume:Volume;
 			
 			[Bindable] public var xdim:int;
@@ -241,7 +241,7 @@
 				valbox.max.minimum=valbox.min.minimum=valbox.min.value=currentVolume.minval;
 				valbox.min.maximum=valbox.max.maximum=valbox.max.value=currentVolume.maxval;
 				
-				cut.doInit(new URLVariables,xdim,ydim,zdim); // NAVI cut.doInit also uses arguments
+				cut.doInit(null,xdim,ydim,zdim); // NAVI cut.doInit also uses arguments
 				
 				rearrange(null);
 			}
@@ -465,24 +465,16 @@
 				const v:Vector3D=cut.topright.subtract(cut.bottomright);
 				const o:Vector3D=cut.bottomleft.clone();
 				
-				if(ValueBox.flipxselected)
-				{
-					o.x=xdim-o.x;
-					u.x=-u.x;
-					v.x=-v.x;
-				}
-				if(ValueBox.flipyselected)
-				{
-					o.y=ydim-o.y;
-					u.y=-u.y;
-					v.y=-v.y;
-				}
-				if(ValueBox.flipzselected)
-				{
-					o.z=zdim-o.z;
-					u.z=-u.z;
-					v.z=-v.z;
-				}
+				o.x=xdim-o.x;
+				u.x=-u.x;
+				v.x=-v.x;
+				o.y=ydim-o.y;
+				u.y=-u.y;
+				v.y=-v.y;
+				o.z=zdim-o.z;
+				u.z=-u.z;
+				v.z=-v.z;
+
 				fsock.writeByte(valbox.outline.selected?ctrl_volumes.selectedIndex+128:ctrl_volumes.selectedIndex);
 				fsock.writeFloat((valbox.min.value-currentVolume.minval)*65535/(currentVolume.maxval-currentVolume.minval));
 				fsock.writeFloat((valbox.max.value-currentVolume.minval)*65535/(currentVolume.maxval-currentVolume.minval));
@@ -508,7 +500,7 @@
 			private var currx:int=0;
 			protected function setXSlice(xcut:uint,force:Boolean):void
 			{
-				const xindex:uint=ValueBox.flipxselected?xdim-1-xcut:xcut;
+				const xindex:uint=xdim-1-xcut;
 				if(!force && (currx==xindex))return;
 				currx=xindex;
 				xsock.writeByte(ctrl_volumes.selectedIndex);
@@ -532,7 +524,7 @@
 			private var curry:int=0;
 			protected function setYSlice(ycut:uint,force:Boolean):void
 			{
-				const yindex:uint=ValueBox.flipyselected?ydim-1-ycut:ycut;
+				const yindex:uint=ydim-1-ycut;
 				if(!force && (curry==yindex))return;
 				curry=yindex;
 				ysock.writeByte(ctrl_volumes.selectedIndex);
@@ -556,7 +548,7 @@
 			private var currz:int=0;
 			protected function setZSlice(zcut:uint,force:Boolean):void
 			{
-				const zindex:uint=ValueBox.flipzselected?zdim-1-zcut:zcut;
+				const zindex:uint=zdim-1-zcut;
 				if(!force && (currz==zindex))return;
 				currz=zindex;
 				zsock.writeByte(ctrl_volumes.selectedIndex);
@@ -691,35 +683,27 @@
 				const v:Vector3D=cut.topright.subtract(cut.bottomright);
 				const o:Vector3D=cut.bottomleft.clone();
 				
-				if(ValueBox.flipxselected)
-				{
-					o.x=xdim-o.x;
-					u.x=-u.x;
-					v.x=-v.x;
-				}
-				if(ValueBox.flipyselected)
-				{
-					o.y=ydim-o.y;
-					u.y=-u.y;
-					v.y=-v.y;
-				}
-				if(ValueBox.flipzselected)
-				{
-					o.z=zdim-o.z;
-					u.z=-u.z;
-					v.z=-v.z;
-				}
+				o.x=xdim-o.x;
+				u.x=-u.x;
+				v.x=-v.x;
+				o.y=ydim-o.y;
+				u.y=-u.y;
+				v.y=-v.y;
+				o.z=zdim-o.z;
+				u.z=-u.z;
+				v.z=-v.z;
 //				ctrl_requestString.text=
-				MgmtPanel.requeststring=
-					"ox="+o.x+"&oy="+o.y+"&oz="+o.z
-					+"&ux="+u.x+"&uy="+u.y+"&uz="+u.z
-					+"&vx="+v.x+"&vy="+v.y+"&vz="+v.z;
+//				MgmtPanel.requeststring=
+//					"ox="+o.x+"&oy="+o.y+"&oz="+o.z
+//					+"&ux="+u.x+"&uy="+u.y+"&uz="+u.z
+//					+"&vx="+v.x+"&vy="+v.y+"&vz="+v.z;
 				if(MgmtPanel.currentidx!=-1)
 				{
-					const w:Landmark=MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as Landmark;
+					const w:SliceData=MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as SliceData;
 //					w.anchoring=ctrl_requestString.text;
-					w.anchoring=MgmtPanel.requeststring;
-					w.unpack();
+//					w.anchoring=MgmtPanel.requeststring;
+//					w.unpack();
+					w.setPacked(new <Number>[o.x,o.y,o.z,u.x,u.y,u.z,v.x,v.y,v.z]);
 					MgmtPanel.interpolate();
 					seriescontrols();
 					MgmtPanel.save(new File(MgmtPanel.baseurl+File.separator+"~~autosave~~.xml"));
@@ -728,15 +712,15 @@
 			
 			public function Restore():void
 			{
-				var urlVar:URLVariables=new URLVariables;
-				try
-				{
-//				urlVar.decode(ctrl_requestString.text);
-				urlVar.decode(MgmtPanel.requeststring);
-				}
-				catch(ignored:Object)
-				{}
-				cut.doInit(urlVar,xdim,ydim,zdim);
+//				var urlVar:URLVariables=new URLVariables;
+//				try
+//				{
+////				urlVar.decode(ctrl_requestString.text);
+//				urlVar.decode(MgmtPanel.requeststring);
+//				}
+//				catch(ignored:Object)
+//				{}
+				cut.doInit(MgmtPanel.requestString,xdim,ydim,zdim);
 			}
 			
 			protected function volume_store():void
@@ -819,12 +803,12 @@
 				MgmtPanel.currentidx=-1;seriescontrols();
 				MgmtPanel.titl=imageFile.name;
 			}
-			public function setImage(filename:String,anchoring:String):void
+			public function setImage(filename:String,anchoring:Vector.<Number>):void
 			{
 				nativeWindow.title=filename;
 				SliceMix.setSlice(filename,slicewindow);
 //				ctrl_requestString.text=anchoring;
-				MgmtPanel.requeststring=anchoring;
+				MgmtPanel.requestString=anchoring;
 				Restore();
 				MgmtPanel.titl=filename;
 				seriescontrols();
@@ -891,14 +875,14 @@
 					btn_next.enabled=MgmtPanel.currentidx<MgmtPanel.rows.length-1;
 					btn_prevanch.enabled=false;
 					for(var i:int=MgmtPanel.currentidx-1;i>=0;i--)
-						if((MgmtPanel.rows.getItemAt(i) as Landmark).hasanchoring)
+						if((MgmtPanel.rows.getItemAt(i) as SliceData).hasanchoring)
 							btn_prevanch.enabled=true;
 					btn_nextanch.enabled=false;
 					for(i=MgmtPanel.currentidx+1;i<MgmtPanel.rows.length;i++)
-						if((MgmtPanel.rows.getItemAt(i) as Landmark).hasanchoring)
+						if((MgmtPanel.rows.getItemAt(i) as SliceData).hasanchoring)
 							btn_nextanch.enabled=true;
 //					chk_anch.selected=(MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as Landmark).hasanchoring
-					if((MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as Landmark).hasanchoring)
+					if((MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as SliceData).hasanchoring)
 					{
 						chk_anch.text="!";
 //						chk_anch.setStyle("color","#80FF80");
@@ -914,16 +898,16 @@
 //					chk_anch.getTextField().backgroundColor=0;
 				}
 			}
-			public function serieshack():void
+			public function serieshack():void //!!
 			{
-				const w:Landmark=MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as Landmark;
-				w.pack();
-				setImage(MgmtPanel.baseurl+File.separator+w.filename,w.anchoring);
+				const w:SliceData=MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as SliceData;
+				//w.pack();
+				setImage(MgmtPanel.baseurl+File.separator+w.filename,w.packed);
 			}
 
 			protected function btn_prevanch_clickHandler(event:MouseEvent):void
 			{
-				while(!(MgmtPanel.rows.getItemAt(--MgmtPanel.currentidx) as Landmark).hasanchoring){}
+				while(!(MgmtPanel.rows.getItemAt(--MgmtPanel.currentidx) as SliceData).hasanchoring){}
 				serieshack();
 			}
 
@@ -944,7 +928,7 @@
 
 			protected function btn_nextanch_clickHandler(event:MouseEvent):void
 			{
-				while(!(MgmtPanel.rows.getItemAt(++MgmtPanel.currentidx) as Landmark).hasanchoring){}
+				while(!(MgmtPanel.rows.getItemAt(++MgmtPanel.currentidx) as SliceData).hasanchoring){}
 				serieshack();
 			}
 
@@ -998,9 +982,9 @@
 				if(mgmtwindow!=null)mgmtwindow.close();
 			}
 
-			var QS_dir:File;
-			var QS_plan:Vector.<QS_Item>=new Vector.<QS_Item>;
-			var QS_total:int;
+			private var QS_dir:File;
+			private var QS_plan:Vector.<QS_Item>=new Vector.<QS_Item>;
+			private var QS_total:int;
 			public function QSlices():void{
 				if(QS_plan.length>0)return;
 				QS_dir=new File(MgmtPanel.baseurl);
@@ -1032,7 +1016,7 @@
 						}
 						var suffix:String=v.name.replace(" ","_");
 						for(j=0;j<MgmtPanel.rows.length;j++){
-							QS_plan.push(new QS_Item(i,v,suffix,MgmtPanel.rows.getItemAt(j) as Landmark));
+							QS_plan.push(new QS_Item(i,v,suffix,MgmtPanel.rows.getItemAt(j) as SliceData));
 						}
 					}
 				}
@@ -1041,7 +1025,7 @@
 				QS_next();
 			}
 			
-			function QS_next():void{
+			private function QS_next():void{
 				QS_header=false;
 				if(QS_plan.length>0){
 					MgmtPanel.pb_hack.setProgress(QS_total-QS_plan.length+1,QS_total);
@@ -1051,12 +1035,12 @@
 				}
 			}
 			
-			var QS_ba:ByteArray=new ByteArray;
-			var QS_header:Boolean;
-			var QS_width:int;
-			var QS_height:int;
-			var QS_typ:int;
-			function QS_data():void{
+			private var QS_ba:ByteArray=new ByteArray;
+			private var QS_header:Boolean;
+			private var QS_width:int;
+			private var QS_height:int;
+			private var QS_typ:int;
+			private function QS_data():void{
 				if(!QS_header && fsock.bytesAvailable>=9)
 				{
 					QS_typ=fsock.readByte();

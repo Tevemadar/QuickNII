@@ -9,18 +9,17 @@ package
 	{
 		private var params:SliceParams=new SliceParams;
 		private var changed:Boolean=false;
-		
+
 		private var undostack:Vector.<SliceParams>=new Vector.<SliceParams>;
 		private var undopoint:int=-1;
 		private var stacksize:int=0;
-		
+
 		private const STEP_SHIFT:int=1;
 		private const STEP_ROT:int=2;
 		private const STEP_UVSHIFT:int=3;
 		private const STEP_UVROT:int=4;
 		private var steptype:int=0;
-		public function CommitChanges():void
-		{
+		public function CommitChanges():void {
 			if(!changed)return;
 			undopoint++;
 			undostack[undopoint]=params.clone();
@@ -28,15 +27,13 @@ package
 			changed=false;
 			steptype=0;
 		}
-		
-		public function StopRedo():void
-		{
+
+		public function StopRedo():void {
 			stacksize=undopoint+1;
 		}
 		
 		public function canUndo():Boolean{return undopoint>0/* || changed*/;} // todo
-		public function Undo():void
-		{
+		public function Undo():void {
 			CommitChanges();
 			if(undopoint<=0)return;
 			undopoint--;
@@ -46,23 +43,21 @@ package
 		}
 		
 		public function canRedo():Boolean{return undopoint<stacksize-1;}
-		public function Redo():void
-		{
+		public function Redo():void {
 			if(undopoint>=stacksize-1)return;
 			undopoint++;
 			params=undostack[undopoint].clone();
 			changed=false;
 			Dispatch();
 		}
-		
+
 		private var _topleft:Vector3D;
 		private var _topright:Vector3D;
 		private var _bottomleft:Vector3D;
 		private var _bottomright:Vector3D;
-		
+
 		private var dispatch:Function;
-		public function Dispatch():void //!! todo: review surplus usages
-		{
+		public function Dispatch():void { //!! todo: review surplus usages
 			UpdateCorners();
 			dispatch();
 		}
@@ -123,7 +118,7 @@ package
 			_bottomleft=params.position.subtract(hu).add(hv);
 			_bottomright=params.position.add(hu).add(hv);
 		}
-
+		
 		public function get midpoint():Vector3D{return params.position;}
 		public function get topleft():Vector3D{return _topleft;}
 		public function get topright():Vector3D{return _topright;}
@@ -133,51 +128,44 @@ package
 		private var xdim:int;
 		private var ydim:int;
 		private var zdim:int;
-
-		public function doInit(variables:URLVariables,xdim:int,ydim:int,zdim:int):void //!!
-		{
+		
+		public function doInit(anchoring:Vector.<Number>,xdim:int,ydim:int,zdim:int):void { //!!
 			this.xdim=xdim;//...
 			this.ydim=ydim;
 			this.zdim=zdim;
-			var ox:Number=parseFloat(variables.ox); // NAVI optional precise-positioning arguments are parsed here
-			var oy:Number=parseFloat(variables.oy);
-			var oz:Number=parseFloat(variables.oz);
-			var ux:Number=parseFloat(variables.ux);
-			var uy:Number=parseFloat(variables.uy);
-			var uz:Number=parseFloat(variables.uz);
-			var vx:Number=parseFloat(variables.vx);
-			var vy:Number=parseFloat(variables.vy);
-			var vz:Number=parseFloat(variables.vz);
-			
 			const data:Vector.<Number>=params.rotation.rawData;
-			
-			if(!isNaN(ox) && !isNaN(oy) && !isNaN(oz) &&
-				!isNaN(ux) && !isNaN(uy) && !isNaN(uz) &&
-				!isNaN(vx) && !isNaN(vy) && !isNaN(vz)) // NAVI precise-positioning happens only if all 9 components are provided 
-			{
+			if(anchoring==null) {
+				params.position.x=xdim/2;
+				params.position.y=ydim/2;
+				params.position.z=zdim/2;
+				params.width=xdim;
+				params.height=zdim;
+				data[0]=1;data[1]=0;data[2]=0;
+				data[4]=0;data[5]=0;data[6]=-1;
+			} else {
+				var ox:Number=anchoring[0];
+				var oy:Number=anchoring[1];
+				var oz:Number=anchoring[2];
+				var ux:Number=anchoring[3];
+				var uy:Number=anchoring[4];
+				var uz:Number=anchoring[5];
+				var vx:Number=anchoring[6];
+				var vy:Number=anchoring[7];
+				var vz:Number=anchoring[8];
 				//hack
 				vy=-vy;
 				vz=-vz;
 				vx=-vx;
 				
-				if(ValueBox.flipxselected)
-				{
-					ox=xdim-ox;
-					ux=-ux;
-					vx=-vx;
-				}
-				if(ValueBox.flipyselected)
-				{
-					oy=ydim-oy;
-					uy=-uy;
-					vy=-vy;
-				}
-				if(ValueBox.flipzselected)
-				{
-					oz=zdim-oz;
-					uz=-uz;
-					vz=-vz;
-				}
+				ox=xdim-ox;
+				ux=-ux;
+				vx=-vx;
+				oy=ydim-oy;
+				uy=-uy;
+				vy=-vy;
+				oz=zdim-oz;
+				uz=-uz;
+				vz=-vz;
 				
 				data[0]=ux;data[1]=uy;data[2]=uz;
 				data[4]=vx;data[5]=vy;data[6]=vz;
@@ -187,20 +175,6 @@ package
 				params.position.y=oy+(uy-vy)/2;
 				params.position.z=oz+(uz-vz)/2;
 			}
-			else
-			{
-				const paramx:Number=parseFloat(variables.x); // NAVI optional rough positioning of x-slice (defaults to middle) 
-				const paramy:Number=parseFloat(variables.y); // NAVI optional rough positioning of y-slice (defaults to middle)
-				const paramz:Number=parseFloat(variables.z); // NAVI optional rough positioning of z-slice (defaults to middle)
-				params.position.x=isNaN(paramx)?xdim/2:paramx;
-				params.position.y=isNaN(paramy)?ydim/2:paramy;
-				params.position.z=isNaN(paramz)?zdim/2:paramz;
-				params.width=xdim;
-				params.height=zdim;
-				data[0]=1;data[1]=0;data[2]=0;
-				data[4]=0;data[5]=0;data[6]=-1;
-			}
-			
 			calcN(data);
 			params.rotation.rawData=data;
 			
@@ -208,7 +182,81 @@ package
 			CommitChanges();
 			Dispatch();
 		}
-
+		//		public function doInit(variables:URLVariables,xdim:int,ydim:int,zdim:int):void //!!
+		//		{
+		//			this.xdim=xdim;//...
+		//			this.ydim=ydim;
+		//			this.zdim=zdim;
+		//			var ox:Number=parseFloat(variables.ox); // NAVI optional precise-positioning arguments are parsed here
+		//			var oy:Number=parseFloat(variables.oy);
+		//			var oz:Number=parseFloat(variables.oz);
+		//			var ux:Number=parseFloat(variables.ux);
+		//			var uy:Number=parseFloat(variables.uy);
+		//			var uz:Number=parseFloat(variables.uz);
+		//			var vx:Number=parseFloat(variables.vx);
+		//			var vy:Number=parseFloat(variables.vy);
+		//			var vz:Number=parseFloat(variables.vz);
+		//			
+		//			const data:Vector.<Number>=params.rotation.rawData;
+		//			
+		//			if(!isNaN(ox) && !isNaN(oy) && !isNaN(oz) &&
+		//				!isNaN(ux) && !isNaN(uy) && !isNaN(uz) &&
+		//				!isNaN(vx) && !isNaN(vy) && !isNaN(vz)) // NAVI precise-positioning happens only if all 9 components are provided 
+		//			{
+		//				//hack
+		//				vy=-vy;
+		//				vz=-vz;
+		//				vx=-vx;
+		//				
+		//				if(ValueBox.flipxselected)
+		//				{
+		//					ox=xdim-ox;
+		//					ux=-ux;
+		//					vx=-vx;
+		//				}
+		//				if(ValueBox.flipyselected)
+		//				{
+		//					oy=ydim-oy;
+		//					uy=-uy;
+		//					vy=-vy;
+		//				}
+		//				if(ValueBox.flipzselected)
+		//				{
+		//					oz=zdim-oz;
+		//					uz=-uz;
+		//					vz=-vz;
+		//				}
+		//				
+		//				data[0]=ux;data[1]=uy;data[2]=uz;
+		//				data[4]=vx;data[5]=vy;data[6]=vz;
+		//				params.width=unitvector(data,0);
+		//				params.height=unitvector(data,1);
+		//				params.position.x=ox+(ux-vx)/2;
+		//				params.position.y=oy+(uy-vy)/2;
+		//				params.position.z=oz+(uz-vz)/2;
+		//			}
+		//			else
+		//			{
+		//				const paramx:Number=parseFloat(variables.x); // NAVI optional rough positioning of x-slice (defaults to middle) 
+		//				const paramy:Number=parseFloat(variables.y); // NAVI optional rough positioning of y-slice (defaults to middle)
+		//				const paramz:Number=parseFloat(variables.z); // NAVI optional rough positioning of z-slice (defaults to middle)
+		//				params.position.x=isNaN(paramx)?xdim/2:paramx;
+		//				params.position.y=isNaN(paramy)?ydim/2:paramy;
+		//				params.position.z=isNaN(paramz)?zdim/2:paramz;
+		//				params.width=xdim;
+		//				params.height=zdim;
+		//				data[0]=1;data[1]=0;data[2]=0;
+		//				data[4]=0;data[5]=0;data[6]=-1;
+		//			}
+		//			
+		//			calcN(data);
+		//			params.rotation.rawData=data;
+		//			
+		//			changed=true;
+		//			CommitChanges();
+		//			Dispatch();
+		//		}
+		
 		public function get width():Number{return params.width;}
 		public function set width(w:Number):void
 		{

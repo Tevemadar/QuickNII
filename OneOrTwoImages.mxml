@@ -8,38 +8,28 @@
 			import mx.events.SliderEvent;
 
 			public var sliceDescriptor:SliceDescriptor;
-			
+
 			private var hasOverlay:Boolean;
-			public function setSlice(s:String,w:SliceWindow):void
-			{
-//				ImageOverlay.source=s;
-//				s="45_12_R2022_s0292.png"
-				if(s!=null)
-				{
+			public function setSlice(s:String,w:SliceWindow):void {
+				if(s!=null) {
 					var ldr:Loader=new Loader;
 					ldr.contentLoaderInfo.addEventListener(Event.COMPLETE,compl);
 					ldr.load(new URLRequest(s));
-				}
-				else
-				{
+				} else {
 					ImageOverlay.source=null;
 					bitmap=null;
 				} 
 				const hadOverlay:Boolean=hasOverlay;
 				hasOverlay=s!=null;
 				w.hasOverlay=hasOverlay;
-				if(hasOverlay)
-				{
-					if(!hadOverlay)
-					{
+				if(hasOverlay) {
+					if(!hadOverlay) {
 						AlphaSlider.value=50;
 						ImageOverlay.alpha=0.5;
 						AlphaSlider.visible=btn_hist.visible=btn_vol.visible=true;
 						AlphaSlider.enabled=btn_hist.enabled=btn_vol.enabled=true;
 					}
-				}
-				else
-				{
+				} else {
 					AlphaSlider.value=100;
 					ImageOverlay.alpha=1;
 					AlphaSlider.visible=btn_hist.visible=btn_vol.visible=false;
@@ -47,15 +37,13 @@
 					canvas1_resizeHandler(null);
 				}
 			}
-			
+
 			private var bitmap:BitmapData=null;
-			public function compl(e:Event):void
-			{
+			public function compl(e:Event):void {
 				bitmap=e.target.content.bitmapData;
 				doMagic();
 			}
-			public function doMagic():void
-			{
+			public function doMagic():void {
 				if(bitmap==null)return;
 				var ctrl:int=QuickNII.diz.valbox.ctrl_S.value;
 				const R:Boolean=QuickNII.diz.valbox.ctrl_R0.selected;
@@ -64,13 +52,10 @@
 				var ba:ByteArray=bitmap.getPixels(bitmap.rect);
 				if(R && G && B && (ctrl==255))
 					ImageOverlay.source=new Bitmap(bitmap);
-				else
-				{
-					if(ctrl==0)
-					{
+				else {
+					if(ctrl==0) {
 						ba.position=0;
-						while(ba.bytesAvailable>0)
-						{
+						while(ba.bytesAvailable>0) {
 							ba.position++;
 							var tmp:uint=ba.readUnsignedByte();
 							if(R && (tmp>ctrl))ctrl=tmp;
@@ -82,27 +67,23 @@
 						QuickNII.diz.valbox.ctrl_S.value=ctrl;
 					}
 					ba.position=0;
-					while(ba.bytesAvailable>0)
-					{
+					while(ba.bytesAvailable>0) {
 						ba.position++;
-						if(R)
-						{
+						if(R) {
 							tmp=ba.readUnsignedByte()*255/ctrl;
 							if(tmp>255)tmp=255;
 							ba.position--;
 							ba.writeByte(tmp);
 						}
 						else ba.writeByte(0);
-						if(G)
-						{
+						if(G) {
 							tmp=ba.readUnsignedByte()*255/ctrl;
 							if(tmp>255)tmp=255;
 							ba.position--;
 							ba.writeByte(tmp);
 						}
 						else ba.writeByte(0);
-						if(B)
-						{
+						if(B) {
 							tmp=ba.readUnsignedByte()*255/ctrl;
 							if(tmp>255)tmp=255;
 							ba.position--;
@@ -122,44 +103,31 @@
 			private var slicy:Number;
 			private var slicw:Number;
 			private var slich:Number;
-			public function canvas1_resizeHandler(event:ResizeEvent):void
-			{
+			public function canvas1_resizeHandler(event:ResizeEvent):void {
 				AlphaSlider.y=btn_hist.height;
 				btn_vol.y=height-btn_vol.height;
 				AlphaSlider.height=btn_vol.y-AlphaSlider.y;
-				if(hasOverlay && ImageOverlay.source!=null)
-				{
+				if(hasOverlay && ImageOverlay.source!=null) {
 					const indent:Number=btn_hist.width; // 31
 					const work:Number=width-indent;
-//					if(ImageOverlay.contentWidth/ImageOverlay.contentHeight>width/height)
-					if(ImageOverlay.source.bitmapData.width/ImageOverlay.source.bitmapData.height>width/height)
-					{
+					if(ImageOverlay.source.bitmapData.width/ImageOverlay.source.bitmapData.height>width/height) {
 						ImageOverlay.x=slicx=indent;
 						ImageOverlay.width=slicw=work;
-//						ImageOverlay.height=slich=ImageOverlay.contentHeight*work/ImageOverlay.contentWidth;
 						ImageOverlay.height=slich=ImageOverlay.source.bitmapData.height*work/ImageOverlay.source.bitmapData.width;
 						ImageOverlay.y=slicy=(height-ImageOverlay.height)/2;
-					}
-					else
-					{
+					} else {
 						ImageOverlay.y=slicy=0;
 						ImageOverlay.height=slich=height;
-//						ImageOverlay.width=slicw=ImageOverlay.contentWidth*height/ImageOverlay.contentHeight;
 						ImageOverlay.width=slicw=ImageOverlay.source.bitmapData.width*height/ImageOverlay.source.bitmapData.height;
 						ImageOverlay.x=slicx=indent+(work-ImageOverlay.width)/2;
 					}
-				}
-				else
-				{
-					if(sliceDescriptor.width/sliceDescriptor.height>width/height)
-					{
+				} else {
+					if(sliceDescriptor.width/sliceDescriptor.height>width/height) {
 						slicx=0;
 						slicw=width;
 						slich=sliceDescriptor.height*width/sliceDescriptor.width;
 						slicy=(height-slich)/2;
-					}
-					else
-					{
+					} else {
 						slicy=0;
 						slich=height;
 						slicw=sliceDescriptor.width*height/sliceDescriptor.height;
@@ -172,11 +140,9 @@
 				NIISlice.height=slich;
 			}
 
-			protected function mdouble(event:MouseEvent):void
-			{
+			protected function mdouble(event:MouseEvent):void {
 				if(!hasOverlay)return;
-				if(NIISlice.mouseX>=0 && NIISlice.mouseY>=0 && NIISlice.mouseX<NIISlice.width && NIISlice.mouseY<NIISlice.height)
-				{
+				if(NIISlice.mouseX>=0 && NIISlice.mouseY>=0 && NIISlice.mouseX<NIISlice.width && NIISlice.mouseY<NIISlice.height) {
 					anchorX=mouseX;
 					anchorY=mouseY;
 					anchored=true;
@@ -185,6 +151,7 @@
 				else if(anchored)anchored=false;
 				drawAnchor();
 			}
+
 			private var A_M_NONE:uint=0;
 			private var A_M_HORIZ:uint=2;
 			private var A_M_VERT:uint=4;
@@ -193,55 +160,38 @@
 			private var anchored:Boolean;
 			private var anchorX:Number;
 			private var anchorY:Number;
-			protected function canvas1_keyDownHandler(event:KeyboardEvent):void
-			{
+			protected function canvas1_keyDownHandler(event:KeyboardEvent):void {
 				if(!hasOverlay)return;
-				if(event.keyCode==8 || event.keyCode==46 || event.keyCode==27) // backspace-delete-esc
-				{
+				if(event.keyCode==8 || event.keyCode==46 || event.keyCode==27) { // backspace-delete-esc
 					anchored=false;
-				}
-				else if(event.keyCode==32)
-				{
-					if(NIISlice.mouseX>=0 && NIISlice.mouseY>=0 && NIISlice.mouseX<NIISlice.width && NIISlice.mouseY<NIISlice.height)
-					{
+				} else if(event.keyCode==32) { // space
+					if(NIISlice.mouseX>=0 && NIISlice.mouseY>=0 && NIISlice.mouseX<NIISlice.width && NIISlice.mouseY<NIISlice.height) {
 						anchorX=mouseX;
 						anchorY=mouseY;
 						anchored=true;
 						const f:Number=(anchorX-ox)*sliceDescriptor.width/ow;
-					}
-					else if(anchored)anchored=false;
-				}
-				else if(event.keyCode=='H'.charCodeAt() || event.keyCode=='h'.charCodeAt())
-				{
+					} else if(anchored)anchored=false; //??
+				} else if(event.keyCode=='H'.charCodeAt() || event.keyCode=='h'.charCodeAt()) {
 					btn_hist.selected=!btn_hist.selected;
 					histHandler(null);
-				}
-				else if(event.keyCode=='V'.charCodeAt() || event.keyCode=='v'.charCodeAt())
-				{
+				} else if(event.keyCode=='V'.charCodeAt() || event.keyCode=='v'.charCodeAt()) {
 					btn_vol.selected=!btn_vol.selected;
 					volHandler(null);
-				}
-				else if(event.keyCode==33) // PageUp
-				{
-					if(AlphaSlider.value<90)
-					{
+				} else if(event.keyCode==33) { // PageUp
+					if(AlphaSlider.value<90) {
 						AlphaSlider.value+=10;
 						alphaHandler(null);
 					}
-				}
-				else if(event.keyCode==34) // PageDown
-				{
-					if(AlphaSlider.value>10)
-					{
+				} else if(event.keyCode==34) { // PageDown
+					if(AlphaSlider.value>10) {
 						AlphaSlider.value-=10;
 						alphaHandler(null);
 					}
 				}
 				drawAnchor();
 			}
-			
-			public function drawAnchor():void
-			{
+
+			public function drawAnchor():void {
 				const g:Graphics=MarkerCanvas.graphics;
 				g.clear();
 				if(!anchored)
@@ -253,8 +203,7 @@
 				g.moveTo(anchorX,anchorY-10);
 				g.lineTo(anchorX,anchorY+10);
 				g.lineStyle(2,0xFF00);
-				if((anchorMode & A_M_HORIZ)!=0)
-				{
+				if((anchorMode & A_M_HORIZ)!=0) {
 					g.moveTo(anchorX-6,anchorY-4);
 					g.lineTo(anchorX-10,anchorY);
 					g.lineTo(anchorX-6,anchorY+4);
@@ -262,8 +211,7 @@
 					g.lineTo(anchorX+10,anchorY);
 					g.lineTo(anchorX+6,anchorY+4);
 				}
-				if((anchorMode & A_M_VERT)!=0)
-				{
+				if((anchorMode & A_M_VERT)!=0) {
 					g.moveTo(anchorX-4,anchorY-6);
 					g.lineTo(anchorX,anchorY-10);
 					g.lineTo(anchorX+4,anchorY-6);
@@ -272,9 +220,8 @@
 					g.lineTo(anchorX+4,anchorY+6);
 				}
 			}
-			
-			public function drawMidCross():void
-			{
+
+			public function drawMidCross():void {
 				if(hasOverlay)return;
 				const g:Graphics=MarkerCanvas.graphics;
 				g.lineStyle(1,0xFF8080);
@@ -284,13 +231,11 @@
 				g.lineTo(width,NIISlice.y+NIISlice.height/2);
 			}
 
-			protected function mfoc(event:MouseEvent):void
-			{
+			protected function mfoc(event:MouseEvent):void {
 				setFocus();
 			}
 
-			protected function addedToStageHandler(event:Event):void
-			{
+			protected function addedToStageHandler(event:Event):void {
 				stage.addEventListener(KeyboardEvent.KEY_DOWN,canvas1_keyDownHandler,true);
 				addEventListener(MouseEvent.MOUSE_OVER,mfoc);
 				addEventListener(MouseEvent.MOUSE_DOWN,mdown);
@@ -299,7 +244,7 @@
 				addEventListener(MouseEvent.MOUSE_MOVE,mdrag);
 				addEventListener(MouseEvent.DOUBLE_CLICK,mdouble);
 			}
-			
+
 			private var dragging:Boolean;
 			private var dragx:Number;
 			private var dragy:Number;
@@ -307,11 +252,9 @@
 			private var oy:Number;
 			private var ow:Number;
 			private var oh:Number;
-			protected function mdown(event:MouseEvent):void
-			{
+			protected function mdown(event:MouseEvent):void {
 				if(QuickNII.navilock)return;
-				if(NIISlice.mouseX>=0 && NIISlice.mouseY>=0 && NIISlice.mouseX<NIISlice.width && NIISlice.mouseY<NIISlice.height)
-				{
+				if(NIISlice.mouseX>=0 && NIISlice.mouseY>=0 && NIISlice.mouseX<NIISlice.width && NIISlice.mouseY<NIISlice.height) {
 					dragging=true;
 					dragx=mouseX;
 					dragy=mouseY;
@@ -323,30 +266,26 @@
 						drawMidCross();
 				}
 			}
-			protected function mup(event:MouseEvent):void
-			{
+
+			protected function mup(event:MouseEvent):void {
 				drawAnchor();
 				if(!dragging)return;
 				dragging=false;
 				var ushift:Number=0;
 				var vshift:Number=0;
-				if(anchorMode==A_M_NONE || !anchored)
-				{
+				if(anchorMode==A_M_NONE || !anchored) {
 					ushift=(dragx-mouseX)*sliceDescriptor.width/ow;
 					vshift=-(dragy-mouseY)*sliceDescriptor.height/oh;
 				}
-				else if(anchored)
-				{
-					if((anchorMode & A_M_HORIZ)!=0)
-					{
+				else if(anchored) {
+					if((anchorMode & A_M_HORIZ)!=0) {
 						const xrate:Number=slicw/NIISlice.width;
 						const xdist:Number=(ox+ow/2-anchorX)*sliceDescriptor.width/ow;
 						ushift=xdist*(xrate-1);
 						sliceDescriptor.width*=xrate;
 						outer.setDrag();
 					}
-					if((anchorMode & A_M_VERT)!=0)
-					{
+					if((anchorMode & A_M_VERT)!=0) {
 						const yrate:Number=slich/NIISlice.height;
 						const ydist:Number=(oy+oh/2-anchorY)*sliceDescriptor.height/oh;
 						vshift=-ydist*(yrate-1);
@@ -357,34 +296,30 @@
 				sliceDescriptor.UVShift(ushift,vshift);
 				sliceDescriptor.CommitChanges();
 			}
-			protected function mdrag(event:MouseEvent):void
-			{
+
+			protected function mdrag(event:MouseEvent):void {
 				if(!dragging)return;
 				sliceDescriptor.CommitChanges();
-				
-				if(anchorMode==A_M_NONE || !anchored)
-				{
+
+				if(anchorMode==A_M_NONE || !anchored) {
 					NIISlice.x=ox+mouseX-dragx;
 					NIISlice.y=oy+mouseY-dragy;
 				}
 				
-				if(anchored)
-				{
-					if((anchorMode & A_M_HORIZ)!=0)
-					{
+				if(anchored) {
+					if((anchorMode & A_M_HORIZ)!=0) {
 						const xrate:Number=(mouseX-anchorX)/(dragx-anchorX);
 						NIISlice.width=ow*xrate;
 						NIISlice.x=anchorX-(anchorX-ox)*xrate;
 					}
-					if((anchorMode & A_M_VERT)!=0)
-					{
+					if((anchorMode & A_M_VERT)!=0) {
 						const yrate:Number=(mouseY-anchorY)/(dragy-anchorY);
 						NIISlice.height=oh*yrate;
 						NIISlice.y=anchorY-(anchorY-oy)*yrate;
 					}
 				}
 			}
-			
+
 			public var outer:Object;
 			public function onLeft(event:MouseEvent):void{sliceDescriptor.UVStep(+1,0);sliceDescriptor.StopRedo();}
 			public function onRight(event:MouseEvent):void{sliceDescriptor.UVStep(-1,0);sliceDescriptor.StopRedo();}
@@ -394,36 +329,29 @@
 			public function onCW(event:MouseEvent):void{sliceDescriptor.UVStepRot(+1);sliceDescriptor.StopRedo();}
 			public function onHS(/*event:MouseEvent*/):void{anchorMode=A_M_HORIZ;drawAnchor();}
 			public function onVS(/*event:MouseEvent*/):void{anchorMode=A_M_VERT;drawAnchor();}
-//			public function onFS(event:MouseEvent):void{anchorMode=A_M_HORIZ | A_M_VERT;drawAnchor();}
-//			public function onRF(event:MouseEvent):void{anchorMode=A_M_ROT;drawAnchor();}
 			public function onDrag(/*event:MouseEvent*/):void{anchorMode=A_M_NONE;drawAnchor();}
-			
-			public function alphaHandler(event:SliderEvent):void
-			{
+
+			public function alphaHandler(event:SliderEvent):void {
 				if(imageover)ImageOverlay.alpha=AlphaSlider.value/100;
 				else NIISlice.alpha=1-AlphaSlider.value/100;
 				btn_hist.selected=btn_vol.selected=false;
 			}
 
-			public function histHandler(event:Event):void
-			{
+			public function histHandler(event:Event):void {
 				if(imageover)ImageOverlay.alpha=btn_hist.selected?1:AlphaSlider.value/100;
 				else NIISlice.alpha=1-(btn_hist.selected?1:AlphaSlider.value/100);
 				btn_vol.selected=false;
 			}
-			
-			public function volHandler(event:Event):void
-			{
+
+			public function volHandler(event:Event):void {
 				if(imageover)ImageOverlay.alpha=btn_vol.selected?0:AlphaSlider.value/100;
 				else NIISlice.alpha=1-(btn_vol.selected?0:AlphaSlider.value/100);
 				btn_hist.selected=false;
 			}
-			
-			private static const imageover:Boolean=true;
-//			private static const imageover:Boolean=false;
+
+			private static const imageover:Boolean=true; //!!
 		]]>
 	</mx:Script>
-<!--	<mx:Image id="ImageOverlay" complete="canvas1_resizeHandler(null)"/>-->
 	<mx:Image id="NIISlice" maintainAspectRatio="false"/>
 	<mx:Image id="ImageOverlay" complete="canvas1_resizeHandler(null)"/>
 	<mx:VSlider id="AlphaSlider" maximum="100" enabled="false" visible="false" liveDragging="true" change="alphaHandler(event)"/>

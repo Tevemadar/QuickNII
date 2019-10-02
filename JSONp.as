@@ -1,22 +1,18 @@
-package
-{
-	public class JSONp
-	{
-		public static function parse(json:String):Object
-		{
+package {
+	public class JSONp {
+		public static function parse(json:String):Object {
 			return new JSONp(json).parse();
 		}
+
 		private var json:String;
 		private var pos:int=0;
-		public function JSONp(json:String)
-		{
+		public function JSONp(json:String) {
 			this.json=json;
 		}
-		private function parse():Object
-		{
+
+		private function parse():Object {
 			skipWhiteSpace();
-			switch(json.charAt(pos))
-			{
+			switch(json.charAt(pos)) {
 				case "n":
 					expect("null");
 					return null;
@@ -37,19 +33,17 @@ package
 			}
 			return null;
 		}
-		private function parseObject():Object
-		{
+
+		private function parseObject():Object {
 			var o:Object={};
 			pos++;
 			skipWhiteSpace();
-			if(json.charAt(pos)=="}")
-			{
+			if(json.charAt(pos)=="}") {
 				pos++;
 				return o;
 			}
 			var c:String;
-			do
-			{
+			do {
 				skipWhiteSpace();
 				c=json.charAt(pos);
 				if(c!="\"")throw new Error("Unquoted field name? "+c);
@@ -65,19 +59,17 @@ package
 			while(c!="}");
 			return o;
 		}
-		private function parseArray():Array
-		{
+
+		private function parseArray():Array {
 			var a:Array=[];
 			pos++;
 			skipWhiteSpace();
-			if(json.charAt(pos)=="]")
-			{
+			if(json.charAt(pos)=="]") {
 				pos++;
 				return a;
 			}
 			var c:String;
-			do
-			{
+			do {
 				a.push(parse());
 				skipWhiteSpace();
 				c=read();
@@ -86,26 +78,23 @@ package
 			while(c!="]");
 			return a;
 		}
-		private function parseNumber():Number
-		{
+
+		private function parseNumber():Number {
 			var org:int=pos;
 			while(pos<json.length && "+-.eE1234567890".indexOf(json.charAt(pos))>=0)pos++;
 			if(org==pos)throw new Error("Illegal token at "+pos);
 			return parseFloat(json.substring(org,pos));
 		}
-		private function parseString():String
-		{
+
+		private function parseString():String {
 			var s:String="";
 			var c:String;
 			pos++;
-			while((c=read())!="\"")
-			{
+			while((c=read())!="\"") {
 				if(c!="\\")s+=c;
-				else
-				{
+				else {
 					c=read();
-					switch(c)
-					{
+					switch(c) {
 						case "\"":
 						case "\\":
 						case "/":
@@ -122,35 +111,32 @@ package
 			}
 			return s;
 		}
-		private function expect(s:String):void
-		{
+
+		private function expect(s:String):void {
 			for(var i:int=0;i<s.length;i++)
 				if(read()!=s.charAt(i))
 					throw new Error("Unexpected literal "+json.substr(pos-i-1,i+1)+" (expected "+s+")");
 		}
-		private function read():String
-		{
+
+		private function read():String {
 			if(pos>=json.length)throw new Error("Unexpected end of JSON");
 			return json.charAt(pos++);
 		}
-		private function skipWhiteSpace():void
-		{
+
+		private function skipWhiteSpace():void {
 			while(pos<json.length && " \t\r\n".indexOf(json.charAt(pos))>=0)pos++;
 			if(pos>=json.length)throw new Error("Unexpected end of JSON");
 		}
-		
-		public static function stringify(o:Object):String
-		{
+
+		public static function stringify(o:Object):String {
 			var s:String="";
 			var i:int;
 			if(o==null)s="null";
 			else if(o is Boolean || o is Number)s=o.toString();
-			else if(o is String)
-			{
+			else if(o is String) {
 				s+="\"";
 				var t:String=o as String;
-				for(i=0;i<t.length;i++)
-				{
+				for(i=0;i<t.length;i++) {
 					var c:String=t.charAt(i);
 					var pos:int="\"\\\b\f\n\r\t".indexOf(c);
 					if(pos>=0)s+="\\"+("\"\\bfnrt").charAt(pos);
@@ -158,24 +144,18 @@ package
 					else s+="\\u"+(0x10000+t.charCodeAt(i)).toString(16).substr(1);
 				}
 				s+="\"";
-			}
-			else if(o is Array)
-			{
+			} else if(o is Array) {
 				var a:Array=o as Array;
 				s+="[";
-				for(i=0;i<a.length;i++)
-				{
+				for(i=0;i<a.length;i++) {
 					if(i>0)s+=",";
 					s+=stringify(a[i]);
 				}
 				s+="]";
-			}
-			else
-			{
+			} else {
 				s+="{";
 				var comma:Boolean=false;
-				for(var p:String in o)
-				{
+				for(var p:String in o) {
 					if(comma)s+=",";
 					comma=true;
 					s+=stringify(p);

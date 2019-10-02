@@ -7,9 +7,9 @@
 	<fx:Script>
 		<![CDATA[
 			import flash.net.navigateToURL;
-			
+
 			import flashx.textLayout.conversion.TextConverter;
-			
+
 			import mx.controls.Alert;
 			import mx.events.CloseEvent;
 			import mx.events.FlexEvent;
@@ -25,12 +25,12 @@
 			}
 
 			protected function AboutPop_creationCompleteHandler(event:FlexEvent):void {
-				wtfrtf.textFlow=TextConverter.importToFlow(atlasText,TextConverter.TEXT_FIELD_HTML_FORMAT);
+				atlas_desc.textFlow=TextConverter.importToFlow(atlasText,TextConverter.TEXT_FIELD_HTML_FORMAT);
 			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>
-		<s:TextFlow id="desc1"><s:a href="https://www.nitrc.org/projects/quicknii/">QuickNII</s:a> is developed at the Neural Systems Laboratory, Institute of Basic Medical Sciences, University of Oslo (Norway), with funding from the European Union’s Horizon 2020 Framework Programme for Research and Innovation under the Framework Partnership Agreement No. 650003 (HBP FPA).
+		<s:TextFlow id="desc_qnii"><s:a href="https://www.nitrc.org/projects/quicknii/">QuickNII</s:a> is developed at the Neural Systems Laboratory, Institute of Basic Medical Sciences, University of Oslo (Norway), with funding from the European Union’s Horizon 2020 Framework Programme for Research and Innovation under the Framework Partnership Agreement No. 650003 (HBP FPA).
 			<s:br/>
 			<s:br/><s:span fontWeight="bold">Citation:</s:span>
 			<s:br/>- RRID on <s:a href="https://scicrunch.org/scicrunch/Resources/record/nlx_144509-1/SCR_016854/resolver">SciCrunch</s:a>: (QuickNII, RRID:SCR_016854)
@@ -41,13 +41,13 @@
 			<s:br/>
 			<s:br/>Contact: <s:a href="mailto:j.g.bjaalie@medisin.uio.no">j.g.bjaalie@medisin.uio.no</s:a>
 		</s:TextFlow>
-		<s:TextFlow id="desc2">Created by Gergely Csucs, NeSys
+		<s:TextFlow id="cright_qnii">Created by Gergely Csucs, NeSys
 			<s:br/>&#169; 2015-2019, University of Oslo
 		</s:TextFlow>
 	</fx:Declarations>
 	<s:Label x="10" y="10" text="QuickNII v2.2" width="618" verticalAlign="middle" textAlign="center" fontWeight="bold" height="24"/>
 	<mx:HRule x="199" y="43" width="241"/>
-	<s:RichEditableText x="10" y="53" focusEnabled="false" editable="false" height="149" width="618" textFlow="{desc1}"/>
-	<s:RichEditableText x="10" y="210" id="wtfrtf" focusEnabled="false" editable="false" width="618" height="161"/>
-	<s:RichEditableText x="10" y="376" focusEnabled="false" editable="false" height="61" width="618" textFlow="{desc2}" verticalAlign="bottom"/>
+	<s:RichEditableText x="10" y="53" focusEnabled="false" editable="false" height="149" width="618" textFlow="{desc_qnii}"/>
+	<s:RichEditableText x="10" y="210" id="atlas_desc" focusEnabled="false" editable="false" width="618" height="161"/>
+	<s:RichEditableText x="10" y="376" focusEnabled="false" editable="false" height="61" width="618" textFlow="{cright_qnii}" verticalAlign="bottom"/>
 </s:TitleWindow>
