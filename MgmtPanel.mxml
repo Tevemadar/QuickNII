@@ -5,7 +5,7 @@
 	<mx:Script>
 		<![CDATA[
 			import flexlib.mdi.events.MDIWindowEvent;
-			
+
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.CloseEvent;
@@ -13,7 +13,7 @@
 			import mx.events.DataGridEvent;
 			import mx.events.ListEvent;
 			import mx.events.ResizeEvent;
-			
+
 			[Bindable] static public var titl:String="Empty";
 			static protected var xmltitl:String;
 			static protected var first:int;
@@ -23,109 +23,23 @@
 			public static var baseurl:String;
 			private static var baseJson:Object=null;
 			[Bindable] public static var main:QuickNII;
-			//			public static var xdim:Number;
-			//			public static var ydim:Number;
-			//			public static var zdim:Number;
-			
-			//			private static var _tristate:int=0;
-			//			[Bindable] public static var hasslice=false;
-			//			
-			//			public static function set tristate(stat:int):void // 0:empty 1:image 2:series
-			//			{
-			//				_tristate=stat;
-			//				hasslice=stat!=0;
-			//			}
-			//			[Bindable] public static var requeststring:String;
-			public static var requestString:Vector.<Number>;			
-			
-			
-			//			public static function init():void
-			//			{
-			//				rows.addItem(new Landmark("anterior end of frontal pole",240,6.12,797));
-			//				rows.addItem(new Landmark("anterior end striatum",425,2.76,700));
-			//				rows.addItem(new Landmark("genu cc",475,2.28,680));
-			//				rows.addItem(new Landmark("decussation acc. anterior fusion",568,0.48,632));
-			//				rows.addItem(new Landmark("anterior end CA3",631,-1.72,599));
-			//				rows.addItem(new Landmark("entopeduncular nucleus",694,-2.52,575));
-			//				rows.addItem(new Landmark("posterior end striatum",755,-3.84,534));
-			//				rows.addItem(new Landmark("splenium cc",788,-5.2,511));
-			//				rows.addItem(new Landmark("anterior end transverse fibers of the pons",879,-6.6,463));
-			//				rows.addItem(new Landmark("posterior end cerebral cortex",1007,-9.48,398));
-			//				rows.addItem(new Landmark("confluent cerebellar white. anterior of lobule 5",1186,-10.8,312));
-			//				rows.addItem(new Landmark("posterior end cerebellum",1360,-15.24,235));
-			//			}
-			
-			//			protected function titlewindow1_closeHandler(event:CloseEvent):void
-			//			{
-			//				main.removePop();
-			//			}
-			
-			protected function titlewindow1_activateHandler(event:Event):void
-			{
+
+			public static var requestString:Vector.<Number>; //!!			
+
+			protected function titlewindow1_activateHandler(event:Event):void {
 				serieswindow.height=chartwindow.height=height-55;
 				chartwindow.width=width-chartwindow.x;
-				//				seriescanvas_resizeHandler(null);
 				stuff.selectedIndex=currentidx;
 				interpolate();
-				//				ctrl_requeststring.text=requeststring;
-				//				const w:Number=grph.width;
-				//				const h:Number=grph.height;
-				//				const g:Graphics=grph.graphics;
-				//				g.lineStyle(1,0);
-				//				g.beginFill(0xe0ffe0);
-				//				g.drawRect(0,0,w,h);
-				//				g.endFill();
-				//				
-				//				var sx:Number=0;
-				//				var sy:Number=0;
-				//				var sxy:Number=0;
-				//				var sxx:Number=0;
-				//				for(var i:int=0;i<rows.length;i++)
-				//				{
-				//					var l:Landmark=rows.getItemAt(i) as Landmark;
-				//					sx+=l.sno;
-				//					sy+=l.whs;
-				//					sxy+=l.sno*l.whs;
-				//					sxx+=l.sno*l.sno;
-				//				}
-				//				const b:Number=(rows.length*sxy-sx*sy)/(rows.length*sxx-sx*sx);
-				//				const a:Number=sy/rows.length-b*sx/rows.length;
-				//				
-				//				const h0:Number=a+b*0;
-				//				const h1500:Number=a+b*1500;
-				//				const hmin:Number=Math.min(h0,h1500);
-				//				const wr:Number=(w-20)/1500;
-				//				const hr:Number=(h-20)/Math.abs(h1500-h0)
-				//				
-				//				g.lineStyle(1,0xff);
-				//				g.moveTo(10+wr*1500,h-10-hr*(h1500-hmin));
-				////				g.moveTo(w-10,h-10);
-				//				g.lineTo(10+wr*0,h-10-hr*(h0-hmin));
-				//				g.lineStyle(1,0xff0000);
-				//				for(i=0;i<rows.length;i++)
-				//				{
-				//					l=rows.getItemAt(i) as Landmark;
-				//					g.lineTo(10+wr*l.sno,h-10-hr*(/*a+b*/l.whs-hmin));
-				//				}
-				//				g.lineTo(10+wr*1500,h-10-hr*(h1500-hmin));
-				//				g.beginFill(0xff0000);
-				//				for(i=0;i<rows.length;i++)
-				//				{
-				//					l=rows.getItemAt(i) as Landmark;
-				//					g.drawCircle(10+wr*l.sno,h-10-hr*(/*a+b*/l.whs-hmin),5);
-				//				}
-				//				g.endFill();
 			}
-			
-			
-			protected function button1_clickHandler(event:MouseEvent):void
-			{
+
+			protected function button1_clickHandler(event:MouseEvent):void {
 				const f:File=new File;
 				f.addEventListener(Event.SELECT,descriptorSelected);
 				f.browseForOpen("Series",[new FileFilter("QuickNII Series", "*.xml;*json")]);
 			}
-			protected function descriptorSelected(e:Event):void
-			{
+
+			protected function descriptorSelected(e:Event):void {
 				stuff.selectedIndex=-1;
 				rows.removeAll();
 				baseJson=null;
@@ -135,35 +49,31 @@
 				fs.open(f,FileMode.READ);
 				var text:String=fs.readUTFBytes(fs.bytesAvailable);
 				fs.close();
-				switch(f.extension)
-				{
+				switch(f.extension) {
 					case "xml":
 						const xml:XML=XML(text);
 						titl=xmltitl=xml.@name;
-						for each(var slice:XML in xml.slice)
-					{
-						var anchorstring:String=slice.@anchoring;
-						var anchoring:Vector.<Number>=null;
-						if(anchorstring!=null && anchorstring!="") {
-							const urlvar:URLVariables=new URLVariables(anchorstring.replace(/&amp;/g,"&"));
-							anchoring=new <Number>[
-								parseFloat(urlvar.ox),parseFloat(urlvar.oy),parseFloat(urlvar.oz),
-								parseFloat(urlvar.ux),parseFloat(urlvar.uy),parseFloat(urlvar.uz),
-								parseFloat(urlvar.vx),parseFloat(urlvar.vy),parseFloat(urlvar.vz)];
+						for each(var slice:XML in xml.slice) {
+							var anchorstring:String=slice.@anchoring;
+							var anchoring:Vector.<Number>=null;
+							if(anchorstring!=null && anchorstring!="") {
+								const urlvar:URLVariables=new URLVariables(anchorstring.replace(/&amp;/g,"&"));
+								anchoring=new <Number>[
+									parseFloat(urlvar.ox),parseFloat(urlvar.oy),parseFloat(urlvar.oz),
+									parseFloat(urlvar.ux),parseFloat(urlvar.uy),parseFloat(urlvar.uz),
+									parseFloat(urlvar.vx),parseFloat(urlvar.vy),parseFloat(urlvar.vz)];
+							}
+							rows.addItem(new SliceData(slice.@filename,slice.@nr,slice.@width,slice.@height,anchoring));
 						}
-						rows.addItem(new SliceData(slice.@filename,slice.@nr,slice.@width,slice.@height,anchoring));
-					}
 						break;
 					case "json":
 						baseJson=JSONp.parse(text);
 						titl=xmltitl=baseJson.name;
 						var slices:Array=baseJson.slices as Array;
-						for(var i:int=0;i<slices.length;i++)
-						{
+						for(var i:int=0;i<slices.length;i++) {
 							var o:Object=slices[i];
 							anchoring=null;
-							if(o.hasOwnProperty("anchoring"))
-							{
+							if(o.hasOwnProperty("anchoring")) {
 								var a:Array=o.anchoring as Array;
 								anchoring=new Vector.<Number>(a);//!!
 							}
@@ -177,90 +87,77 @@
 				first=rows.getItemAt(0).sno;
 				last=rows.getItemAt(rows.length-1).sno;
 				interpolate();
-				/*QuickNII.navilock=true;QuickNII.diz.slicewindow.invalidateDisplayList();*/
 			}
-			
-			public static function interpolate():void
-			{
+
+			public static function interpolate():void {
 				dointerpolate();
 				updategraphdata();
 				rows.dispatchEvent(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
 			}
-			private static function dointerpolate():void
-			{
+			private static function dointerpolate():void {
 				if(rows.length==0)return; // nothing to set
-				
+
 				var i:int,j:int;
 				const anchorings:Vector.<int>=new Vector.<int>;
 				var regressions:Vector.<LinReg>=new Vector.<LinReg>;
 				for(i=0;i<11;i++)regressions.push(new LinReg);
-				
+
 				var w:SliceData;
 				var ww:SliceData;
 				var sno:int;
-				for(i=0;i<rows.length;i++)
-				{
+				for(i=0;i<rows.length;i++) {
 					w=rows.getItemAt(i) as SliceData;
-					if(w.hasanchoring)
-					{
+					if(w.hasanchoring) {
 						anchorings.push(i);
 						for(j=0;j<11;j++)
 							regressions[j].add(w.sno,w.unpacked[j]);
 					}
 				}
-				
+
 				const control:Vector.<int>=new Vector.<int>;
-				//				var linsegment:LinSegment;
-				
-				if(anchorings.length==0)
-				{
+
+				if(anchorings.length==0) {
 					var maxw:Number=0;
 					var maxh:Number=0;
-					for(i=0;i<rows.length;i++)
-					{
+					for(i=0;i<rows.length;i++) {
 						w=rows.getItemAt(i) as SliceData;
 						if(maxw<w.width)maxw=w.width;
 						if(maxh<w.height)maxh=w.height;
 					}
-					switch(main.valbox.decompcfg.selectedLabel){
+					switch(main.valbox.decompcfg.selectedLabel) {
 						case "Coronal":
 							w=rows.getItemAt(0) as SliceData;
 							w.setUnpacked(new <Number>[main.xdim/1,main.ydim-1,main.zdim/2,1,0,0,0,0,-1,main.xdim/maxw,main.zdim/maxh]);
 							control.push(0);
-							
 							w=rows.getItemAt(rows.length-1) as SliceData;
 							w.setUnpacked(new <Number>[main.xdim/1,0,main.zdim/2,1,0,0,0,0,-1,main.xdim/maxw,main.zdim/maxh]);
 							control.push(rows.length-1);
 							break;
-						
+
 						case "Sagittal":
 							w=rows.getItemAt(0) as SliceData;
 							w.setUnpacked(new <Number>[main.xdim-1,main.ydim/2,main.zdim/2,0,-1,0,0,0,1,main.ydim/maxw,main.zdim/maxh]);
 							control.push(0);
-							
 							w=rows.getItemAt(rows.length-1) as SliceData;
 							w.setUnpacked(new <Number>[0,main.ydim/2,main.zdim/2,0,-1,0,0,0,1,main.ydim/maxw,main.zdim/maxh]);
 							control.push(rows.length-1);
 							break;
-						
+
 						case "Horizontal":
 							w=rows.getItemAt(0) as SliceData;
 							w.setUnpacked(new <Number>[main.xdim/2,main.ydim/2,main.zdim-1,0,-1,0,1,0,0,main.ydim/maxw,main.xdim/maxh]);
 							control.push(0);
-							
 							w=rows.getItemAt(rows.length-1) as SliceData;
 							w.setUnpacked(new <Number>[main.xdim/2,main.ydim/2,0,0,-1,0,1,0,0,main.ydim/maxw,main.xdim/maxh]);
 							control.push(rows.length-1);
 							break;
 					}
 				}
-				else if(anchorings.length==1)
-				{
+				else if(anchorings.length==1) {
 					i=anchorings[0];
 					ww=rows.getItemAt(i) as SliceData;
-					
-					if(i!=0)
-					{
+
+					if(i!=0) {
 						w=rows.getItemAt(0) as SliceData;
 						var anchoring:Vector.<Number>=new <Number>[
 							main.valbox.decompcfg.selectedLabel=="Sagittal"?main.xdim-1:ww._mx,
@@ -272,8 +169,7 @@
 						control.push(0);
 					}
 					control.push(i);
-					if(i!=rows.length-1)
-					{
+					if(i!=rows.length-1) {
 						w=rows.getItemAt(rows.length-1) as SliceData;
 						anchoring=new <Number>[
 							main.valbox.decompcfg.selectedLabel=="Sagittal"?0:ww._mx,
@@ -284,11 +180,8 @@
 						w.setUnpacked(anchoring);
 						control.push(rows.length-1);
 					}
-				}
-				else
-				{
-					if(anchorings[0]!=0)
-					{
+				} else {
+					if(anchorings[0]!=0) {
 						w=rows.getItemAt(0) as SliceData;
 						anchoring=new Vector.<Number>;
 						for(j=0;j<11;j++)
@@ -298,8 +191,7 @@
 					}
 					for(i=0;i<anchorings.length;i++)
 						control.push(anchorings[i]);
-					if(anchorings[anchorings.length-1]!=rows.length-1)
-					{
+					if(anchorings[anchorings.length-1]!=rows.length-1) {
 						w=rows.getItemAt(rows.length-1) as SliceData;
 						anchoring=new Vector.<Number>;
 						for(j=0;j<11;j++)
@@ -308,11 +200,10 @@
 						control.push(rows.length-1);
 					}
 				}
-				
+
 				if(anchorings.length==rows.length)return; // not mandatory
-				
-				for(i=0;i<control.length-1;i++)
-				{
+
+				for(i=0;i<control.length-1;i++) {
 					var i1:int=control[i];
 					var w1:SliceData=rows.getItemAt(i1) as SliceData;
 					var i2:int=control[i+1];
@@ -320,8 +211,7 @@
 					var linints:Vector.<LinSegment>;
 					for(var k:int=0;k<11;k++)
 						linints.push(new LinSegment(w1.sno,w1.unpacked[k],w2.sno,w2.unpacked[k]));
-					for(j=i1+1;j<i2;j++)
-					{
+					for(j=i1+1;j<i2;j++) {
 						w=rows.getItemAt(j) as SliceData;
 						anchoring=new Vector.<Number>;
 						for(k=0;k<11;k++)
@@ -330,144 +220,49 @@
 					}
 				}
 			}
-			
-			
-			protected function stuff_itemDoubleClickHandler(event:ListEvent):void
-			{
+
+			protected function stuff_itemDoubleClickHandler(event:ListEvent):void {
 				currentidx=event.rowIndex;
 				const w:SliceData=rows.getItemAt(currentidx) as SliceData;
 				w.pack();
-				//				Alert.show(basepath,w.filename);
 				main.setImage(baseurl+File.separator+w.filename,w.packed);
-				//				main.removePop();
 				main.activate();
 				titl=xmltitl;
 			}
-			
-			public static function mystic_update():void
-			{
+
+			public static function mystic_update():void {
 				if(currentidx<0)return;
 				const w:SliceData=rows.getItemAt(currentidx) as SliceData;
 				w.pack();
 				//!!requeststring=w.anchoring;
 				main.Restore();
 			}
-			
-			//			protected function button2_clickHandler(event:MouseEvent):void
-			//			{
-			//				const f:File=new File;
-			//				f.addEventListener(Event.SELECT,extensionSelected);
-			//				f.browseForOpen("Series",[new FileFilter("Series (*.xml)", "*.xml")]);
-			//			}
-			//			protected function extensionSelected(e:Event):void
-			//			{
-			////				const sel:Landmark=stuff.selectedIndex>=0?rows.getItemAt(stuff.selectedIndex) as Landmark:null;
-			//				stuff.selectedIndex=-1;
-			////				rows.removeAll();
-			//				const f:File=e.target as File;
-			//				basepath=f.parent.nativePath;
-			//				const fs:FileStream=new FileStream;
-			//				fs.open(f,FileMode.READ);
-			//				const xml:XML=XML(fs.readUTFBytes(fs.bytesAvailable));
-			//				
-			//				// <series name='Test series' first='-61' last='442'>
-			//				//   <slice filename='23-388_12_s154_20x.jpg' nr='154' width='12273' height='7488' comment='Whatever3'/>
-			//				titl=xml.@name;
-			//				first=xml.@first;
-			//				last=xml.@last;
-			//
-			//				const v:Vector.<Landmark>=new Vector.<Landmark>;
-			//				while(rows.length>0)
-			//				{
-			//					v.push(rows.getItemAt(0));
-			//					rows.removeItemAt(0);
-			//				}
-			//				var i:int=0;
-			//				for each(var slice:XML in xml.slice)
-			//				{
-			//					var w:Landmark=new Landmark(slice);
-			//					if(i==v.length || v[i].sno!=w.sno)
-			//						rows.addItem(w);
-			//					else
-			//						rows.addItem(v[i++]);
-			//				}
-			//				interpolate();
-			////				if(sel!=null)stuff.selectedIndex=rows.getItemIndex(sel);
-			//			}
-			
-			
-			//			protected function ctrl_requeststring_changeHandler(event:Event):void
-			//			{
-			//				requeststring=ctrl_requeststring.text;
-			//				main.Restore();
-			//			}
-			
-			
-			protected function button3_clickHandler(event:MouseEvent):void
-			{
+
+			protected function button3_clickHandler(event:MouseEvent):void {
 				const f:File=new File;
 				f.addEventListener(Event.SELECT,saveSelected);
 				f.browseForSave("Series");
 			}
-			protected function saveSelected(e:Event):void
-			{
-				//<?xml version='1.0' encoding='UTF-8'?>
-				
-				// <series name='Test series' first='-61' last='442'>
-				//   <slice filename='23-388_12_s154_20x.jpg' nr='154' width='12273' height='7488' comment='Whatever3'/>
-				//				const xml:XML=new XML;
-				//				xml.@name=titl;
-				//				xml.@first=first;
-				//				xml.@last=last;
-				//				for(var i:int=0;i<rows.length;i++)
-				//				{
-				//					var l:Landmark=rows.getItemAt(i) as Landmark;
-				//					var node:XML=<slice/>;
-				//					node.@comment=escape(l.description);
-				//					node.@sno=l.sno;
-				//					node.@width=l.width;
-				//					node.@height=l.height;
-				//					node.@filename=l.filename;
-				//					if(l.hasanchoring)node.@anchoring=l.anchoring;
-				//					xml.appendChild(node);
-				//				}
-				
+			protected function saveSelected(e:Event):void {
 				const f:File=e.target as File;
 				var url:String=f.url;
 				if(url.substr(url.length-4)==".xml")
-					//				basepath=f.parent.nativePath; //??
 					save(f);
 				else{
 					url+=".xml";
 					save(new File(url));
 				}
-				//				const fs:FileStream=new FileStream;
-				//				fs.open(f,FileMode.WRITE);
-				//				fs.writeUTFBytes("<?xml version='1.0' encoding='UTF-8'?>\r\n");
-				//				fs.writeUTFBytes("<series name='"+titl+"' first='"+first+"' last='"+last+"'>\r\n");
-				//				for(var i:int=0;i<rows.length;i++)
-				//				{
-				//					var l:Landmark=rows.getItemAt(i) as Landmark;
-				//					fs.writeUTFBytes("    <slice filename='"+l.filename+"' nr='"+l.sno+"' width='"+l.width+"' height='"+l.height);
-				//					if(l.description.length>0)fs.writeUTFBytes("' comment='"+escape(l.description));
-				//					if(l.hasanchoring)fs.writeUTFBytes("' anchoring='"+l.anchoring);
-				//					fs.writeUTFBytes("'/>\r\n");
-				//				}
-				//				fs.writeUTFBytes("</series>\r\n");
-				//				fs.close();
 			}
-			
-			public static function save(f:File):void
-			{
+
+			public static function save(f:File):void {
 				const fs:FileStream=new FileStream;
 				fs.open(f,FileMode.WRITE);
 				fs.writeUTFBytes("<?xml version='1.0' encoding='UTF-8'?>\r\n");
 				fs.writeUTFBytes("<series name='"+xmltitl+"' target='"+main.pack+"' target-resolution='"+main.xdim+" "+main.ydim+" "+main.zdim+"'>\r\n");
-				for(var i:int=0;i<rows.length;i++)
-				{
+				for(var i:int=0;i<rows.length;i++) {
 					var l:SliceData=rows.getItemAt(i) as SliceData;
 					fs.writeUTFBytes("    <slice filename='"+l.filename+"' nr='"+l.sno+"' width='"+l.width+"' height='"+l.height);
-					if(l.hasanchoring){
+					if(l.hasanchoring) {
 						var a:Vector.<Number>=l.pack();
 						var prefixes:Array=["' anchoring='ox=","&amp;oy=","&amp;oz=","&amp;ux=","&amp;uy=","&amp;uz=","&amp;vx=","&amp;vy=","&amp;vz="];
 						for(var j:int=0;j<9;j++)
@@ -478,35 +273,30 @@
 				fs.writeUTFBytes("</series>\r\n");
 				fs.close();
 			}
-			
-			protected function jsonSave():void
-			{
+
+			protected function jsonSave():void {
 				const f:File=new File;
 				f.addEventListener(Event.SELECT,jsonSaveSelected);
 				f.browseForSave("Series");
 			}
-			protected function jsonSaveSelected(e:Event):void
-			{
+			protected function jsonSaveSelected(e:Event):void {
 				const f:File=e.target as File;
 				var url:String=f.url;
 				if(url.substr(url.length-5)==".json")
 					saveJson(f);
-				else{
+				else {
 					url+=".json";
 					saveJson(new File(url));
 				}
 			}
-			protected function saveJson(f:File):void
-			{
-				if(baseJson==null)
-				{
+			protected function saveJson(f:File):void {
+				if(baseJson==null) {
 					baseJson=new Object;
 					baseJson.name=xmltitl;
 					baseJson.target=main.pack;
 					baseJson["target-resolution"]=[main.xdim,main.ydim,main.zdim];
 					var slices:Array=[];
-					for(var i:int=0;i<rows.length;i++)
-					{
+					for(var i:int=0;i<rows.length;i++) {
 						var l:SliceData=rows.getItemAt(i) as SliceData;
 						var o:Object=new Object;
 						o.filename=l.filename;
@@ -518,8 +308,7 @@
 					baseJson.slices=slices;
 				}
 				slices=baseJson.slices;
-				for(i=0;i<rows.length;i++)
-				{
+				for(i=0;i<rows.length;i++) {
 					l=rows.getItemAt(i) as SliceData;
 					if(l.hasanchoring)slices[i].anchoring=l.pack();
 					else delete slices[i].anchoring;
@@ -529,82 +318,30 @@
 				fs.writeUTFBytes(JSONp.stringify(baseJson));
 				fs.close();
 			}
-			
-			//			protected function button4_clickHandler(event:MouseEvent):void
-			//			{
-			//				const f:File=new File;
-			//				f.addEventListener(Event.SELECT,exportSelected);
-			//				f.browseForSave("Export");
-			//			}
-			//			protected function exportSelected(e:Event):void
-			//			{
-			//				const f:File=e.target as File;
-			//				basepath=f.parent.nativePath;
-			//				const fs:FileStream=new FileStream;
-			//				fs.open(f,FileMode.WRITE);
-			//				for(var i:int=0;i<rows.length;i++)
-			//				{
-			//					var l:Landmark=rows.getItemAt(i) as Landmark;
-			//					l.pack();
-			////					fs.writeUTFBytes(l.anchoring);
-			////					fs.writeUTFBytes("\r\n");
-			//				}
-			//				
-			//				fs.writeUTFBytes("---- O ----\r\n");
-			//				for(i=0;i<rows.length;i++)
-			//				{
-			//					l=rows.getItemAt(i) as Landmark;
-			//					if(i%15==0)fs.writeUTFBytes("Section "+l.sno+"\r\n");
-			//					var a:Array=l.anchoring.split(/[ouvxyz&=]/);
-			////					for(var j:int=0;j<a.length;j++)
-			////						fs.writeUTFBytes("*"+a[j]);
-			//					fs.writeUTFBytes(""+a[3]+" "+a[7]+" "+a[11]+"\r\n");
-			//				}
-			//				fs.writeUTFBytes("---- U ----\r\n");
-			//				for(i=0;i<rows.length;i++)
-			//				{
-			//					l=rows.getItemAt(i) as Landmark;
-			//					if(i%15==0)fs.writeUTFBytes("Section "+l.sno+"\r\n");
-			//					a=l.anchoring.split(/[ouvxyz&=]/);
-			//					fs.writeUTFBytes(""+a[15]+" "+a[19]+" "+a[23]+"\r\n");
-			//				}
-			//				fs.writeUTFBytes("---- V ----\r\n");
-			//				for(i=0;i<rows.length;i++)
-			//				{
-			//					l=rows.getItemAt(i) as Landmark;
-			//					if(i%15==0)fs.writeUTFBytes("Section "+l.sno+"\r\n");
-			//					a=l.anchoring.split(/[ouvxyz&=]/);
-			//					fs.writeUTFBytes(""+a[27]+" "+a[31]+" "+a[35]+"\r\n");
-			//				}
-			//				
-			//				fs.close();
-			//			}
-			
-			
+
 			[Bindable] static public var regressionestimator:ArrayCollection=new ArrayCollection;
 			[Bindable] static public var polylineestimator:ArrayCollection=new ArrayCollection;
-			public static function updategraphdata():void
-			{
+			public static function updategraphdata():void {
 				const hackedScale:Number=NamedTransformation.hackedScale;
-				
+
 				regressionestimator.removeAll();
 				polylineestimator.removeAll();
-				
+
 				if(rows.length==0)return;
 				if(rows.length<2)return;
-				
+
 				const src:SliceData=rows.getItemAt(0) as SliceData;
 				const dst:SliceData=rows.getItemAt(rows.length-1) as SliceData;
-				
+
 				const px:Number=src._mx;
 				const py:Number=src._my;
 				const pz:Number=src._mz;
 				const dx:Number=dst._mx-px;
 				const dy:Number=dst._my-py;
 				const dz:Number=dst._mz-pz;
-				
+
 				const delta:Number=Math.sqrt(dx*dx+dy*dy+dz*dz);
-				
+
 				var i:int;
 				var xspacing:LinReg=new LinReg;
 				var yspacing:LinReg=new LinReg;
@@ -612,30 +349,27 @@
 				var rot1:LinReg=new LinReg;
 				var rot2:LinReg=new LinReg;
 				var rot3:LinReg=new LinReg;
-				
+
 				var prevanch:SliceData=null;
-				
-				for(i=0;i<rows.length;i++)
-				{
+
+				for(i=0;i<rows.length;i++) {
 					var l:SliceData=rows.getItemAt(i) as SliceData;
-					
+
 					var uvx:Number=l._uy*l._vz-l._uz*l._vy;
 					var uvy:Number=l._uz*l._vx-l._ux*l._vz;
 					var uvz:Number=l._ux*l._vy-l._uy*l._vx;
-					
+
 					var oxpxwx:Number=(l._mx-px)*uvx;
 					var oypywy:Number=(l._my-py)*uvy;
 					var ozpzwz:Number=(l._mz-pz)*uvz;
 					var dxwx:Number=dx*uvx;
 					var dywy:Number=dy*uvy;
 					var dzwz:Number=dz*uvz;
-					
+
 					var custom:Number=(oxpxwx+oypywy+ozpzwz)/(dxwx+dywy+dzwz);
-					
-					if(l.hasanchoring)
-					{
-						if(prevanch!=null)
-						{
+
+					if(l.hasanchoring) {
+						if(prevanch!=null) {
 							xspacing.add((l.sno+prevanch.sno)/2,(l._mx-prevanch._mx)/(l.sno-prevanch.sno));
 							yspacing.add((l.sno+prevanch.sno)/2,(l._my-prevanch._my)/(l.sno-prevanch.sno));
 							zspacing.add((l.sno+prevanch.sno)/2,(l._mz-prevanch._mz)/(l.sno-prevanch.sno));
@@ -646,28 +380,24 @@
 					var xs:Number=n==null?Number.NaN:(n._mx-l._mx)/(n.sno-l.sno);
 					var ys:Number=n==null?Number.NaN:(n._my-l._my)/(n.sno-l.sno);
 					var zs:Number=n==null?Number.NaN:(n._mz-l._mz)/(n.sno-l.sno);
-					
+
 					var u:Vector3D=new Vector3D(l._ux,l._uy,l._uz);
 					var v:Vector3D=new Vector3D(l._vx,l._vy,l._vz);
 					var nr:Vector3D=v.crossProduct(u);nr.normalize();
-					
+
 					var o:Object=new Object;
 					o.sno=l.sno;
-					//HStretch
-					//VStretch
 					o.HStretch=l._urate;
 					o.VStretch=l._vrate;
-					if(main.valbox.decompcfg.selectedLabel=="Coronal")
-					{
+					if(main.valbox.decompcfg.selectedLabel=="Coronal") {
 						o.MainPosition=l._my;
 						o.MainSpacing=ys;
 						rot1.add(l.sno,o.Rotation1=Math.asin(nr.z)*180/Math.PI);
 						rot2.add(l.sno,o.Rotation2=-Math.atan2(nr.x,nr.y)*180/Math.PI);
-						
+
 						if(Math.abs(nr.y)<0.00001)
 							rot3.add(l.sno,o.Rotation3=0);
-						else
-						{
+						else {
 							//!! works, but probably could be simpler
 							var ctx:Number=Math.sqrt(1/(1+nr.x*nr.x/nr.y/nr.y));
 							var ct:Vector3D=new Vector3D(ctx,-ctx*nr.x/nr.y);
@@ -681,18 +411,15 @@
 						o.HSpacing=xs;
 						o.VPosition=l._mz;
 						o.VSpacing=zs;
-					}
-					else if(main.valbox.decompcfg.selectedLabel=="Sagittal")
-					{
+					} else if(main.valbox.decompcfg.selectedLabel=="Sagittal") {
 						o.MainPosition=l._mx;
 						o.MainSpacing=xs;
 						rot1.add(l.sno,o.Rotation1=-Math.asin(nr.z)*180/Math.PI);
 						rot2.add(l.sno,o.Rotation2=-Math.atan2(nr.y,-nr.x)*180/Math.PI);
-						
+
 						if(Math.abs(nr.x)<0.00001)
 							rot3.add(l.sno,o.Rotation3=0);
-						else
-						{
+						else {
 							//!! works, but probably could be simpler
 							var sty:Number=Math.sqrt(1/(1+nr.y*nr.y/nr.x/nr.x));
 							var st:Vector3D=new Vector3D(-sty*nr.y/nr.x,sty);
@@ -701,23 +428,20 @@
 							if(sdt>1)sdt=1;
 							rot3.add(l.sno,o.Rotation3=(st.crossProduct(u).dotProduct(nr)<0?1:-1)*Math.acos(sdt)*180/Math.PI);
 						}
-						
+
 						o.HPosition=l._my;
 						o.HSpacing=ys;
 						o.VPosition=l._mz;
 						o.VSpacing=zs;
-					}
-					else if(main.valbox.decompcfg.selectedLabel=="Horizontal")
-					{
+					} else if(main.valbox.decompcfg.selectedLabel=="Horizontal") {
 						o.MainPosition=l._mz;
 						o.MainSpacing=zs;
 						rot1.add(l.sno,o.Rotation1=-Math.asin(nr.x)*180/Math.PI)
 						rot2.add(l.sno,o.Rotation2=-Math.atan2(nr.y,nr.z)*180/Math.PI);
-						
+
 						if(Math.abs(nr.z)<0.00001)
 							rot3.add(l.sno,o.Rotation3=0);
-						else
-						{
+						else {
 							//!! works, but probably could be simpler
 							var hty:Number=Math.sqrt(1/(1+nr.y*nr.y/nr.z/nr.z));
 							var ht:Vector3D=new Vector3D(0,hty,-hty*nr.y/nr.z);
@@ -726,53 +450,40 @@
 							if(hdt>1)hdt=1;
 							rot3.add(l.sno,o.Rotation3=(ht.crossProduct(u).dotProduct(nr)<0?1:-1)*Math.acos(hdt)*180/Math.PI);
 						}
-						
+
 						o.HPosition=l._my;
 						o.HSpacing=ys;
 						o.VPosition=l._mx;
 						o.VSpacing=xs;
 					}
 					else throw Error("!!!");
-					
+
 					o.MainPosition*=hackedScale;
-					//					o.MainSpacing*=hackedScale;
+//					o.MainSpacing*=hackedScale;
 					o.HPosition*=hackedScale;
-					//					o.HSpacing*=hackedScale;
+//					o.HSpacing*=hackedScale;
 					o.VPosition*=hackedScale;
-					//					o.VSpacing*=hackedScale;
-					
+//					o.VSpacing*=hackedScale;
+
 					o.Position=custom*hackedScale*delta;
 					o.Spacing=Number.NaN;
-					if(i>0)
-					{
+					if(i>0) {
 						var tmp:Object=polylineestimator.getItemAt(i-1);
 						tmp.Spacing=o.Position-tmp.Position;
 					}
-					
+
 					polylineestimator.addItem(o);
 				}
-				
-				//Position
-				//Spacing
-				//Rotation1
-				//Rotation2
-				//HStretch
-				//VStretch
-				//HPosition
-				//HSpacing
-				//VPosition
-				//VSpacing
-				//Rotation3
-				
+
 				const o1:Object=new Object;
 				const o2:Object=new Object;
-				
+
 				const srctmp:Object=polylineestimator.getItemAt(0);
 				const dsttmp:Object=polylineestimator.getItemAt(polylineestimator.length-1);
 				o1.Position=srctmp.Position;
 				o2.Position=dsttmp.Position;
 				o1.Spacing=o2.Spacing=(o2.Position-o1.Position)/(polylineestimator.length);
-				
+
 				o1.sno=first;
 				o1.HStretch=src._urate;
 				o1.VStretch=src._vrate;
@@ -785,47 +496,42 @@
 				o2.Rotation1=rot1.get(last);
 				o2.Rotation2=rot2.get(last);
 				o2.Rotation3=rot3.get(last);
-				if(main.valbox.decompcfg.selectedLabel=="Coronal")
-				{
+				if(main.valbox.decompcfg.selectedLabel=="Coronal") {
 					o1.MainPosition=src._my;
 					o1.MainSpacing=yspacing.get(first);
 					o1.HPosition=src._mx;
 					o1.HSpacing=xspacing.get(first);
 					o1.VPosition=src._mz;
 					o1.VSpacing=zspacing.get(first);
-					
+
 					o2.MainPosition=dst._my;
 					o2.MainSpacing=yspacing.get(last);
 					o2.HPosition=dst._mx;
 					o2.HSpacing=xspacing.get(last);
 					o2.VPosition=dst._mz;
 					o2.VSpacing=zspacing.get(last);
-				}
-				else if(main.valbox.decompcfg.selectedLabel=="Sagittal")
-				{
+				} else if(main.valbox.decompcfg.selectedLabel=="Sagittal") {
 					o1.MainPosition=src._mx;
 					o1.MainSpacing=xspacing.get(first);
 					o1.HPosition=src._my;
 					o1.HSpacing=yspacing.get(first);
 					o1.VPosition=src._mz;
 					o1.VSpacing=zspacing.get(first);
-					
+
 					o2.MainPosition=dst._mx;
 					o2.MainSpacing=yspacing.get(last);
 					o2.HPosition=dst._my;
 					o2.HSpacing=yspacing.get(last);
 					o2.VPosition=dst._mz;
 					o2.VSpacing=zspacing.get(last);
-				}
-				else if(main.valbox.decompcfg.selectedLabel=="Horizontal")
-				{
+				} else if(main.valbox.decompcfg.selectedLabel=="Horizontal") {
 					o1.MainPosition=src._mz;
 					o1.MainSpacing=zspacing.get(first);
 					o1.HPosition=src._my;
 					o1.HSpacing=yspacing.get(first);
 					o1.VPosition=src._mx;
 					o1.VSpacing=xspacing.get(first);
-					
+
 					o2.MainPosition=dst._mz;
 					o2.MainSpacing=zspacing.get(last);
 					o2.HPosition=dst._my;
@@ -833,61 +539,49 @@
 					o2.VPosition=dst._mx;
 					o2.VSpacing=xspacing.get(last);
 				}
-				
+
 				o1.MainPosition*=hackedScale;
-				//				o1.MainSpacing*=hackedScale;
+//				o1.MainSpacing*=hackedScale;
 				o1.HPosition*=hackedScale;
-				//				o1.HSpacing*=hackedScale;
+//				o1.HSpacing*=hackedScale;
 				o1.VPosition*=hackedScale;
-				//				o1.VSpacing*=hackedScale;
+//				o1.VSpacing*=hackedScale;
 				o2.MainPosition*=hackedScale;
-				//				o2.MainSpacing*=hackedScale;
+//				o2.MainSpacing*=hackedScale;
 				o2.HPosition*=hackedScale;
-				//				o2.HSpacing*=hackedScale;
+//				o2.HSpacing*=hackedScale;
 				o2.VPosition*=hackedScale;
-				//				o2.VSpacing*=hackedScale;
-				
+//				o2.VSpacing*=hackedScale;
+
 				regressionestimator.addItem(o1);
 				regressionestimator.addItem(o2);
 			}
-			//			protected function chartcfg_changeHandler(event:ListEvent):void
-			//			{
-			////				Alert.show(chartcfg.selectedLabel);
-			//				cline.yField=pline.yField=chartcfg.selectedLabel;
-			//			}
-			
-			protected function seriescanvas_resizeHandler(event:ResizeEvent):void
-			{
+
+			protected function seriescanvas_resizeHandler(event:ResizeEvent):void {
 				slicesbtn.y=exportbtn.y=savebtn.y=jsonbtn.y=loadbtn.y=addchart.y=seriescanvas.height-savebtn.height-10;
 				stuff.height=savebtn.y-10-10;
 			}
-			
-			protected function addchart_clickHandler(event:MouseEvent):void
-			{
+
+			protected function addchart_clickHandler(event:MouseEvent):void {
 				var w:MDIWindow=new MDIWindow;
 				w.title="Chart "+(MDImain.windowManager.windowList.length-2);
 				w.addChild(new SeriesChart);
 				MDImain.windowManager.add(w);
 			}
-			
-			
-			protected function exportbtn_clickHandler(event:MouseEvent):void
-			{
+
+			protected function exportbtn_clickHandler(event:MouseEvent):void {
 				const f:File=new File;
 				f.addEventListener(Event.SELECT,exportSelected);
 				f.browseForSave("Series");
 			}
-			protected function exportSelected(e:Event):void
-			{
+			protected function exportSelected(e:Event):void {
 				const f:File=e.target as File;
 				
 				const fs:FileStream=new FileStream;
 				fs.open(f,FileMode.WRITE);
 				fs.writeUTFBytes("<?xml version='1.0' encoding='UTF-8'?>\r\n");
-				//				fs.writeUTFBytes("<series name='"+titl+"' first='"+first+"' last='"+last+"'>\r\n");
 				fs.writeUTFBytes("<series name='"+xmltitl+"' target='"+main.pack+"' target-resolution='"+main.xdim+" "+main.ydim+" "+main.zdim+"'>\r\n");
-				for(var i:int=0;i<rows.length;i++)
-				{
+				for(var i:int=0;i<rows.length;i++) {
 					var l:SliceData=rows.getItemAt(i) as SliceData;
 					fs.writeUTFBytes("    <slice filename='"+l.filename+"' nr='"+l.sno+"' width='"+l.width+"' height='"+l.height);
 					var a:Vector.<Number>=l.pack();
@@ -899,79 +593,16 @@
 				fs.writeUTFBytes("</series>\r\n");
 				fs.close();
 			}
-			
+
 			public static var pb_hack:ProgressBar;
-			protected function slicesbtn_clickHandler(event:MouseEvent):void
-			{
+			protected function slicesbtn_clickHandler(event:MouseEvent):void {
 				pb.x=(width-pb.width)/2;
 				pb.y=(height-pb.height)/2;
 				pb_hack=pb;
 				main.QSlices();
 			}
-			
 		]]>
 	</mx:Script>
-	
-	<!--//	<mx:DataGrid id="stuff" x="10" y="92" editable="true" width="700" sortableColumns="false" dataProvider="{rows}" draggableColumns="false" height="428" itemDoubleClick="stuff_itemDoubleClickHandler(event)" doubleClickEnabled="true">
-	<mx:columns>-->
-	<!--			<mx:DataGridColumn dataField="no" sortable="false" headerText="" editable="false"/>-->
-	<!--//			<mx:DataGridColumn dataField="description" sortable="false" headerText="Landmarks" editable="false"/>
-	<mx:DataGridColumn dataField="sno" headerText="s#" editable="false"/>
-	<mx:DataGridColumn dataField="{main.valbox.decompcfg.selectedIndex==0?'_my':main.valbox.decompcfg.selectedIndex==1?'_mx':'_mz'}" headerText="level" editable="false"/>-->
-	<!--			<mx:DataGridColumn dataField="bregma" headerText="Bregma"/>-->
-	<!--			<mx:DataGridColumn dataField="whs" headerText="WHS"/>-->
-	<!--//			<mx:DataGridColumn dataField="hasanchoring" headerText="anchored" editable="false"/>-->
-	<!--			<mx:DataGridColumn dataField="changed" headerText="Changed" editable="false"/>-->
-	<!--//		</mx:columns>
-	</mx:DataGrid>-->
-	<!--//	<mx:Button x="10" y="528" label="Load" click="button1_clickHandler(event)"/>-->
-	<!--//	<mx:LineChart x="718" y="92" id="linechart" width="452" showDataTips="true" showDataTipTargets="true">
-	<mx:series>
-	<mx:LineSeries id="cline" displayName="linear" xField="sno" yField="Position" dataProvider="{regressionestimator}"/>
-	<mx:LineSeries id="pline" displayName="poly" xField="sno" yField="Position" dataProvider="{polylineestimator}" itemRenderer="mx.charts.renderers.CircleItemRenderer"/>
-	</mx:series>
-	</mx:LineChart>
-	<mx:Legend dataProvider="{linechart}" x="718" y="497"/>-->
-	<!--	<mx:Button x="71" y="528" label="Extend" click="button2_clickHandler(event)"/>-->
-	<!--//	<mx:Label x="10" y="0" text="Individual image file"/>-->
-	<!--	<mx:Button x="10" y="26" label="Load Image" click="main.loadImage(null);main.removePop();"/>
-	<mx:Button x="112" y="26" label="Unload Image" click="main.unloadImage(null);main.removePop();"/>
-	<mx:Button x="226" y="26" label="Reload Image" enabled="{main.imageFileSelected}" click="main.imageSelected(null);main.removePop();"/>-->
-	<!--//	<mx:Button x="10" y="26" label="Load Image" click="main.loadImage(null);main.activate();"/>
-	<mx:Button x="112" y="26" label="Unload Image" click="main.unloadImage(null);main.activate();"/>
-	<mx:Button x="226" y="26" label="Reload Image" enabled="{main.imageFileSelected}" click="main.imageSelected(null);main.activate();"/>-->
-	<!--//	<mx:HRule x="10" y="56" width="1160"/>-->
-	<!--//	<mx:Label x="10" y="66" text="Image series"/>-->
-	<!--//	<mx:Label x="350" y="0" text="Anchoring data"/>
-	<mx:TextInput x="350" y="26" width="820" id="ctrl_requeststring" change="ctrl_requeststring_changeHandler(event)"/>-->
-	<!--//	<mx:VRule x="340" y="0" height="48"/>-->
-	<!--	<mx:Button x="645" y="528" label="Export" click="button4_clickHandler(event)"/>-->
-	<!--//	<mx:Button x="656" y="528" label="Save" enabled="{currentidx!=-1}" click="button3_clickHandler(event)"/>-->
-	<!--	<mx:ComboBox id="chartcfg" x="1010" y="500" change="chartcfg_changeHandler(event)">
-	<mx:ArrayList>
-	<mx:String>Position</mx:String>
-	<mx:String>Spacing</mx:String>
-	<mx:String>Rotation1</mx:String>
-	<mx:String>Rotation2</mx:String>
-	<mx:String>HStretch</mx:String>
-	<mx:String>VStretch</mx:String>
-	<mx:String>HPosition</mx:String>
-	<mx:String>HSpacing</mx:String>
-	<mx:String>VPosition</mx:String>
-	<mx:String>VSpacing</mx:String>
-	<mx:String>Rotation3</mx:String>-->
-	<!--			<mx:String>_mx</mx:String>
-	<mx:String>_my</mx:String>
-	<mx:String>_mz</mx:String>
-	<mx:String>_urate</mx:String>
-	<mx:String>_vrate</mx:String>
-	<mx:String>xspacing</mx:String>
-	<mx:String>yspacing</mx:String>
-	<mx:String>zspacing</mx:String>
-	<mx:String>_rot1</mx:String>
-	<mx:String>_rot2</mx:String>-->
-	<!--//		</mx:ArrayList>
-	</mx:ComboBox>-->
 	<containers:MDICanvas id="MDImain" width="100%" height="100%">
 		<containers:MDIWindow id="serieswindow" title="Image series" showCloseButton="false" minWidth="725" maxWidth="725" width="725" minHeight="250" height="250">
 			<mx:Canvas id="seriescanvas" width="100%" height="100%" resize="seriescanvas_resizeHandler(event)">
@@ -989,41 +620,32 @@
 										<mx:Script>
 											<![CDATA[
 												private var obj:SliceData;
-												override public function set data(value:Object):void
-												{
+												override public function set data(value:Object):void {
 													super.data=value;
 													obj=value as SliceData;
 													doStuff();
 												}
-												
-												protected function doStuff():void
-												{
-													if(obj.hasanchoring)
-													{
+
+												protected function doStuff():void {
+													if(obj.hasanchoring) {
 														statelbl.text="!";
 														statelbl.getTextField().backgroundColor=0x80ff80;
 														clearbtn.visible=clearbtn.enabled=true;
-													}
-													else
-													{
+													} else {
 														statelbl.text="?";
 														statelbl.getTextField().backgroundColor=0xff0000;
 														clearbtn.visible=clearbtn.enabled=false;
 													}
 													statelbl.getTextField().background=true;
 												}
-												
-												protected function clearbtn_clickHandler(event:MouseEvent):void
-												{
-													//												obj.anchoring=null;
-													//												obj.hasanchoring=false;
+
+												protected function clearbtn_clickHandler(event:MouseEvent):void {
 													obj.clear();
 													doStuff();
 													MgmtPanel.interpolate();
 													MgmtPanel.main.seriescontrols();
 													MgmtPanel.mystic_update();
 												}
-												
 											]]>
 										</mx:Script>
 										<local:BGLabel id="statelbl" fontFamily="Arial" fontSize="16" fontWeight="bold" textAlign="center"/>

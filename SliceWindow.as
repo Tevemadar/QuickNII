@@ -1,16 +1,14 @@
-package
-{
+package {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	
+
 	import flexlib.mdi.containers.MDIWindow;
-	
+
 	import mx.controls.Button;
-	
-	public class SliceWindow extends MDIWindow
-	{
+
+	public class SliceWindow extends MDIWindow {
 		public var inner:Object;
-		
+
 		[Embed(source='icons/LeftArrow.png')]
 		public static var ArrowLeft:Class;
 		[Embed(source='icons/RightArrow.png')]
@@ -23,7 +21,7 @@ package
 		public static var ArrowCCW:Class;
 		[Embed(source='icons/RotCW.png')]
 		public static var ArrowCW:Class;
-		
+
 		[Embed(source='icons/HSize.png')]
 		public static var HSize:Class;
 		[Embed(source='icons/VSize.png')]
@@ -34,22 +32,21 @@ package
 //		public static var RotF:Class;
 		[Embed(source='icons/Drag.png')]
 		public static var Drag:Class;
-		
+
 		protected var ButtonLeft:Button=new Button();
 		protected var ButtonRight:Button=new Button();
 		protected var ButtonUp:Button=new Button();
 		protected var ButtonDown:Button=new Button();
 		protected var ButtonCCW:Button=new Button();
 		protected var ButtonCW:Button=new Button();
-		
+
 		protected var ButtonHS:Button=new Button();
 		protected var ButtonVS:Button=new Button();
 //		protected var ButtonFS:Button=new Button();
 //		protected var ButtonRF:Button=new Button();
 		protected var ButtonDrag:Button=new Button();
-		
-		override protected function createChildren():void
-		{
+
+		override protected function createChildren():void {
 			super.createChildren();
 			ButtonLeft.width=ButtonRight.width=ButtonUp.width=ButtonDown.width=ButtonCCW.width=ButtonCW.width=22;
 			ButtonLeft.height=ButtonRight.height=ButtonUp.height=ButtonDown.height=ButtonCCW.height=ButtonCW.height=22;
@@ -71,8 +68,7 @@ package
 			ButtonHS.toggle=true;
 //			ButtonHS.addEventListener(MouseEvent.CLICK,inner.onHS);
 			ButtonHS.addEventListener(Event.CHANGE,
-				function():void
-				{
+				function():void {
 					ButtonVS.selected=ButtonDrag.selected=false;
 					ButtonHS.selected=true;
 					inner.onHS();
@@ -81,8 +77,7 @@ package
 			ButtonVS.toggle=true;
 //			ButtonVS.addEventListener(MouseEvent.CLICK,inner.onVS);
 			ButtonVS.addEventListener(Event.CHANGE,
-				function():void
-				{
+				function():void {
 					ButtonHS.selected=ButtonDrag.selected=false;
 					ButtonVS.selected=true;
 					inner.onVS();
@@ -95,8 +90,7 @@ package
 			ButtonDrag.toggle=ButtonDrag.selected=true;
 //			ButtonDrag.addEventListener(MouseEvent.CLICK,inner.onDrag);
 			ButtonDrag.addEventListener(Event.CHANGE,
-				function():void
-				{
+				function():void {
 					ButtonVS.selected=ButtonHS.selected=false;
 					ButtonDrag.selected=true;
 					inner.onDrag();
@@ -112,29 +106,26 @@ package
 //			rawChildren.addChild(ButtonFS);
 //			rawChildren.addChild(ButtonRF);
 			rawChildren.addChild(ButtonDrag);
-			
+
 //			titleTextField.backgroundColor=0xFFCCCC;
 //			titleTextField.background=true;
 		}
-		
-		public function setDrag():void
-		{
+
+		public function setDrag():void {
 			ButtonVS.selected=ButtonHS.selected=false;
 			ButtonDrag.selected=true;
 			inner.onDrag();
 		} 
-		
+
 		private var _hasOverlay:Boolean;
-		public function set hasOverlay(b:Boolean):void
-		{
+		public function set hasOverlay(b:Boolean):void {
 			_hasOverlay=b;
 			invalidateDisplayList();
 		}
-		
-		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void 
-		{
+
+		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
-			
+
 			ButtonLeft.y=ButtonRight.y=ButtonUp.y=ButtonDown.y=ButtonCCW.y=ButtonCW.y=(titleBar.height-ButtonLeft.height)/2;
 			ButtonHS.y=ButtonVS.y=/*ButtonFS.y=*//*ButtonRF.y=*/ButtonDrag.y=ButtonLeft.y;
 			ButtonLeft.x=160;
@@ -151,9 +142,9 @@ package
 			
 			ButtonHS.visible=ButtonVS.visible=/*ButtonFS.visible=*//*ButtonRF.visible=*/ButtonDrag.visible=
 				ButtonHS.enabled=ButtonVS.enabled=/*ButtonFS.enabled=*//*ButtonRF.enabled=*/ButtonDrag.enabled=_hasOverlay;
-			
+
 			ButtonLeft.visible=ButtonRight.visible=ButtonUp.visible=ButtonDown.visible=ButtonCCW.visible=ButtonCW.visible=
-			ButtonLeft.enabled=ButtonRight.enabled=ButtonUp.enabled=ButtonDown.enabled=ButtonCCW.enabled=ButtonCW.enabled=!QuickNII.navilock;
+				ButtonLeft.enabled=ButtonRight.enabled=ButtonUp.enabled=ButtonDown.enabled=ButtonCCW.enabled=ButtonCW.enabled=!QuickNII.navilock;
 
 			if(QuickNII.navilock)
 				ButtonHS.visible=ButtonVS.visible=/*ButtonFS.visible=*//*ButtonRF.visible=*/ButtonDrag.visible=
