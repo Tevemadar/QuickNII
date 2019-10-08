@@ -47,6 +47,8 @@
 				np.addEventListener(ProgressEvent.STANDARD_ERROR_DATA,stderr_data);
 				if(pack=="debug")
 					pack="C:\\QuickNII\\QuickNII-ABAMouse-v3-2017\\ABA_Mouse_CCFv3_2017_25um.cutlas";
+					//pack="C:\\QuickNII\\ABA_Mouse_CCFv3_dev2012_25um.cutlas";
+					//pack="C:\\QuickNII\\ABA_DevMouse_P28.cutlas";
 				const npsi:NativeProcessStartupInfo=new NativeProcessStartupInfo;
 				npsi.executable=File.applicationDirectory.resolvePath("Java"+File.separator+"bin"+File.separator+(Capabilities.os.indexOf("Windows")>=0?"java.exe":"java"));
 				npsi.arguments=new <String>["-Xmx3G","-cp",/*"Serv"*/File.applicationDirectory.resolvePath("Serv").nativePath, "Serv", File.applicationDirectory.resolvePath(pack).nativePath];
@@ -210,15 +212,15 @@
 				valbox.max.minimum=valbox.min.minimum=valbox.min.value=currentVolume.minval;
 				valbox.min.maximum=valbox.max.maximum=valbox.max.value=currentVolume.maxval;
 
-				cut.doInit(null,xdim,ydim,zdim);
+				cut.init(xdim,ydim,zdim);
 
 				rearrange(null);
 			}
 
 			internal function dispatchCut(force:Boolean=false):void {
-				setXSlice(xdim-1-cut.x,force);
-				setYSlice(ydim-1-cut.y,force);
-				setZSlice(zdim-1-cut.z,force);
+				setXSlice(cut.x,force);
+				setYSlice(cut.y,force);
+				setZSlice(cut.z,force);
 				xslice.DrawOverlay();
 				yslice.DrawOverlay();
 				zslice.DrawOverlay();
@@ -270,13 +272,12 @@
 
 			public function updateDecomp():void {
 				if(rot1focus||rot2focus||rot3focus)return;
-				const u:Vector3D=cut.bottomright.subtract(cut.bottomleft);u.normalize();
-				const v:Vector3D=cut.topright.subtract(cut.bottomright);v.normalize();
+				const u:Vector3D=cut.u.clone();u.normalize();
+				const v:Vector3D=cut.v.clone();v.normalize();
 				const n:Vector3D=v.crossProduct(u);n.normalize();
 
 				const zerotrf:Matrix3D=new Matrix3D;
 				const data:Vector.<Number>=zerotrf.rawData;
-//				var zerou:Vector3D;
 
 				if(valbox.decompcfg.selectedLabel=="Coronal") {
 					const c1:Number=Math.asin(Math.max(-1,Math.min(n.z,1)))*180/Math.PI;
@@ -290,7 +291,6 @@
 					zerotrf.rawData=data;
 					zerotrf.appendRotation(c1,Vector3D.X_AXIS);
 					zerotrf.appendRotation(c2,Vector3D.Z_AXIS);
-//					zerou=new Vector3D(1);
 				} else if(valbox.decompcfg.selectedLabel=="Sagittal") {
 					const s1:Number=-Math.asin(Math.max(-1,Math.min(n.z,1)))*180/Math.PI;
 					const s2:Number=-Math.atan2(n.y,-n.x)*180/Math.PI;
@@ -303,7 +303,6 @@
 					zerotrf.rawData=data;
 					zerotrf.appendRotation(-s1,Vector3D.Y_AXIS);
 					zerotrf.appendRotation(s2,Vector3D.Z_AXIS);
-//					zerou=new Vector3D(0,1);
 				} else if(valbox.decompcfg.selectedLabel=="Horizontal") {
 					const h1:Number=-Math.asin(Math.max(-1,Math.min(1,n.x)))*180/Math.PI;
 					const h2:Number=-Math.atan2(n.y,n.z)*180/Math.PI;
@@ -316,13 +315,12 @@
 					zerotrf.rawData=data;
 					zerotrf.appendRotation(h1,Vector3D.Y_AXIS);
 					zerotrf.appendRotation(h2,Vector3D.X_AXIS);
-//					zerou=new Vector3D(0,1);
 				}
 				const zerou:Vector3D=zerotrf.transformVector(new Vector3D(1));
 				var cdt:Number=zerou.dotProduct(u);
 				if(cdt<-1)cdt=-1;
 				if(cdt>1)cdt=1;
-				ctrl_rotate3.text=(zerou.crossProduct(u).dotProduct(n)<0?"-":"")+new Number(Math.acos(cdt)*180/Math.PI).toFixed(2);
+				ctrl_rotate3.text=(zerou.crossProduct(u).dotProduct(n)<0?"-":"")+new Number(Math.acos(cdt)*180/Math.PI).toFixed(2); //!!
 			}
 
 			public function fetchSlice():void {
@@ -376,32 +374,18 @@
 			}
 
 			protected function requestString():void {
-				const u:Vector3D=cut.bottomright.subtract(cut.bottomleft);
-				const v:Vector3D=cut.topright.subtract(cut.bottomright);
-				const o:Vector3D=cut.bottomleft.clone();
-
-				o.x=xdim-o.x;
-				u.x=-u.x;
-				v.x=-v.x;
-				o.y=ydim-o.y;
-				u.y=-u.y;
-				v.y=-v.y;
-				o.z=zdim-o.z;
-				u.z=-u.z;
-				v.z=-v.z;
-
 				fsock.writeByte(valbox.outline.selected?ctrl_volumes.selectedIndex+128:ctrl_volumes.selectedIndex);
 				fsock.writeFloat((valbox.min.value-currentVolume.minval)*65535/(currentVolume.maxval-currentVolume.minval));
 				fsock.writeFloat((valbox.max.value-currentVolume.minval)*65535/(currentVolume.maxval-currentVolume.minval));
-				fsock.writeDouble(o.x);
-				fsock.writeDouble(o.y);
-				fsock.writeDouble(o.z);
-				fsock.writeDouble(u.x);
-				fsock.writeDouble(u.y);
-				fsock.writeDouble(u.z);
-				fsock.writeDouble(v.x);
-				fsock.writeDouble(v.y);
-				fsock.writeDouble(v.z);
+				fsock.writeDouble(cut.o.x);
+				fsock.writeDouble(cut.o.y);
+				fsock.writeDouble(cut.o.z);
+				fsock.writeDouble(cut.u.x);
+				fsock.writeDouble(cut.u.y);
+				fsock.writeDouble(cut.u.z);
+				fsock.writeDouble(cut.v.x);
+				fsock.writeDouble(cut.v.y);
+				fsock.writeDouble(cut.v.z);
 				fsock.flush();
 //				return "ox="+o.x+"&oy="+o.y+"&oz="+o.z
 //					+"&ux="+u.x+"&uy="+u.y+"&uz="+u.z
@@ -414,7 +398,7 @@
 
 			private var currx:int=0;
 			protected function setXSlice(xcut:uint,force:Boolean):void {
-				const xindex:uint=xdim-1-xcut;
+				const xindex:uint=xcut;
 				if(!force && (currx==xindex))return;
 				currx=xindex;
 				xsock.writeByte(ctrl_volumes.selectedIndex);
@@ -435,7 +419,7 @@
 
 			private var curry:int=0;
 			protected function setYSlice(ycut:uint,force:Boolean):void {
-				const yindex:uint=ydim-1-ycut;
+				const yindex:uint=ycut;
 				if(!force && (curry==yindex))return;
 				curry=yindex;
 				ysock.writeByte(ctrl_volumes.selectedIndex);
@@ -456,7 +440,7 @@
 
 			private var currz:int=0;
 			protected function setZSlice(zcut:uint,force:Boolean):void {
-				const zindex:uint=zdim-1-zcut;
+				const zindex:uint=zcut;
 				if(!force && (currz==zindex))return;
 				currz=zindex;
 				zsock.writeByte(ctrl_volumes.selectedIndex);
@@ -507,11 +491,10 @@
 			protected function SliceMix_mouseMoveHandler(event:MouseEvent):void {
 				const u:Number=SliceMix.NIISlice.mouseX/SliceMix.NIISlice.contentWidth;
 				const v:Number=SliceMix.NIISlice.mouseY/SliceMix.NIISlice.contentHeight;
-				const x:Number=cut.bottomleft.x+u*(cut.bottomright.x-cut.bottomleft.x)+v*(cut.topleft.x-cut.bottomleft.x);
-				const y:Number=cut.bottomleft.y+u*(cut.bottomright.y-cut.bottomleft.y)+v*(cut.topleft.y-cut.bottomleft.y);
-				const z:Number=cut.bottomleft.z+u*(cut.bottomright.z-cut.bottomleft.z)+v*(cut.topleft.z-cut.bottomleft.z);
-				slicewindow.title="Slice "+(xdim-1-x).toFixed(1)+","+(ydim-1-y).toFixed(1)+","+(zdim-1-z).toFixed(1);
-//				slicewindow.title="Slice "+(valbox.flipx.selected?xdim-1-x:x).toFixed(1)+","+(valbox.flipy.selected?ydim-1-y:y).toFixed(1)+","+(valbox.flipz.selected?zdim-1-z:z).toFixed(1);
+				const x:Number=cut.o.x+u*cut.u.x+v*cut.v.x;
+				const y:Number=cut.o.y+u*cut.u.y+v*cut.v.y;
+				const z:Number=cut.o.z+u*cut.u.z+v*cut.v.z;
+				slicewindow.title="Slice "+x.toFixed(1)+","+y.toFixed(1)+","+z.toFixed(1);
 				labelCanvas.visible=false;
 				if(!fgotheader && (ftyp==3 || ftyp==4) && currentVolume.colors!=null && !valbox.outline.selected) {
 					const bx:int=u*fw;
@@ -543,22 +526,9 @@
 			private var currIdx:uint;
 
 			public function Store():void {
-				const u:Vector3D=cut.bottomright.subtract(cut.bottomleft);
-				const v:Vector3D=cut.topright.subtract(cut.bottomright);
-				const o:Vector3D=cut.bottomleft.clone();
-
-				o.x=xdim-o.x;
-				u.x=-u.x;
-				v.x=-v.x;
-				o.y=ydim-o.y;
-				u.y=-u.y;
-				v.y=-v.y;
-				o.z=zdim-o.z;
-				u.z=-u.z;
-				v.z=-v.z;
 				if(MgmtPanel.currentidx!=-1) {
 					const w:SliceData=MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as SliceData;
-					w.setPacked(new <Number>[o.x,o.y,o.z,u.x,u.y,u.z,v.x,v.y,v.z]);
+					w.setPacked(new <Number>[cut.o.x,cut.o.y,cut.o.z,cut.u.x,cut.u.y,cut.u.z,cut.v.x,cut.v.y,cut.v.z]);
 					MgmtPanel.interpolate();
 					seriescontrols();
 					MgmtPanel.save(new File(MgmtPanel.baseurl+File.separator+"~~autosave~~.xml"));
@@ -566,7 +536,7 @@
 			}
 
 			public function Restore():void {
-				cut.doInit(MgmtPanel.requestString,xdim,ydim,zdim);
+				cut.load(MgmtPanel.requestString);
 			}
 
 			protected function volume_store():void {
@@ -668,9 +638,9 @@
 			}
 
 			public function refresh():void {
-				setXSlice(xdim-1-cut.x,true);
-				setYSlice(ydim-1-cut.y,true);
-				setZSlice(zdim-1-cut.z,true);
+				setXSlice(cut.x,true);
+				setYSlice(cut.y,true);
+				setZSlice(cut.z,true);
 				fetchSlice();
 			}
 
@@ -974,8 +944,7 @@
 						 leftText="labels/Right.png" rightText="labels/Left.png" topText="labels/Anterior.png" bottomText="labels/Posterior.png" volume="{currentVolume}"/>
 		</flexlib:MDIWindow>
 		<flexlib:MDIWindow title="Values and control" showCloseButton="false" id="ctrlwindow" dropShadowEnabled="false" height="350">
-			<local:ValueBox id="valbox" main="{this}" xdim="{xdim}" ydim="{ydim}" zdim="{zdim}"
-							mouseOver="SliceMix.drawMidCross()" mouseOut="SliceMix.drawAnchor();"/>
+			<local:ValueBox id="valbox" main="{this}" mouseOver="SliceMix.drawMidCross()" mouseOut="SliceMix.drawAnchor();"/>
 		</flexlib:MDIWindow>
 		<local:SliceWindow title="Slice" showCloseButton="false" id="slicewindow" inner="{SliceMix}" dropShadowEnabled="false" minWidth="410" minHeight="100">
 			<local:OneOrTwoImages id="SliceMix" mouseMove="SliceMix_mouseMoveHandler(event)" sliceDescriptor="{cut}" mouseOut="labelCanvas.visible=false;currIdx=0;" outer="{slicewindow}"/>

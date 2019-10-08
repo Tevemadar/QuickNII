@@ -49,10 +49,9 @@ package {
 			Dispatch();
 		}
 
-		private var _topleft:Vector3D;
-		private var _topright:Vector3D;
-		private var _bottomleft:Vector3D;
-		private var _bottomright:Vector3D;
+		private var _o:Vector3D;
+		private var _u:Vector3D;
+		private var _v:Vector3D;
 
 		private var dispatch:Function;
 		public function Dispatch():void { //!! todo: review surplus usages
@@ -99,68 +98,30 @@ package {
 			hv=params.rotation.transformVector(hv);
 			hv.scaleBy(params.height);
 
-			_topleft=params.position.subtract(hu).subtract(hv);
-			_topright=params.position.add(hu).subtract(hv);
-			_bottomleft=params.position.subtract(hu).add(hv);
-			_bottomright=params.position.add(hu).add(hv);
+			_o=params.position.subtract(hu).subtract(hv);
+			hu.scaleBy(2);
+			hv.scaleBy(2);
+			_u=hu;
+			_v=hv;
+			
 		}
 
 		public function get midpoint():Vector3D{return params.position;}
-		public function get topleft():Vector3D{return _topleft;}
-		public function get topright():Vector3D{return _topright;}
-		public function get bottomleft():Vector3D{return _bottomleft;}
-		public function get bottomright():Vector3D{return _bottomright;}
+		public function get o():Vector3D{return _o;}
+		public function get u():Vector3D{return _u;}
+		public function get v():Vector3D{return _v;}
 
-		private var xdim:int;
-		private var ydim:int;
-		private var zdim:int;
-
-		public function doInit(anchoring:Vector.<Number>,xdim:int,ydim:int,zdim:int):void { //!!
-			this.xdim=xdim;//...
-			this.ydim=ydim;
-			this.zdim=zdim;
+		public function init(xdim:int,ydim:int,zdim:int):void {
 			const data:Vector.<Number>=params.rotation.rawData;
-			if(anchoring==null) {
-				params.position.x=xdim/2;
-				params.position.y=ydim/2;
-				params.position.z=zdim/2;
-				params.width=xdim;
-				params.height=zdim;
-				data[0]=1;data[1]=0;data[2]=0;
-				data[4]=0;data[5]=0;data[6]=-1;
-			} else {
-				var ox:Number=anchoring[0];
-				var oy:Number=anchoring[1];
-				var oz:Number=anchoring[2];
-				var ux:Number=anchoring[3];
-				var uy:Number=anchoring[4];
-				var uz:Number=anchoring[5];
-				var vx:Number=anchoring[6];
-				var vy:Number=anchoring[7];
-				var vz:Number=anchoring[8];
-				//hack
-				vy=-vy;
-				vz=-vz;
-				vx=-vx;
-				
-				ox=xdim-ox;
-				ux=-ux;
-				vx=-vx;
-				oy=ydim-oy;
-				uy=-uy;
-				vy=-vy;
-				oz=zdim-oz;
-				uz=-uz;
-				vz=-vz;
-				
-				data[0]=ux;data[1]=uy;data[2]=uz;
-				data[4]=vx;data[5]=vy;data[6]=vz;
-				params.width=unitvector(data,0);
-				params.height=unitvector(data,1);
-				params.position.x=ox+(ux-vx)/2;
-				params.position.y=oy+(uy-vy)/2;
-				params.position.z=oz+(uz-vz)/2;
-			}
+			
+			params.position.x=xdim/2;
+			params.position.y=ydim/2;
+			params.position.z=zdim/2;
+			params.width=xdim;
+			params.height=zdim;
+			data[0]=1;data[1]=0;data[2]=0;
+			data[4]=0;data[5]=0;data[6]=-1;
+			
 			calcN(data);
 			params.rotation.rawData=data;
 			
@@ -168,7 +129,36 @@ package {
 			CommitChanges();
 			Dispatch();
 		}
-
+		
+		public function load(anchoring:Vector.<Number>):void {
+			const data:Vector.<Number>=params.rotation.rawData;
+			
+			var ox:Number=anchoring[0];
+			var oy:Number=anchoring[1];
+			var oz:Number=anchoring[2];
+			var ux:Number=anchoring[3];
+			var uy:Number=anchoring[4];
+			var uz:Number=anchoring[5];
+			var vx:Number=anchoring[6];
+			var vy:Number=anchoring[7];
+			var vz:Number=anchoring[8];
+			
+			data[0]=ux;data[1]=uy;data[2]=uz;
+			data[4]=vx;data[5]=vy;data[6]=vz;
+			params.width=unitvector(data,0);
+			params.height=unitvector(data,1);
+			params.position.x=ox+(ux-vx)/2;
+			params.position.y=oy+(uy-vy)/2;
+			params.position.z=oz+(uz-vz)/2;
+			
+			calcN(data);
+			params.rotation.rawData=data;
+			
+			changed=true;
+			CommitChanges();
+			Dispatch();
+		}
+		
 		public function get width():Number{return params.width;}
 		public function set width(w:Number):void {
 			if(params.width==w)return;
@@ -182,12 +172,6 @@ package {
 			params.height=h;
 			changed=true;
 		}
-
-//		public function setSize(w:Number,h:Number,d:Boolean=true):void {
-//			width=w;
-//			height=h
-//			if(d)Dispatch();
-//		}
 
 		public function get x():Number{return params.position.x;}
 		public function get y():Number{return params.position.y;}
@@ -273,47 +257,6 @@ package {
 			Dispatch();
 		}
 
-//		private static function Unitize(data:Vector.<Number>):void {
-//			for(var i:int=0;i<3;i++)
-//				unitvector(data,i);
-//		}
-
-//		public function rawdata():Vector.<Number>{return params.rotation.rawData;}
-
-//		public static function setUcheckVcalcN(data:Vector.<Number>,x:Number,y:Number,z:Number):void {
-//			data[0]=x;data[1]=y;data[2]=z;
-//			if(x!=0 && y==0 && z==0) {
-//				data[4]=0;
-//				if(data[5]==0 && data[6]==0) {data[5]=data[9];data[6]=data[10];}
-//			}
-//			if(x==0 && y!=0 && z==0) {
-//				data[5]=0;
-//				if(data[4]==0 && data[6]==0) {data[4]=data[8];data[6]=data[10];}
-//			}
-//			if(x==0 && y==0 && z!=0) {
-//				data[6]=0;
-//				if(data[4]==0 && data[5]==0) {data[4]=data[8];data[5]=data[9];}
-//			}
-//			calcN(data);
-//		}
-
-//		public static function setVcheckUcalcN(data:Vector.<Number>,x:Number,y:Number,z:Number):void {
-//			data[4]=x;data[5]=y;data[6]=z;
-//			if(x!=0 && y==0 && z==0) {
-//				data[0]=0;
-//				if(data[1]==0 && data[2]==0) {data[1]=data[9];data[2]=data[10];}
-//			}
-//			if(x==0 && y!=0 && z==0) {
-//				data[1]=0;
-//				if(data[0]==0 && data[2]==0) {data[0]=data[8];data[2]=data[10];}
-//			}
-//			if(x==0 && y==0 && z!=0) {
-//				data[2]=0;
-//				if(data[0]==0 && data[1]==0) {data[0]=data[8];data[1]=data[9];}
-//			}
-//			calcN(data);
-//		}
-
 		public static function calcN(data:Vector.<Number>):void {
 			data[ 8]=data[1]*data[6]-data[2]*data[5];
 			data[ 9]=data[2]*data[4]-data[0]*data[6];
@@ -328,104 +271,5 @@ package {
 			data[idx+2]/=l;
 			return l;
 		}
-
-//		public static function fixU(data:Vector.<Number>):void {
-//			const dot:Number=data[0]*data[4]+data[1]*data[5]+data[2]*data[6];
-//			data[0]-=dot*data[4];
-//			data[1]-=dot*data[5];
-//			data[2]-=dot*data[6];
-//			unitvector(data,0);
-//			calcN(data);
-//		}
-
-//		public static function fixV(data:Vector.<Number>):void {
-//			const dot:Number=data[0]*data[4]+data[1]*data[5]+data[2]*data[6];
-//			data[4]-=dot*data[0];
-//			data[5]-=dot*data[1];
-//			data[6]-=dot*data[2];
-//			unitvector(data,1);
-//			calcN(data);
-//		}
-
-//		public static function range(x:Number,y:Number=0):Boolean {
-//			if((x-y)<-0.00005 || (y-x)>0.00005)return false;
-//			return true;
-//		}
-
-//		public function magic(event:Event):void {
-//			CommitChanges();
-//			const data:Vector.<Number>=params.rotation.rawData;
-//			changed=true;
-//			switch(event.target.label) {
-//				case "U-X":setUcheckVcalcN(data,-1, 0, 0);params.width=xdim;break;
-//				case "U-Y":setUcheckVcalcN(data, 0,-1, 0);params.width=ydim;break;
-//				case "U-Z":setUcheckVcalcN(data, 0, 0,-1);params.width=zdim;break;
-//				case "U+X":setUcheckVcalcN(data, 1, 0, 0);params.width=xdim;break;
-//				case "U+Y":setUcheckVcalcN(data, 0, 1, 0);params.width=ydim;break;
-//				case "U+Z":setUcheckVcalcN(data, 0, 0, 1);params.width=zdim;break;
-//				case "V-X":setVcheckUcalcN(data,-1, 0, 0);params.height=xdim;break;
-//				case "V-Y":setVcheckUcalcN(data, 0,-1, 0);params.height=ydim;break;
-//				case "V-Z":setVcheckUcalcN(data, 0, 0,-1);params.height=zdim;break;
-//				case "V+X":setVcheckUcalcN(data, 1, 0, 0);params.height=xdim;break;
-//				case "V+Y":setVcheckUcalcN(data, 0, 1, 0);params.height=ydim;break;
-//				case "V+Z":setVcheckUcalcN(data, 0, 0, 1);params.height=zdim;break;
-//				case "uxy":
-//					if(range(0)&&range(1))changed=false;
-//					else {
-//						data[2]=0;
-//						unitvector(data,0);
-//						fixV(data);
-//					}
-//					break;
-//				case "uxz":
-//					if(range(0)&&range(2))changed=false;
-//					else {
-//						data[1]=0;
-//						unitvector(data,0);
-//						fixV(data);
-//					}
-//					break;
-//				case "uyz":
-//					if(range(1)&&range(2))changed=false;
-//					else {
-//						data[0]=0;
-//						unitvector(data,0);
-//						fixV(data);
-//					}
-//					break;
-//				case "vxy":
-//					if(range(4)&&range(5))changed=false;
-//					else {
-//						data[6]=0;
-//						unitvector(data,1);
-//						fixU(data);
-//					}
-//					break;
-//				case "vxz":
-//					if(range(4)&&range(6))changed=false;
-//					else {
-//						data[5]=0;
-//						unitvector(data,1);
-//						fixU(data);
-//					}
-//					break;
-//				case "vyz":
-//					if(range(5)&&range(6))changed=false;
-//					else {
-//						data[4]=0;
-//						unitvector(data,1);
-//						fixU(data);
-//					}
-//					break;
-//				default:
-//					changed=false;
-//			}
-//			if(changed) {
-//				Unitize(data);
-//				params.rotation.rawData=data;
-//				CommitChanges();
-//				Dispatch();
-//			}
-//		}
 	}
 }

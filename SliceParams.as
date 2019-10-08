@@ -8,7 +8,7 @@ package {
 		public var width:Number;
 		public var height:Number;
 
-		public function clone():SliceParams {
+		public function clone():SliceParams { //??
 			// todo:normalize
 			const ret:SliceParams=new SliceParams;
 			ret.position=position.clone();

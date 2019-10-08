@@ -75,29 +75,34 @@
 
 			public function DrawOverlay():void {
 				if(!ready)return;
-				CheckPick();
+//				CheckPick();
 				const g:Graphics=marker.graphics;
 				g.clear();
 				const rate:Number=image.width/dataWidth;
-				_midX=sliceDescriptor.midpoint[plane.charAt(0)]*rate;
-				_midY=sliceDescriptor.midpoint[plane.charAt(1)]*rate;
+				_midX=image.width-sliceDescriptor.midpoint[plane.charAt(0)]*rate;
+				_midY=image.height-sliceDescriptor.midpoint[plane.charAt(1)]*rate;
+				CheckPick();
 				if(!dragPick) {
 					g.lineStyle(1,0xFF0000);
 					g.beginFill(0xFF0000);
 					g.drawCircle(midX,midY,4);
 					g.endFill();
 				}
+				const o:Vector3D=new Vector3D(QuickNII.diz.xdim,QuickNII.diz.ydim,QuickNII.diz.zdim).subtract(sliceDescriptor.o); // -1?
+				const ou:Vector3D=o.subtract(sliceDescriptor.u);
+				const ouv:Vector3D=ou.subtract(sliceDescriptor.v);
+				const ov:Vector3D=o.subtract(sliceDescriptor.v);
 
 				g.lineStyle(1,rotPick?0xFFFF00:0xFF0000);
 				g.beginFill(0xFF,0.2);
-				g.moveTo(sliceDescriptor.topleft[plane.charAt(0)]*rate,sliceDescriptor.topleft[plane.charAt(1)]*rate);
-				g.lineTo(sliceDescriptor.topright[plane.charAt(0)]*rate,sliceDescriptor.topright[plane.charAt(1)]*rate);
+				g.moveTo(o[plane.charAt(0)]*rate,o[plane.charAt(1)]*rate);
+				g.lineTo(ou[plane.charAt(0)]*rate,ou[plane.charAt(1)]*rate);
 				if(!rotPick)g.lineStyle(1,0xFF00);
-				g.lineTo(sliceDescriptor.bottomright[plane.charAt(0)]*rate,sliceDescriptor.bottomright[plane.charAt(1)]*rate);
+				g.lineTo(ouv[plane.charAt(0)]*rate,ouv[plane.charAt(1)]*rate);
 				if(!rotPick)g.lineStyle(1,0xFF);
-				g.lineTo(sliceDescriptor.bottomleft[plane.charAt(0)]*rate,sliceDescriptor.bottomleft[plane.charAt(1)]*rate);
+				g.lineTo(ov[plane.charAt(0)]*rate,ov[plane.charAt(1)]*rate);
 				if(!rotPick)g.lineStyle(1,0xFF00FF);
-				g.lineTo(sliceDescriptor.topleft[plane.charAt(0)]*rate,sliceDescriptor.topleft[plane.charAt(1)]*rate);
+				g.lineTo(o[plane.charAt(0)]*rate,o[plane.charAt(1)]*rate);
 				g.endFill();
 
 				if(dragPick) {
@@ -119,7 +124,7 @@
 				_dragPick=false;
 				_rotPick=false;
 				const rate:Number=image.width/dataWidth;
-				if(RangeCheck(marker.mouseX,sliceDescriptor.midpoint[plane.charAt(0)]*rate,5) && RangeCheck(marker.mouseY,sliceDescriptor.midpoint[plane.charAt(1)]*rate,5))
+				if(RangeCheck(marker.mouseX,_midX,5) && RangeCheck(marker.mouseY,_midY,5))
 					_dragPick=true;
 				else if((image.mouseX>=0) && (image.mouseX<image.width) && (image.mouseY>=0) && (image.mouseY<image.height))
 					_rotPick=true;
@@ -172,7 +177,7 @@
 			private function doDrag():void {
 				if(dragPick) {
 					const rate:Number=image.width/dataWidth;
-					sliceDescriptor.BaseShift(plane,(mouseX-downX)/rate,(mouseY-downY)/rate);
+					sliceDescriptor.BaseShift(plane,(downX-mouseX)/rate,(downY-mouseY)/rate);
 				} else if(rotPick) {
 					const v1:Vector3D=new Vector3D(midX-downX+image.x,midY-downY+image.y);
 					const v2:Vector3D=new Vector3D(midX-mouseX+image.x,midY-mouseY+image.y);					

@@ -208,7 +208,7 @@
 					var w1:SliceData=rows.getItemAt(i1) as SliceData;
 					var i2:int=control[i+1];
 					var w2:SliceData=rows.getItemAt(i2) as SliceData;
-					var linints:Vector.<LinSegment>;
+					var linints:Vector.<LinSegment>=new Vector.<LinSegment>;
 					for(var k:int=0;k<11;k++)
 						linints.push(new LinSegment(w1.sno,w1.unpacked[k],w2.sno,w2.unpacked[k]));
 					for(j=i1+1;j<i2;j++) {

@@ -8,10 +8,6 @@
 
 			public var main:QuickNII;
 
-			public var xdim:int;
-			public var ydim:int;
-			public var zdim:int;
-
 			[Bindable] protected var rows:ArrayCollection=new ArrayCollection; 
 
 			public function initTransformations(transforms:Vector.<NamedTransformation>):void {
@@ -21,20 +17,13 @@
 			}
 
 			public function setVox(x:Number,y:Number,z:Number):void {
-				x=xdim-1-x;
-				y=ydim-1-y;
-				z=zdim-1-z;
-
 				for(var i:int=0;i<rows.length;i++)
 					rows.getItemAt(i).setVox(x,y,z);
 			}
 
 			public function updateFrom(idx:int):void {
 				const base:NamedTransformation=rows.getItemAt(idx) as NamedTransformation;
-				const basex:Number=xdim-1-base.voxx;
-				const basey:Number=ydim-1-base.voxy;
-				const basez:Number=zdim-1-base.voxz;
-				main.cut.setlocation(basex,basey,basez);
+				main.cut.setlocation(base.voxx,base.voxy,base.voxz);
 			}
 
 			protected function canvas1_resizeHandler(event:ResizeEvent):void {
