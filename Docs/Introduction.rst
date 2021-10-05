@@ -18,7 +18,7 @@ transformations are propagated across the entire series of images. These
 propagations must be validated and saved by the user for each section,
 with application of fine positional adjustments as required. We
 recommend the use of VisuAlign to perform nonlinear adjustments after
-the QuickNII registration for an optimal fit (.
+the QuickNII registration for an optimal fit (https://ebrains.eu/service/quicknii-and-visualign).
 
 .. image:: 3d3f8a286155420d8af21a638d4e81fb/media/image1.png
    :width: 6.3in
