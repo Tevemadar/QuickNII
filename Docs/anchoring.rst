@@ -33,9 +33,9 @@ The first step in a successful anchoring is to find the approximate
 anteroposterior position of the slices (Y position for coronal
 sections). Do this first for the first and last section of the series
 (or first and last sections with clear landmarks).
-Select sections to
-work on by using the arrows in the upper right panel or by
+Select sections to work on by using the arrows in the upper right panel or by
 double-clicking the section number in the data management window.
+
 
 .. image:: 6bef45ee36424df69f030c687f030605/media/image8.png
    :width: 6.3in
@@ -53,11 +53,13 @@ double-clicking the section number in the data management window.
      place you want the reference point for scaling. A small cross will
      appear. Usually it is easier to choose a side and not place the
      cross in the middle of the section.
+     
   Then, click on the scaling button: a double arrow will appear.
      Place your mouse pointer at the opposite side of the double cross,
      and press the left button of your mouse. While keeping the left
      button of the mouse pressed you can now gently drag the atlas in
      the direction indicated by the double arrow.
+     
   To drag in the other direction, choose the other arrow. The
      transparency slider (4) can be used continuously to determine how
      well the atlas fits the section. By clicking on the “Values and
