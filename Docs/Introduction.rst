@@ -28,6 +28,5 @@ the QuickNII registration for an optimal fit (https://ebrains.eu/service/quickni
    :width: 6.30139in
    :height: 2.48678in
    
-
 Figure from Bjerke et al. 2018. Front Neuroanat.
  
