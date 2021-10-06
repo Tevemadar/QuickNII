@@ -52,7 +52,33 @@ name should not contain additional \_s.
 Example that would not work:
 tg2345_MMSH_ss_s001.png
 
+**Generate a XML descriptor file**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Collect the section images in a folder. The section sampling is defined by the serial numbers.
+
+Use the small program “FileBuilder.bat” provided with QuickNII to
+generate the XML descriptor file. A new window will open, and ask for the folder where your
+images are located. Point to the correct folder, mark all image files (ctrl+A), and click ok.
+
+.. image:: 6bef45ee36424df69f030c687f030605/media/image3.png
+   :width: 2.88889in
+   :height: 2.01888in
+
+.. image:: 6bef45ee36424df69f030c687f030605/media/image4.png
+   :width: 6.29306in
+   :height: 0.57028in
+
+Files will be reviewed, and an xml file will be generated when all
+files passed (green OK). If the files are too big they will not pass and get a red warning. The
+orange warning allows files to pass.
+
+Click “Save xml”and give a name to your descriptor file. You can now
+open the xml in QuickNII. If the section number is not recognized, you have the option to just
+number the images in filebuilder.
+
+**NOTE! The xml descriptor file must be located in the same folder as
+the small png or jpeg images for QuickNII.**
 
 
 
