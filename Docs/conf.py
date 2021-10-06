@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'nutil'
+project = 'QuickNII'
 copyright = '2021, NeSys'
 author = 'NeSys'
 
