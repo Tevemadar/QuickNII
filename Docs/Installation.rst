@@ -1,7 +1,8 @@
+
 **Installation requirements**
-------------------------------------
+------------------------------
 **System requirements**
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 Microsoft Windows: 64-bit operating system, Windows 7 or later
 
 Apple macOS: OS X 10.9 (Mavericks) or later
@@ -23,11 +24,10 @@ interface).
 
 **Conditions of use**
 ~~~~~~~~~~~~~~~~~~~~~~~~
-| QuickNII is developed at the Neural Systems Laboratory, Institute of
-  Basic Medical Sciences,
-| University of Oslo (Norway), with funding from the European Union’s
-  Horizon 2020 Framework Programme for Research and Innovation under the
-  Framework Partnership Agreement No. 650003 (HBP FPA).
+QuickNII is developed at the Neural Systems Laboratory, Institute of
+Basic Medical Sciences,University of Oslo (Norway), with funding from the European Union’s
+Horizon 2020 Framework Programme for Research and Innovation under the
+Framework Partnership Agreement No. 650003 (HBP FPA).
 
 **Licence:** 
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -52,71 +52,16 @@ Unzipp the QuickNII folder at your desired location.
    QuickNII can be used with the following reference atlases:
 
 ==== ===================================================
-       Allen Mouse Brain Atlas version 3 2015
+Allen Mouse Brain Atlas version 3 2015
      
-       Allen Mouse Brain Atlas version 3 2017
+Allen Mouse Brain Atlas version 3 2017
      
-       Waxholm Space Atlas of the Sprague Dawley rat v2
+Waxholm Space Atlas of the Sprague Dawley rat v2
      
-       Waxholm Space Atlas of the Sprague Dawley rat v3
+Waxholm Space Atlas of the Sprague Dawley rat v3
      
-       Waxholm Space Atlas of the Sprague Dawley rat v4
+Waxholm Space Atlas of the Sprague Dawley rat v4
      
-    
 ==== ===================================================
 
-..
-
-   How to cite:
-
-+------+--------------------------------------------------------------+
-|     |    | Allen Mouse Brain Atlas (@ 2004 Allen Institute for     |
-|      |      Brain Science. Allen Mouse Brain Atlas. Available from: |
-|     |      htt                                                     |
-|      | p://download.alleninstitute.org/informatics-archive/current- |
-|      |    | release/mouse_ccf/annotation/).                         |
-|      |                                                              |
-|      |    Waxholm Space atlas of the Sprague Dawley rat brain       |
-|      |    version 1.01,2,3 and 4 (RRID: SCR_017124; Papp et al.,    |
-|      |    NeuroImage 97, 374-386, 2014; Papp et al., NeuroImage     |
-|      |    105, 561–562, 2015; Kjonigsen et al., NeuroImage 108,     |
-|      |    441-449, 2015; Osen et al., NeuroImage 199, 38-56, 2019;  |
-|      |    Kleven et al., in preparation)                            |
-+------+--------------------------------------------------------------+
-
-..
-
-   For reuse of the Waxholm Space atlas of the Sprague Dawley rat brain,
-   see citation policy at
-
-   **Release notes**
-
-+------+--------------------------------------------------------------+
-|     |    Version 2.2 (2019-05-28) This release includes several    |
-|      |    new reference atlases: ABAMouse-v3-2017 and WHSRat-v3     |
-|     |    both with Mac and Windows. Linux support was added in     |
-|      |    July 2020.                                                |
-|     |                                                              |
-|      | +---+---------------------------------------------------+    |
-|      | |   |    | Version 2.2preview (2019-04-02) Series       |    |
-|      | |   |      descriptor builder recognizes multiple       |    |
-|      | |   |      numbering variants in filenames (numbers at  |    |
-|      | |   |      fixed character position from either end of  |    |
-|      | |   |      names, and sequence indicator \_s prefix     |    |
-|      | |   |      anywhere)                                    |    |
-|      | |   |    | Coordinate transformation to/from Allen      |    |
-|      | |   |      CCFv3 added to Mouse package.                |    |
-|      | +---+---------------------------------------------------+    |
-|      |                                                              |
-|      |                                                             |
-|      |                                                              |
-|      |    Version 2.1 (2018-12-05) First stable version             |
-+------+--------------------------------------------------------------+
-
-
-Preprocessing of images with other software tools is usually needed to
-fulfill these requirements (converting to PNG or JPEG and downscaling to
-screen-like size), but QuickNII allows storage of original image
-dimensions as part of its series descriptor.
-
-
+   
