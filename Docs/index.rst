@@ -1,1 +1,25 @@
+QuickNII: Software for 2D image registration to 3D atlas
+============================================================
 
+.. toctree::
+   :caption: QuickNII documentation
+   :maxdepth: 3
+
+   Introduction
+   Installation
+   Technical
+   Condition
+   Release
+   
+   
+   
+   
+.. toctree::
+   :caption: Operations
+   :numbered:
+   :maxdepth: 3
+
+   
+   
+   
+  
