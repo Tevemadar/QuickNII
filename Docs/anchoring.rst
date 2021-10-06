@@ -40,9 +40,7 @@ double-clicking the section number in the data management window.
 .. image:: 6bef45ee36424df69f030c687f030605/media/image8.png
    :width: 6.3in
    :height: 4.88989in
-
-
-
+   
   The anteroposterior position is adjusted by clicking and sliding
      the red circle in the sagittal navigation window (1). After finding
      the approximate position of your section, determine whether the
