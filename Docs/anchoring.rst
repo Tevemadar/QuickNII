@@ -53,16 +53,15 @@ The anteroposterior position is adjusted by clicking and sliding
      atlas, press the space bar while holding the mouse pointer over the
      place you want the reference point for scaling. A small cross will
      appear. Usually it is easier to choose a side and not place the
-     cross in the middle of the section.   
+     cross in the middle of the section. 
    
 Then, click on the scaling button: a double arrow will appear
      Place your mouse pointer at the opposite side of the double cross,
      and press the left button of your mouse. While keeping the left
      button of the mouse pressed you can now gently drag the atlas in
-     the direction indicated by the double arrow.  
-   
+     the direction indicated by the double arrow.
+     
 To drag in the other direction, choose the other arrow
-
      The transparency slider (4) can be used continuously to determine how
      well the atlas fits the section. By clicking on the “Values and
      control” (5) button in the bottom left corner, choose the section
@@ -71,18 +70,17 @@ To drag in the other direction, choose the other arrow
      atlas segmentations. Save the anchoring by clicking the Store
      button (6) in the upper left panel: a green exclamation mark
      appears in the upper right panel.
-        
- .. image:: 6bef45ee36424df69f030c687f030605/media/image9.png
+    
+    
+.. image:: 6bef45ee36424df69f030c687f030605/media/image9.png
    :width: 1.11944in
    :height: 0.21563in
-   
    
  By clicking the roll-down bar in the top left corner, MRI, DTI (for
  WHS atlas only) or atlas templates can be chosen. It is useful to use
  these different atlases actively as they give different information
  that can be used when anchoring.
  Detailed description of the UI can be found at:https://www.nitrc.org/plugins/mwiki/index.php?title=quicknii:Basic_operation
-
 
 .. image:: 6bef45ee36424df69f030c687f030605/media/image10.png
    :width: 5.40139in
