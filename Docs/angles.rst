@@ -17,7 +17,7 @@ position to compensate for the rotation.
    :height: 2.79387in
 
 .. image:: 6bef45ee36424df69f030c687f030605/media/image15.png
-   :width: 3.52083in
+   :width: 4.52083in
    :height: 0.70425in
 
 The angles of the current atlas slice relative to the default atlas
