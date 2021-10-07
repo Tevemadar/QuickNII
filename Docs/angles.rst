@@ -13,11 +13,11 @@ template in the direction needed. Adjust the anteroposterior
 position to compensate for the rotation.
 
 .. image:: 6bef45ee36424df69f030c687f030605/media/image14.png
-   :width: 3.15694in
-   :height: 1.79387in
+   :width: 4.15694in
+   :height: 2.79387in
 
 .. image:: 6bef45ee36424df69f030c687f030605/media/image15.png
-   :width: 2.52083in
+   :width: 3.52083in
    :height: 0.70425in
 
 The angles of the current atlas slice relative to the default atlas
