@@ -1,5 +1,5 @@
 **Related publications**
-
+----------------------------
 *Puchades MA, Csucs G, Lederberger D, Leergaard TB and Bjaalie JG.
    Spatial registration of serial microscopic brain images to
    three-dimensional reference atlases with the QuickNII tool. PLosONE,
