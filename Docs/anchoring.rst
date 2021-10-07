@@ -1,5 +1,5 @@
 **Start the anchoring**
-------------------------------
+-----------------------
 
 **1. Open QuickNII and load the data** 
 
