@@ -9,6 +9,7 @@ QuickNII: Software for 2D image registration to 3D atlas
    Installation
    imageprepro
    support
+   publications
  
    
    
