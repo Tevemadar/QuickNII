@@ -18,7 +18,7 @@ position to compensate for the rotation.
 
 .. image:: 6bef45ee36424df69f030c687f030605/media/image15.png
    :width: 2.52083in
-   :height: 0.50425in
+   :height: 0.70425in
 
 The angles of the current atlas slice relative to the default atlas
 plane can be read out in the boxes shown above, corresponding to the
