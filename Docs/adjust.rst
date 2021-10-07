@@ -16,3 +16,20 @@ to match the position of the sections.
 
 **Note!** Once defined, apply the same angles to all the sections in the
 series and review each section!
+
+The “export propagation” button allows you to validate all the sections
+at once. However, caution is recommended in the use of this feature, as
+some sections might not have the correct position. We strongly recommend
+reviewing all the sections in order to validate the anchoring. Perform
+in plane rotations using buttons in the main window. Rotations in the
+small coronal window will result in a rotation around the
+anteroposterior axis.
+
+.. image:: 6bef45ee36424df69f030c687f030605/media/image16.png
+   :width: 5.43472in
+   :height: 3.32172in
+
+**Note:** Adjustments made with QuickNII are linear. If considerable
+mismatch remains between the atlas maps and the sections, despite fine
+linear adjustments, further nonlinear adjustments can be applied using
+VisuAlign.
