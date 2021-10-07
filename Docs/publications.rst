@@ -18,15 +18,14 @@
    https://doi.org/10.1016/j.eurpsy.2018.
 
 *Bjerke IE, Ovsthus M, Andersson KA, Blixhavn CH, Kleven H, Yates SC, Puchades MA, Bjaalie JG and Leergaard TB.
-   Navigating the murine
-   brain: towards best practices for determining and documenting
+   Navigating the murine brain: towards best practices for determining and documenting
    neuroanatomical locations in experimental studies. Frontiers in
-   Neuroanatomy*. 2018 Nov 2; 12: article 82. https://doi.org/10.3389/fnana.2018.00082
+   Neuroanatomy. 2018 Nov 2; 12: article 82. https://doi.org/10.3389/fnana.2018.00082
 
-*Groeneboom NE, Yates SC, Puchades MA and Bjaalie JG (2020) Nutil: A
-   Pre- and Post-processing Toolbox for Histological Rodent Brain
-   Section Images. *Front. Neuroinform.* 14:37. https://doi.org/10.3389/fninf.2020.00037
+*Groeneboom NE, Yates SC, Puchades MA and Bjaalie JG.
+   Nutil: A Pre- and Post-processing Toolbox for Histological Rodent Brain
+   Section Images. Front. Neuroinform. 2020,14:37. https://doi.org/10.3389/fninf.2020.00037
 
-*Bjerke IE, Yates SC, Laja A, Witter MP, Puchades MA, Bjaalie JG and
-   Leergaard TB. Densities and numbers of calbindin and parvalbumin
+*Bjerke IE, Yates SC, Laja A, Witter MP, Puchades MA, Bjaalie JG and Leergaard TB.
+   Densities and numbers of calbindin and parvalbumin
    positive neurons across the rat and mouse brain. 2021, iScience.https://doi.org/10.1016/j.isci.2020.101906
