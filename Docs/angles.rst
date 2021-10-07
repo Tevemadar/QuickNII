@@ -13,10 +13,29 @@ template in the direction needed. Adjust the anteroposterior
 position to compensate for the rotation.
 
 .. image:: 6bef45ee36424df69f030c687f030605/media/image14.png
-   :width: 4.15694in
-   :height: 2.79387in
+   :width: 3.15694in
+   :height: 1.79387in
 
 .. image:: 6bef45ee36424df69f030c687f030605/media/image15.png
-   :width: 3.52083in
-   :height: 0.70425in
+   :width: 2.52083in
+   :height: 0.50425in
+
+The angles of the current atlas slice relative to the default atlas
+plane can be read out in the boxes shown above, corresponding to the
+sagittal (1) and horizontal (2) navigation windows.
+
+In coronal sections, the dorsoventral angle can be determined by
+examining the relationship between landmarks in dorsal and ventral parts
+of a section, e.g. between the corpus callosum and anterior commissure,
+between the dorsal and ventral hippocampus, or between the pons and
+inferior colliculus. The mediolateral angle can be determined by
+comparing landmark structures across hemispheres. It is most easily
+found by examining the development of the corpus callosum, anterior
+striatum, anterior commissure, anterior hippocampus, or size differences
+of the cortex in the posterior part of the brain.
+
+**Note**: the results might look similar with angles that deviate 180
+degrees (corresponding to looking at the animal from the back or from
+the front). To ease the curation process, however, we recommend using
+the smallest angle possible.
 
