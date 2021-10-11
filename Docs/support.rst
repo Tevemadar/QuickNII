@@ -1,5 +1,5 @@
-**Contact us**
---------------
-For user support and to report issues: create an issue on github
-or create a ticket here: https://ebrains.eu/support/
+**Contact us** 
+---------------
+To report issues: https://github.com/HumanBrainProject/QuickNII
 
+For user support: support@ebrains.eu
