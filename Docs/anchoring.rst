@@ -41,8 +41,8 @@ double-clicking the section number in the data management window.
    :width: 6.3in
    :height: 4.88989in
    
-Choose your orienation: By clicking on the “Values and
-     control” (5) button in the bottom left corner, choose the section
+Choose your orienation: By clicking on the “Values and control” (5) button
+     in the bottom left corner, choose the section
      orientation (coronal, sagittal or horizontal)
      
 The anteroposterior position is adjusted by clicking and sliding
