@@ -26,7 +26,7 @@ series descriptor.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Serial section images should be assigned consecutive serial numbers,
 preferably indicated by three-digit numbers at the end of the file
-name\ **, e.g. Sample_ID_s001.tif.**
+name\ **, e.g. Sample_ID_s001.png**
 
 The section number should reflect the serial order and spacing of the
 sections (e.g. s002, s006, s010 for every 4th section starting with
