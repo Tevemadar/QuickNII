@@ -41,42 +41,49 @@ double-clicking the section number in the data management window.
    :width: 6.3in
    :height: 4.88989in
    
-Choose your orienation: By clicking on the “Values and control” (5) button
+Choose your orientation: By clicking on the “Values and control” **(5)** button
      in the bottom left corner, choose the section
-     orientation (coronal, sagittal or horizontal)
+     orientation (coronal, sagittal or horizontal).
      
-The anteroposterior position is adjusted by clicking and sliding
-     the red circle in the sagittal navigation window (1). After finding
+Adjustment of the anteroposterior position
+     The anteroposterior position is adjusted by clicking and sliding
+     the red circle in the sagittal navigation window **(1)**. After finding
      the approximate position of your section, determine whether the
      midline of the section is completely vertical. If not, the rotation
      of the template can be adjusted using the rotate left/right-buttons
-     (2). The atlas proportions might need adjustment to fit the
-     section. This is done separately for the horizontal and vertical
-     direction by using the scaling buttons (3). In order to scale your
+     **(2)**.
+The atlas proportions might need adjustment to fit the section.
+     This is done separately for the horizontal and vertical
+     direction by using the scaling buttons **(3)**. In order to scale your
      atlas, press the space bar while holding the mouse pointer over the
      place you want the reference point for scaling. A small cross will
      appear. Usually it is easier to choose a side and not place the
      cross in the middle of the section. 
-   
-Then, click on the scaling button: a double arrow will appear
+     Then, click on the scaling button: a double arrow will appear.
      Place your mouse pointer at the opposite side of the double cross,
      and press the left button of your mouse. While keeping the left
      button of the mouse pressed you can now gently drag the atlas in
-     the direction indicated by the double arrow.
+     the direction indicated by the double arrow. To drag in the other direction, choose the other arrow.
      
-To drag in the other direction, choose the other arrow
-     The transparency slider (4) can be used continuously to determine how
-     well the atlas fits the section. The “outline” button
-     allows you to shift between an outline view and a color view of the
-     atlas segmentations. Save the anchoring by clicking the Store
-     button (6) in the upper left panel: a green exclamation mark
-     appears in the upper right panel.
+The transparency slider **(4)** 
+     it can be used continuously to determine how
+     well the atlas fits the section.
+     
+The “outline” button **(5)**
+     This will allows you to shift between an outline view and a color view of the
+     atlas segmentations. 
     
+Contrast adjustments **(5)**
+    Both the experimental image and the template can be adjusted with sliders. Making the MRI template darker or lighther can be helpful sometimes.
     
+Save the anchoring **(6)**
+    Save by clicking the Store button  in the upper left panel: a green exclamation mark
+    appears in the upper right panel.
+     
 .. image:: 6bef45ee36424df69f030c687f030605/media/image9.png
    :width: 1.11944in
    :height: 0.21563in
    
- 
+
    
    
