@@ -66,7 +66,7 @@ The atlas proportions might need adjustment to fit the section.
      the direction indicated by the double arrow. To drag in the other direction, choose the other arrow.
      
 The transparency slider **(4)** 
-     it can be used continuously to determine how
+     it can be used at any time, in order to determine how
      well the atlas fits the section.
      
 The “outline” button **(5)**
@@ -74,7 +74,7 @@ The “outline” button **(5)**
      atlas segmentations. 
     
 Contrast adjustments **(5)**
-    Both the experimental image and the template can be adjusted with sliders. Making the MRI template darker or lighther can be helpful sometimes.
+    Both the experimental image and the template can be adjusted with sliders. Making the MRI template darker or lighter can be helpful sometimes.
     
 Save the anchoring **(6)**
     Save by clicking the Store button  in the upper left panel: a green exclamation mark
