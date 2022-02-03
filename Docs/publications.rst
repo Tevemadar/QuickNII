@@ -5,8 +5,7 @@
    three-dimensional reference atlases with the QuickNII tool. PLosONE,
    2019, 14(5): e0216796. https://doi.org/10.1371/journal.pone.0216796
 
-*VisuAlign, 
-   RRID:SCR_017978. https://www.nitrc.org/projects/visualign.
+*McDonald MW., Jeffers MS., Filadelfi M, Vicencio A, Heidenreich G, Wu J and Silasi G. Localizing Microemboli within the Rodent Brain through Block-Face Imaging and Atlas Registration. eNeuro 16 July 2021, 8 (4) ENEURO.0216-21.2021; DOI: https://doi.org/10.1523/ENEURO.0216-21.2021 
 
 *Yates SC, Groeneboom NE, Coello C, Lichtenthaler SF, Kuhn PH, Demuth HU,Hartlage-Rübsamen M, Roßner S, Leergaard T, Kreshuk A, Puchades MA, Bjaalie JG.
    QUINT: Workflow for quantification and spatial
