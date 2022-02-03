@@ -1,5 +1,13 @@
 **Related publications**
 ----------------------------
+*Whilden CM, Chevée M, An Seong Yeol,  Pezon Brown S.
+   The synaptic inputs and thalamic projections of two classes of layer 6 corticothalamic neurons in primary somatosensory cortex of the mouse
+   J Comp Neurol. 2021 Dec;529(17):3751-3771. doi: https://doi.org/10.1002/cne.25163. Epub 2021 May 6. 
+
+*Gyeong Tae Kim, Sangkyu Bahn, Nari Kim, Joon Ho Choi, Jinseop S Kim, Jong-Cheol Rah.
+   Efficient and Accurate Synapse Detection With Selective Structured Illumination Microscopy on the Putative Regions of Interest of Ultrathin Serial Sections 
+   Front Neuroanat. 2021 Nov 15;15:759816. doi: https://doi.org/10.3389/fnana.2021.759816. eCollection 2021. 
+
 *Guyon N, Zacharias LR, Fermino de Oliveira E, Kim H, Leite JP, Lopes-Aguiar C, Carlén M.
    Network Asynchrony Underlying Increased Broadband Gamma Power. J Neurosci. 2021 Mar 31;41(13):2944-2963
    doi: https://doi.org/10.1523/JNEUROSCI.2250-20.2021
