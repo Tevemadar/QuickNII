@@ -7,13 +7,20 @@
 *Gyeong Tae Kim, Sangkyu Bahn, Nari Kim, Joon Ho Choi, Jinseop S Kim, Jong-Cheol Rah.
    Efficient and Accurate Synapse Detection With Selective Structured Illumination Microscopy on the Putative Regions of Interest of Ultrathin Serial Sections 
    Front Neuroanat. 2021 Nov 15;15:759816. doi: https://doi.org/10.3389/fnana.2021.759816. eCollection 2021. 
+   
+*Oh Seung Wook, Son Sook Jin, Morris JA, Choi Joon Ho , Lee Chankyu,  Rah Jong-Cheol.
+   Comprehensive Analysis of Long-Range Connectivity from and to the Posterior Parietal Cortex of the Mouse 
+   Cereb Cortex. 2021 Jan 1;31(1):356-378. doi: https://doi.org/10.1093/cercor/bhaa230. eCollection 2021. 
 
 *Guyon N, Zacharias LR, Fermino de Oliveira E, Kim H, Leite JP, Lopes-Aguiar C, Carlén M.
    Network Asynchrony Underlying Increased Broadband Gamma Power. J Neurosci. 2021 Mar 31;41(13):2944-2963
    doi: https://doi.org/10.1523/JNEUROSCI.2250-20.2021
    
 *McDonald MW, Jeffers MS, Filadelfi M, Vicencio A, Heidenreich G, Wu J and Silasi G.
-   Localizing Microemboli within the Rodent Brain through Block-Face Imaging and        Atlas Registration. eNeuro 16 July 2021, 8 (4) ENEURO.0216-21.2021; DOI:            https://doi.org/10.1523/ENEURO.0216-21.2021 
+   Localizing Microemboli within the Rodent Brain through Block-Face Imaging and Atlas Registration. eNeuro 16 July 2021, 8 (4) ENEURO.0216-21.2021; DOI:                https://doi.org/10.1523/ENEURO.0216-21.2021 
+   
+*Kim Seongyeon, Jo Yehhyun, Kook Geon, Pasquinelli C, Kim Hyunggug, Kim Kipom, Hoe Hyang-Sook, Choe Youngshik, Rhim Hyewhon, Thielscher A, Kim Jeongyeon and Lee        Hyunjoo Jenny.
+   Transcranial focused ultrasound stimulation with high spatial resolution. Brain Stimulation, 14(2), 290-300 - January 2021. https://doi.org/10.1016/j.brs.2021.01.002 
    
 *Bjerke IE, Yates SC, Laja A, Witter MP, Puchades MA, Bjaalie JG and Leergaard TB.
    Densities and numbers of calbindin and parvalbumin
