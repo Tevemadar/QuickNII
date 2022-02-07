@@ -8,9 +8,12 @@
    The synaptic inputs and thalamic projections of two classes of layer 6 corticothalamic neurons in primary somatosensory cortex of the mouse
    J Comp Neurol. 2021 Dec;529(17):3751-3771. doi: https://doi.org/10.1002/cne.25163. Epub 2021 May 6. 
 
-*Kim Gyeong Tae, Bahn Sangkyu, Nari Kim, Choi Joon Ho, Kim Jinseop S, Rah Jong-Cheol .
+*Kim Gyeong Tae, Bahn Sangkyu, Kim Nari, Choi Joon Ho, Kim Jinseop S, Rah Jong-Cheol .
    Efficient and Accurate Synapse Detection With Selective Structured Illumination Microscopy on the Putative Regions of Interest of Ultrathin Serial Sections 
    Front Neuroanat. 2021 Nov 15;15:759816. doi: https://doi.org/10.3389/fnana.2021.759816. eCollection 2021. 
+   
+*Kim Nari, Bahn Sangkyu, Choi Joon Ho, Kim Jinseop S, Rah Jong-Cheol.
+   Synapses from the Motor Cortex and a High-Order Thalamic Nucleus are Spatially Clustered in Proximity to Each Other in the Distal Tuft Dendrites of Mouse    Somatosensory Cortex. Cerebral Cortex - August 2021. https://doi.org/10.1093/cercor/bhab236
    
 *Oh Seung Wook, Son Sook Jin, Morris JA, Choi Joon Ho , Lee Chankyu,  Rah Jong-Cheol.
    Comprehensive Analysis of Long-Range Connectivity from and to the Posterior Parietal Cortex of the Mouse 
