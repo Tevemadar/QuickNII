@@ -3,8 +3,10 @@
 QuickNII is one of several tools developed by the Human Brain Project
 (HBP) with the aim of facilitating brain atlas-based analysis and
 integration of experimental data and knowledge about the human and
-rodent brain. QuickNII is a stand-alone application for user-guided affine
-spatial registration (anchoring) of sectional image data, typically high
+rodent brain. 
+
+QuickNII is a stand-alone application for user-guided affine
+spatial registration (anchoring) of section images, typically high
 resolution histological images, to 3D reference atlas space. A key
 feature of the tool is its ability to generate user-defined cut planes
 through the atlas templates that match the orientation of the cutting
