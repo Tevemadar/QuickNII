@@ -32,9 +32,8 @@ the QuickNII registration for an optimal fit.
    
 Figure from Bjerke et al. 2018. Front Neuroanat.
 
+**QUINT tutorial**: 
 Check out our video tutorial that shows how to use QuickNII and VisuAlign for regional quantification.
-
-**QUINT tutorial**
 
 .. raw:: html
 
