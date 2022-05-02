@@ -28,6 +28,7 @@ QuickNII: Software for 2D image registration to 3D atlas
    adjust
    saving
    export
+   FAQ
    
    
    
