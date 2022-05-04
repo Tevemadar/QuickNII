@@ -27,6 +27,10 @@ recommended.
 
 -**Rotation1/2**: rotation around the primary (red) and secondary (green) axis, dependent on operating mode again. Expressed in degrees. In case of sagittal mode, primary axis is anterior-posterior, secondary axis is vertical.
 
+.. image:: 6bef45ee36424df69f030c687f030605/media/image15.png
+   :width: 4.52083in
+   :height: 0.70425in
+
 -**H/VStretch**: ratio between image pixels and atlas voxels. Calculated along the horizontal and vertical edges of the image.
 In an ideal world all graphs are straight lines, just like the orange line behind (linear regression of actual data). Position graphs are ideally diagonal, all the others are horizontal at some constant value.
 
