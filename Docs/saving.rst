@@ -21,4 +21,12 @@ recommended.
    :width: 5.37222in
    :height: 3.25228in
 
+-**Positon, Spacing**: position and spacing of section midpoints measured along the internal axis of the series, formed by the section midpoints themselves. Expressed in millimeters. Zero is positioned on the first section.
+
+-**MainPosition, MainSpacing**: position and spacing of section midpoints measured along the main axis selected via the operation mode (like for coronal series, anterior-posterior axis is the main one). Expressed in millimeters. Position is absolute inside the template volume, zero is positioned on the border planes (like most posterior for coronal series).
+
+-**Rotation1/2**: rotation around the primary (red) and secondary (green) axis, dependent on operating mode again. Expressed in degrees. In case of sagittal mode, primary axis is anterior-posterior, secondary axis is vertical.
+
+-**H/VStretch**: ratio between image pixels and atlas voxels. Calculated along the horizontal and vertical edges of the image.
+In an ideal world all graphs are straight lines, just like the orange line behind (linear regression of actual data). Position graphs are ideally diagonal, all the others are horizontal at some constant value.
 
