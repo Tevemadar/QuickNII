@@ -28,7 +28,9 @@ Select sections to work on by using double-clicking the section
 number in the data management window.
 
 **2. Use landmarks in the images to find their approximate anteroposterior position**
-   
+
+Select your main working plane, i.e. coronal, sagittal or horizontal by going to "values and controls"**(5)**
+
 The first step in a successful anchoring is to find the approximate
 anteroposterior position of the slices (Y position for coronal
 sections). Do this first for the first and last section of the series
