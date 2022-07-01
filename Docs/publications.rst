@@ -1,5 +1,9 @@
 **Related publications**
 ----------------------------
+* Ham GX, Augustine GJ. 
+   Topologically Organized Networks in the Claustrum Reflect Functional Modularization. Frontiers in Neuroanatomy. 16 June 2022. 
+   https://doi.org/10.3389/fnana.2022.901807
+   
 * Szabo G.G, Farrell J.S, Dudok B, Hou W, Ortiz A.L, Varga C, Moolchand P, Gulsever C, Gschwind T, Dimidschstein J, Capogna M. and Soltesz I.
    Ripple-selective GABAergic projection cells in the hippocampus. Neuron 2022 https://doi.org/10.1016/j.neuron.2022.04.002
 
