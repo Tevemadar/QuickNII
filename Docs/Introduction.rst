@@ -11,6 +11,7 @@ rodent brain.
 
 .. tip:: 
    **QuickNII and VisuAlign are part of the QUINT workflow**
+   
    Visit `EBRAINS <https://ebrains.eu/service/quint/>`_ for more information about QUINT. Find full user documentation `here <https://quint-workflow.readthedocs.io>`_. 
 
    
