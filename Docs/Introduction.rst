@@ -8,6 +8,12 @@ rodent brain.
 .. tip::   
    **Visit** `EBRAINS <https://ebrains.eu/service/quicknii-and-visualign/>`_ **for more information about Image registration.**
    
+   **QuickNII and VisuAlign are part of the QUINT workflow**
+
+.. tip::     
+   Visit `EBRAINS <https://ebrains.eu/service/quint/>`_ for more information about QUINT. Find full user documentation `here <https://quint-workflow.readthedocs.io>`_. 
+
+   
 QuickNII is a stand-alone application for user-guided affine
 spatial registration (anchoring) of section images, typically high
 resolution histological images, to 3D reference atlas space. A key
@@ -35,10 +41,6 @@ the QuickNII registration for an optimal fit.
    
 Figure from Bjerke et al. 2018. Front Neuroanat.
 
-**QuickNII and VisuAlign are part of the QUINT workflow**
-
-.. tip::     
-   Visit `EBRAINS <https://ebrains.eu/service/quint/>`_ for more information about QUINT. Find full user documentation `here <https://quint-workflow.readthedocs.io>`_. 
 
 
 
