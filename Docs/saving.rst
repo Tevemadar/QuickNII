@@ -36,7 +36,7 @@ In an ideal world all graphs are straight lines, just like the orange line behin
 
 
 **Quality of the registration can also be assessed with QCAlign**
-------------------------------------------------------------------
+
 
 .. note::
    Find full user documentation `here <https://qcalign.readthedocs.io/en/latest/>`_.
