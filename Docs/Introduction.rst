@@ -28,7 +28,7 @@ of a limited number of sections containing key landmarks,
 transformations are propagated across the entire series of images. These
 propagations must be validated and saved by the user for each section,
 with application of fine positional adjustments as required. We
-recommend the use of `VisuAlign <https://ebrains.eu/service/quicknii-and-visualign>`_ to perform nonlinear adjustments after
+recommend the use of `VisuAlign <https://visualign.readthedocs.io/en/latest/>`_ to perform nonlinear adjustments after
 the QuickNII registration for an optimal fit.
 
 .. image:: 6bef45ee36424df69f030c687f030605/media/image1.png
