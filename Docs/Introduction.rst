@@ -8,9 +8,9 @@ rodent brain.
 .. tip::   
    **Visit** `EBRAINS <https://ebrains.eu/service/quicknii-and-visualign/>`_ **for more information about Image registration.**
    
-   **QuickNII and VisuAlign are part of the QUINT workflow**
 
-.. tip::     
+.. tip:: 
+   **QuickNII and VisuAlign are part of the QUINT workflow**
    Visit `EBRAINS <https://ebrains.eu/service/quint/>`_ for more information about QUINT. Find full user documentation `here <https://quint-workflow.readthedocs.io>`_. 
 
    
