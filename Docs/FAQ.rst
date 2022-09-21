@@ -10,7 +10,7 @@ You can read about it here: https://quicknii.readthedocs.io/en/latest/imageprepr
 
 --> This can happen if you have spaces in the path where the QuickNII software is located. For Windows 10 users, the filebuilder can be modified and it is described here: https://www.nitrc.org/plugins/mwiki/index.php/quicknii:MainPage
 
-(3) How can I refine my QuickNII regsitration?
+(3) How can I refine my QuickNII registration?
 
 --> Please us VisuAlign https://visualign.readthedocs.io/en/latest/.
 
