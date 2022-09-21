@@ -35,10 +35,9 @@ the QuickNII registration for an optimal fit.
    
 Figure from Bjerke et al. 2018. Front Neuroanat.
 
-QuickNII and VisuAlign are part of the QUINT workflow
+**QuickNII and VisuAlign are part of the QUINT workflow**
 
-.. tip::   
-   Visit `EBRAINS <https://ebrains.eu/service/quint/>`_ for more information about QUINT. .. tip::   
+.. tip::     
    Visit `EBRAINS <https://ebrains.eu/service/quint/>`_ for more information about QUINT. Find full user documentation `here <https://quint-workflow.readthedocs.io>`_. 
 
 
