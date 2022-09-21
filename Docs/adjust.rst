@@ -32,4 +32,4 @@ anteroposterior axis.
 **Note:** Adjustments made with QuickNII are linear. If considerable
 mismatch remains between the atlas maps and the sections, despite fine
 linear adjustments, further nonlinear adjustments can be applied using
-`VisuAlign <https://visualign.readthedocs.io/en/latest/>`.
+`VisuAlign <https://visualign.readthedocs.io/en/latest/>`_.
