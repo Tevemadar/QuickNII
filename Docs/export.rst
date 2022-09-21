@@ -9,4 +9,5 @@ Press the “export Slices” button and select the destination folder.
 
 In the export folder, you will also find a file named "segmentation.json" for the rat atlases. This just an information file which gives an overview of the atlas regions label values of the flat files.  
 
-**NOTE!** This file should not be confused with the anchoring JSON file used for the QUINT workflow!
+.. note::
+   This file should not be confused with the anchoring JSON file used for the QUINT workflow!
