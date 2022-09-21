@@ -5,6 +5,9 @@ QuickNII is one of several tools developed by the Human Brain Project
 integration of experimental data and knowledge about the human and
 rodent brain. 
 
+.. tip::   
+   **Visit** `EBRAINS <https://ebrains.eu/service/quicknii-and-visualign/>`_ **for more information about Image registration.**
+   
 QuickNII is a stand-alone application for user-guided affine
 spatial registration (anchoring) of section images, typically high
 resolution histological images, to 3D reference atlas space. A key
@@ -32,12 +35,12 @@ the QuickNII registration for an optimal fit.
    
 Figure from Bjerke et al. 2018. Front Neuroanat.
 
-**QUINT tutorial**: 
+.. tip::   
+   Visit `EBRAINS <https://ebrains.eu/service/quint/>`_ for more information about QUINT. .. tip::   
+   Visit `EBRAINS <https://ebrains.eu/service/quint/>`_ for more information about QUINT. Find full user documentation `here <https://quint-workflow.readthedocs.io>`_. 
 Check out our video tutorial that shows how to use QuickNII and VisuAlign for regional quantification.
 
-.. raw:: html
-
-   <iframe width="560" height="315" src="https://www.youtube.com/embed/n-gQigcGMJ0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+QuickNII and VisuAlign are part of the QUINT workflow
 
 
 
