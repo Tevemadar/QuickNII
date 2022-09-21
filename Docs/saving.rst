@@ -39,7 +39,7 @@ In an ideal world all graphs are straight lines, just like the orange line behin
 
 
 .. note::
-   Find full user documentation `here <https://qcalign.readthedocs.io/en/latest/>`_.
+   Find QCAlign user documentation `here <https://qcalign.readthedocs.io/en/latest/>`_.
    Download `here <https://www.nitrc.org/projects/qcalign>`_.
 
 QCAlign was developed to support the use of the QUINT workflow for high-throughput studies. It is a quality control tool that provides information about:
