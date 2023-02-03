@@ -1,4 +1,4 @@
-**Frequently asked questions**
+**FAQ**
 --------------------------------
 
 (1) I am using QuickNII to register my 2D coronal brain images with retrograde tracing. I completed all required steps through the filebuilder, but when I input my file to be registered the images does not appear, only the reference you have appears. Can you help me with this?
