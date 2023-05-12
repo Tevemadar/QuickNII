@@ -11,6 +11,7 @@ You can read about it here: https://quicknii.readthedocs.io/en/latest/imageprepr
 --> This can happen if you have spaces in the path where the QuickNII software is located. For Windows 10 users, the filebuilder can be modified and it is described here: https://www.nitrc.org/plugins/mwiki/index.php/quicknii:MainPage
 
 (3) QuickNII filebuilder does not list my images although the size is ok.
+
 --> The filename pattern should be consistent and the section numbers should have the same number of digits (see naming convention).
 
 (4) How can I refine my QuickNII registration?
