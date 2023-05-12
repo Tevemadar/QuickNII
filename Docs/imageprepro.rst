@@ -57,6 +57,8 @@ tg2345_MMSH_ss_s001.png
 
 Collect the section images in a folder. The section sampling is defined by the serial numbers.
 
+Remember to have a filenaming pattern that is consistent and with equal number of digits.
+
 Use the small program “FileBuilder.bat” provided with QuickNII to
 generate the XML descriptor file. A new window will open, and ask for the folder where your
 images are located. Point to the correct folder, mark all image files (ctrl+A), and click ok.
