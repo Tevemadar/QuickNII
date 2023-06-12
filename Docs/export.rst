@@ -29,8 +29,8 @@ Open the exported QuickNII rainbow png files or the exported nl.png files from V
 - Save
     
 .. image:: 6bef45ee36424df69f030c687f030605/media/image20.png
-   :width: 4.25in
-   :height: 2.44459in
+  :width: 4.25in
+  :height: 2.44459in
 
 
 
