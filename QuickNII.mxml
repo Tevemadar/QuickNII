@@ -25,20 +25,22 @@
 			import mx.formatters.DateFormatter;
 			import mx.managers.PopUpManager;
 			import mx.utils.URLUtil;
-
-			[Bindable]public static var navilock:Boolean=false; //!!
+			
+			[Bindable]public static var navilock:Boolean=false;
 			public static var diz:QuickNII;
-
+			
 			private const configsock:Socket=new Socket; 
 			private const np:NativeProcess=new NativeProcess;
-			protected function applicationCompleteHandler(event:FlexEvent):void {
+			protected function applicationCompleteHandler(event:FlexEvent):void
+			{
 				diz=this;
-
+				
 				var resetItem:ContextMenuItem=new ContextMenuItem("Reset layout");
 				resetItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,rearrange);
 				mdiRoot.contextMenu.items.push(resetItem);
-
-//				if(!Capabilities.supports64BitProcesses) {
+				
+//				if(!Capabilities.supports64BitProcesses)
+//				{
 //					log_console.text="A 64-bit Windows version is required.\n";
 //				}
 //				np.addEventListener(Event.STANDARD_OUTPUT_CLOSE,stdout_close);
@@ -47,47 +49,62 @@
 //				np.addEventListener(ProgressEvent.STANDARD_ERROR_DATA,stderr_data);
 //				if(pack=="debug")
 //					pack="C:\\QuickNII\\QuickNII-ABAMouse-v3-2017\\ABA_Mouse_CCFv3_2017_25um.cutlas";
-//					//pack="C:\\QuickNII\\ABA_Mouse_CCFv3_dev2012_25um.cutlas";
-//					//pack="C:\\QuickNII\\ABA_DevMouse_P28.cutlas";
+////					pack="C:\\Users\\gergelyc\\Documents\\Adobe Flash Builder 4\\CutNII\\bin-debug\\ABA_Mouse.cutlas";
+////					pack="C:\\BigNII\\QuickNII-ABA\\WHS_Rat_v2relic.cutlas";
+////					pack="c:\\bignii\\WHS_Rat_v3.cutlas";
+////					pack="C:\\BigNII\\QuickNII-ABA\\ABA_Mouse_v3relic.cutlas";
+////					pack="D:\\QuickNII\\ABA_Mouse_v3relic.cutlas";
+////					pack="c:\\BigData\\ABA_Mouse_v3relic.cutlas";
+////					pack="D:\\BigNII\\QuickNII-ABA\\ABA_Mouse_v3_2015.cutlas";
+////					pack="C:\\BigNII\\ABA_Mouse_CCFv3_2015_25um.cutlas";
+////					pack="C:\\BigNII\\QuickNII-WHSRat-v2\\WHS_Rat_v2_39um.cutlas";
+////					pack="C:\\BigNII\\ABA_Mouse_v3new.cutlas";
 //				const npsi:NativeProcessStartupInfo=new NativeProcessStartupInfo;
+////				npsi.executable=File.applicationDirectory.resolvePath("Java\\bin\\java.exe");
+////				npsi.executable=File.applicationDirectory.resolvePath("Java/bin/java");
 //				npsi.executable=File.applicationDirectory.resolvePath("Java"+File.separator+"bin"+File.separator+(Capabilities.os.indexOf("Windows")>=0?"java.exe":"java"));
 //				npsi.arguments=new <String>["-Xmx3G","-cp",/*"Serv"*/File.applicationDirectory.resolvePath("Serv").nativePath, "Serv", File.applicationDirectory.resolvePath(pack).nativePath];
+////				npsi.arguments=new <String>["-Xmx6G","-cp",/*"Serv"*/File.applicationDirectory.resolvePath("Serv").nativePath, "Serv", pack];
 //				np.start(npsi);
-
+				
 				nativeWindow.maximize();
-
+				
+				
 				configsock.addEventListener(ProgressEvent.SOCKET_DATA,configdata);
-
+				
 				header.setStyle("dropShadowEnabled",false);
-
+				
 				styleDecomp();
 				
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+				// Linux
 				configsock.connect("127.0.0.1",cport);
 			}
-
-//			protected function stdout_close(e:Event):void {
+			
+			
+//			protected function stdout_close(e:Event):void
+//			{
 //				log_panel.visible=log_panel.enabled=true;
 //				log_panel.x=(width-log_panel.width)/2;
 //				log_panel.y=(height-log_panel.height)/2;
 //				log_console.text+="STDOUT closed\n";
 //			}
-
-//			private var console:String="";
-//			private var inidone:Boolean=false;
+			
+			private var console:String="";
+			private var inidone:Boolean=false;
 			private var cport:int;private const cstring:String="Catcher: ";
 			private var xport:int;private const xstring:String="XPort: ";
 			private var yport:int;private const ystring:String="YPort: ";
 			private var zport:int;private const zstring:String="ZPort: ";
 			private var fport:int;private const fstring:String="FPort: ";
-//			protected function stdout_data(e:ProgressEvent):void {
+//			protected function stdout_data(e:ProgressEvent):void
+//			{
 ////				log_panel.visible=log_panel.enabled=true;
 ////				log_panel.x=(width-log_panel.width)/2;
 ////				log_panel.y=(height-log_panel.height)/2;
 ////				log_console.text+="STDOUT:"+np.standardOutput.readUTFBytes(np.standardOutput.bytesAvailable)+":STDOUT\n";
 //				console+=np.standardOutput.readUTFBytes(np.standardOutput.bytesAvailable);
-//				if(!inidone && console.indexOf("Server ready.")>=0) {
+//				if(!inidone && console.indexOf("Server ready.")>=0)
+//				{
 //					inidone=true;
 //					var pos1:int=console.indexOf(cstring);
 //					var pos2:int=console.indexOf("\n",pos1);
@@ -107,31 +124,36 @@
 //					configsock.connect("127.0.0.1",cport);
 //				}
 //			}
-
-//			protected function stderr_close(e:Event):void {
+			
+//			protected function stderr_close(e:Event):void
+//			{
 //				log_panel.visible=log_panel.enabled=true;
 //				log_panel.x=(width-log_panel.width)/2;
 //				log_panel.y=(height-log_panel.height)/2;
 //				log_console.text+="STDERR closed\n";
 //			}
-
-//			protected function stderr_data(e:ProgressEvent):void {
+			
+//			protected function stderr_data(e:ProgressEvent):void
+//			{
 //				log_panel.visible=log_panel.enabled=true;
 //				log_panel.x=(width-log_panel.width)/2;
 //				log_panel.y=(height-log_panel.height)/2;
 //				log_console.text+="STDERR:"+np.standardError.readUTFBytes(np.standardError.bytesAvailable)+":STDERR\n";
 //			}
-
+			
 			private var hdrlen:int=0;
 			private const xsock:Socket=new Socket;
 			private const ysock:Socket=new Socket;
 			private const zsock:Socket=new Socket;
-			private const fsock:Socket=new Socket;
-			protected function configdata(e:Event):void {
-				if(hdrlen==0 && configsock.bytesAvailable>=4) {
+			/*private*/ const fsock:Socket=new Socket;
+			protected function configdata(e:Event):void
+			{
+				if(hdrlen==0 && configsock.bytesAvailable>=4)
+				{
 					hdrlen=configsock.readInt();
 				}
-				if(hdrlen>0 && configsock.bytesAvailable>=hdrlen) {
+				if(hdrlen>0 && configsock.bytesAvailable>=hdrlen)
+				{
 					xsock.addEventListener(Event.CONNECT,connected);
 					xsock.addEventListener(ProgressEvent.SOCKET_DATA,xdata);
 					ysock.addEventListener(Event.CONNECT,connected);
@@ -146,35 +168,37 @@
 					fsock.connect("127.0.0.1",fport);
 				}
 			}
-
+			
 			private var conncnt:int=0;
-			private function connected(e:Event):void {
+			private function connected(e:Event):void
+			{
 				conncnt++;
 				if(conncnt==4)xmlComplete(null);
 			}
-
+			
 			protected var setName:String;
-			private var volumes:Vector.<Volume>=new Vector.<Volume>;
+			/*private*/ var volumes:Vector.<Volume>=new Vector.<Volume>;
 			[Bindable] protected var currentVolume:Volume;
-
+			
 			[Bindable] public var xdim:int;
 			[Bindable] public var ydim:int;
 			[Bindable] public var zdim:int;
-
+			
 			public var pixxdim:Number=1;
 			public var pixydim:Number=1;
 			public var pixzdim:Number=1;
 			[Bindable] public var physxdim:Number;
 			[Bindable] public var physydim:Number;
 			[Bindable] public var physzdim:Number;
-
+			
 			public var transforms:Vector.<NamedTransformation>=new Vector.<NamedTransformation>;
-
+			
 			[Bindable] protected var ready:Boolean=false;
-			protected function xmlComplete(e:Event):void {
+			protected function xmlComplete(e:Event):void
+			{
 				ready=true;
 				mdiRoot.visible=true;
-
+				
 				setName=configsock.readUTF();
 				nativeWindow.title=setName+" - QuickNII";
 				const abtlen:int=configsock.readInt();
@@ -186,45 +210,50 @@
 				xdim=physxdim=configsock.readShort();
 				ydim=physydim=configsock.readShort();
 				zdim=physzdim=configsock.readShort();
-
+				
 				physxdim*=pixxdim;
 				physydim*=pixydim;
 				physzdim*=pixzdim;
-
+				
 				const vols:int=configsock.readByte();
-				for(var i:int=0;i<vols;i++) {
+				for(var i:int=0;i<vols;i++)
+				{
 					var v:Volume=new Volume(configsock);
 					volumes.push(v);
 					volumeLabels.push(v.name);
 				}
 
 				const trfs:int=configsock.readByte();
-				for(i=0;i<trfs;i++) {
+				for(i=0;i<trfs;i++)
+				{
 					transforms.push(new NamedTransformation(configsock.readUTF(),
 						configsock.readDouble(),configsock.readDouble(),configsock.readDouble(),configsock.readDouble(),
 						configsock.readDouble(),configsock.readDouble(),configsock.readDouble(),configsock.readDouble(),
 						configsock.readDouble(),configsock.readDouble(),configsock.readDouble(),configsock.readDouble()));
 				}
-
+				
+//				transforms.push(new NamedTransformation("Millimeters",0.025,0,0,0,0,0.025,0,0,0,0,0.025,0));
+				
 				valbox.initTransformations(transforms);
-
+				
 				currentVolume=volumes[0];	
 				ctrl_volumes.selectedIndex=0;
-
+				
 				widthstep.maximum=heightstep.maximum=Math.max(xdim,ydim,zdim)*1.2;
-
+				
 				valbox.max.minimum=valbox.min.minimum=valbox.min.value=currentVolume.minval;
 				valbox.min.maximum=valbox.max.maximum=valbox.max.value=currentVolume.maxval;
-
-				cut.init(xdim,ydim,zdim);
-
+				
+				cut.doInit(new URLVariables,xdim,ydim,zdim); // NAVI cut.doInit also uses arguments
+				
 				rearrange(null);
 			}
-
-			internal function dispatchCut(force:Boolean=false):void {
-				setXSlice(cut.x,force);
-				setYSlice(cut.y,force);
-				setZSlice(cut.z,force);
+			
+			internal function dispatchCut(force:Boolean=false):void
+			{
+				setXSlice(xdim-1-cut.x,force);
+				setYSlice(ydim-1-cut.y,force);
+				setZSlice(zdim-1-cut.z,force);
 				xslice.DrawOverlay();
 				yslice.DrawOverlay();
 				zslice.DrawOverlay();
@@ -232,40 +261,43 @@
 				widthstep.value=cut.width;
 				heightstep.value=cut.height;
 				valbox.setVox(cut.x,cut.y,cut.z);
-
+				
 				fetchSlice();
-
+				
 				updateDecomp();
 			}
-
-			public function styleDecomp():void {
+			
+			public function styleDecomp():void
+			{
 				ctrl_rotate1.setStyle("backgroundColor", 0xE6B4B4);
 				ctrl_rotate2.setStyle("backgroundColor", 0xB4E6B4);
 				ctrl_rotate3.setStyle("backgroundColor", 0xB4B4E6);
-
+				
 				slicewindow.titleBarOverlay.alpha=0.2;
 				slicewindow.titleBarOverlay.setStyle("backgroundColor", 0x0000FF);
-
+				
 				xwindow.titleBarOverlay.alpha=0;
 				xwindow.titleBarOverlay.setStyle("backgroundColor", 0x000000);
 				ywindow.titleBarOverlay.alpha=0;
 				ywindow.titleBarOverlay.setStyle("backgroundColor", 0x000000);
 				zwindow.titleBarOverlay.alpha=0;
 				zwindow.titleBarOverlay.setStyle("backgroundColor", 0x000000);
-
-				if(valbox.decompcfg.selectedLabel=="Coronal") {
+				
+				if(valbox.decompcfg.selectedLabel=="Coronal"){
 					ind_mode.text="COR";
 					xwindow.titleBarOverlay.alpha=0.2;
 					xwindow.titleBarOverlay.setStyle("backgroundColor", 0xFF0000);
 					zwindow.titleBarOverlay.alpha=0.2;
 					zwindow.titleBarOverlay.setStyle("backgroundColor", 0x00FF00);
-				} else if(valbox.decompcfg.selectedLabel=="Sagittal") {
+				}
+				else if(valbox.decompcfg.selectedLabel=="Sagittal"){
 					ind_mode.text="SAG";
 					ywindow.titleBarOverlay.alpha=0.2;
 					ywindow.titleBarOverlay.setStyle("backgroundColor", 0xFF0000);
 					zwindow.titleBarOverlay.alpha=0.2;
 					zwindow.titleBarOverlay.setStyle("backgroundColor", 0x00FF00);
-				} else if(valbox.decompcfg.selectedLabel=="Horizontal") {
+				}
+				else if(valbox.decompcfg.selectedLabel=="Horizontal"){
 					ind_mode.text="HOR";
 					ywindow.titleBarOverlay.alpha=0.2;
 					ywindow.titleBarOverlay.setStyle("backgroundColor", 0xFF0000);
@@ -273,61 +305,110 @@
 					xwindow.titleBarOverlay.setStyle("backgroundColor", 0x00FF00);
 				}
 			}
-
-			public function updateDecomp():void {
+			
+			public function updateDecomp():void
+			{
 				if(rot1focus||rot2focus||rot3focus)return;
-				const u:Vector3D=cut.u.clone();u.normalize();
-				const v:Vector3D=cut.v.clone();v.normalize();
+				const u:Vector3D=cut.bottomright.subtract(cut.bottomleft);u.normalize();
+				const v:Vector3D=cut.topright.subtract(cut.bottomright);v.normalize();
 				const n:Vector3D=v.crossProduct(u);n.normalize();
-
+				
 				const zerotrf:Matrix3D=new Matrix3D;
 				const data:Vector.<Number>=zerotrf.rawData;
-
-				if(valbox.decompcfg.selectedLabel=="Coronal") {
+//				var zerou:Vector3D;
+				
+				if(valbox.decompcfg.selectedLabel=="Coronal")
+				{
 					const c1:Number=Math.asin(Math.max(-1,Math.min(n.z,1)))*180/Math.PI;
 					const c2:Number=-Math.atan2(n.x,n.y)*180/Math.PI;
 					ctrl_rotate1.text=(c1).toFixed(2);
 					ctrl_rotate2.text=(c2).toFixed(2);
-
+					
+//					if(Math.abs(n.y)<0.00001)
+//						ctrl_rotate3.text="0";
+//					else
+//					{
+//						//!! works, but probably could be simpler
+//						var ctx:Number=Math.sqrt(1/(1+n.x*n.x/n.y/n.y));
+//						var ct:Vector3D=new Vector3D(ctx,-ctx*n.x/n.y);
+//						var cdt:Number=ct.dotProduct(u);
+//						if(cdt<-1)cdt=-1;
+//						if(cdt>1)cdt=1;
+//						ctrl_rotate3.text=(ct.crossProduct(u).dotProduct(n)<0?"-":"")+new Number(Math.acos(cdt)*180/Math.PI).toFixed(2);
+//					}
 					data[0]=1;data[1]=0;data[2]=0;
 					data[4]=0;data[5]=0;data[6]=-1;
 					SliceDescriptor.calcN(data);
 					zerotrf.rawData=data;
 					zerotrf.appendRotation(c1,Vector3D.X_AXIS);
 					zerotrf.appendRotation(c2,Vector3D.Z_AXIS);
-				} else if(valbox.decompcfg.selectedLabel=="Sagittal") {
+//					zerou=new Vector3D(1);
+				}
+				else if(valbox.decompcfg.selectedLabel=="Sagittal")
+				{
 					const s1:Number=-Math.asin(Math.max(-1,Math.min(n.z,1)))*180/Math.PI;
 					const s2:Number=-Math.atan2(n.y,-n.x)*180/Math.PI;
 					ctrl_rotate1.text=(s1).toFixed(2);
 					ctrl_rotate2.text=(s2).toFixed(2);
 
+//					if(Math.abs(n.x)<0.00001)
+//						ctrl_rotate3.text="0";
+//					else
+//					{
+//						//!! works, but probably could be simpler
+//						var sty:Number=Math.sqrt(1/(1+n.y*n.y/n.x/n.x));
+//						var st:Vector3D=new Vector3D(-sty*n.y/n.x,sty);
+//						var sdt:Number=st.dotProduct(u);
+//						if(sdt<-1)sdt=-1;
+//						if(sdt>1)sdt=1;
+//						ctrl_rotate3.text=(st.crossProduct(u).dotProduct(n)<0?"-":"")+new Number(Math.acos(sdt)*180/Math.PI).toFixed(2);
+//					}
 					data[0]=0;data[1]=1;data[2]=0;
 					data[4]=0;data[5]=0;data[6]=-1;
 					SliceDescriptor.calcN(data);
 					zerotrf.rawData=data;
 					zerotrf.appendRotation(-s1,Vector3D.Y_AXIS);
 					zerotrf.appendRotation(s2,Vector3D.Z_AXIS);
-				} else if(valbox.decompcfg.selectedLabel=="Horizontal") {
+//					zerou=new Vector3D(0,1);
+				}
+				else if(valbox.decompcfg.selectedLabel=="Horizontal")
+				{
 					const h1:Number=-Math.asin(Math.max(-1,Math.min(1,n.x)))*180/Math.PI;
 					const h2:Number=-Math.atan2(n.y,n.z)*180/Math.PI;
 					ctrl_rotate1.text=(h1).toFixed(2);
 					ctrl_rotate2.text=(h2).toFixed(2);
 
+//					if(Math.abs(n.z)<0.00001)
+//						ctrl_rotate3.text="0";
+//					else
+//					{
+//						//!! works, but probably could be simpler
+//						var hty:Number=Math.sqrt(1/(1+n.y*n.y/n.z/n.z));
+//						var ht:Vector3D=new Vector3D(0,hty,-hty*n.y/n.z);
+//						var hdt:Number=ht.dotProduct(u);
+//						if(hdt<-1)hdt=-1;
+//						if(hdt>1)hdt=1;
+//						ctrl_rotate3.text=(ht.crossProduct(u).dotProduct(n)<0?"-":"")+new Number(Math.acos(hdt)*180/Math.PI).toFixed(2);
+//					}
 					data[0]=0;data[1]=1;data[2]=0;
 					data[4]=-1;data[5]=0;data[6]=0;
 					SliceDescriptor.calcN(data);
 					zerotrf.rawData=data;
 					zerotrf.appendRotation(h1,Vector3D.Y_AXIS);
 					zerotrf.appendRotation(h2,Vector3D.X_AXIS);
+//					zerou=new Vector3D(0,1);
 				}
 				const zerou:Vector3D=zerotrf.transformVector(new Vector3D(1));
 				var cdt:Number=zerou.dotProduct(u);
 				if(cdt<-1)cdt=-1;
 				if(cdt>1)cdt=1;
-				ctrl_rotate3.text=(zerou.crossProduct(u).dotProduct(n)<0?"-":"")+new Number(Math.acos(cdt)*180/Math.PI).toFixed(2); //!!
+//				trace("u:",u);
+//				trace("zerou:",zerou);
+				ctrl_rotate3.text=(zerou.crossProduct(u).dotProduct(n)<0?"-":"")+new Number(Math.acos(cdt)*180/Math.PI).toFixed(2);
 			}
-
-			public function fetchSlice():void {
+			
+			public function fetchSlice():void
+			{
 				/*nativeWindow.title=setName+" "+*/requestString();
 			}
 			private var fgotheader:Boolean=false;
@@ -335,12 +416,14 @@
 			private var fh:int;
 			private var ftyp:int;
 			private const fba:ByteArray=new ByteArray;
-			private function fdata(e:Event):void {
-				if(QS_plan.length>0) {
+			private function fdata(e:Event):void
+			{
+				if(QS_plan.length>0){
 					QS_data();
 					return;
 				}
-				if(!fgotheader && fsock.bytesAvailable>=9) {
+				if(!fgotheader && fsock.bytesAvailable>=9)
+				{
 					ftyp=fsock.readByte();
 					fw=fsock.readInt();
 					fh=fsock.readInt();
@@ -351,7 +434,8 @@
 						(ftyp!=3 && ftyp!=4 && fsock.bytesAvailable>=fw*fh*4)
 						|| (ftyp==3 && fsock.bytesAvailable>=fw*fh*5)
 						|| (ftyp==4 && fsock.bytesAvailable>=fw*fh*6)
-					)) {
+					))
+				{
 					if(ftyp!=3 && ftyp!=4)fsock.readBytes(fba,0,fw*fh*4);
 					if(ftyp==3)fsock.readBytes(fba,0,fw*fh*5);
 					if(ftyp==4)fsock.readBytes(fba,0,fw*fh*6);
@@ -361,7 +445,8 @@
 					const Bf:Boolean=!valbox.ctrl_B.selected;
 					fba.position=0;
 					if(Rf || Gf || Bf)
-						for(var i:int=0;i<fw*fh;i++) {
+						for(var i:int=0;i<fw*fh;i++)
+						{
 							fba.position++;
 							if(Rf)fba.writeByte(0);else fba.position++;
 							if(Gf)fba.writeByte(0);else fba.position++;
@@ -376,33 +461,57 @@
 					SliceMix.canvas1_resizeHandler(null);
 				}
 			}
-
-			protected function requestString():void {
+			
+			protected function requestString():String // NAVI this metod creates parameter string for getting an arbitrary slice, and the same string can be used for storing and passing to AligNII at startup (and thus, restore the view) 
+			{
+				const u:Vector3D=cut.bottomright.subtract(cut.bottomleft);
+				const v:Vector3D=cut.topright.subtract(cut.bottomright);
+				const o:Vector3D=cut.bottomleft.clone();
+				
+				if(ValueBox.flipxselected)
+				{
+					o.x=xdim-o.x;
+					u.x=-u.x;
+					v.x=-v.x;
+				}
+				if(ValueBox.flipyselected)
+				{
+					o.y=ydim-o.y;
+					u.y=-u.y;
+					v.y=-v.y;
+				}
+				if(ValueBox.flipzselected)
+				{
+					o.z=zdim-o.z;
+					u.z=-u.z;
+					v.z=-v.z;
+				}
 				fsock.writeByte(valbox.outline.selected?ctrl_volumes.selectedIndex+128:ctrl_volumes.selectedIndex);
 				fsock.writeFloat((valbox.min.value-currentVolume.minval)*65535/(currentVolume.maxval-currentVolume.minval));
 				fsock.writeFloat((valbox.max.value-currentVolume.minval)*65535/(currentVolume.maxval-currentVolume.minval));
-				fsock.writeDouble(cut.o.x);
-				fsock.writeDouble(cut.o.y);
-				fsock.writeDouble(cut.o.z);
-				fsock.writeDouble(cut.u.x);
-				fsock.writeDouble(cut.u.y);
-				fsock.writeDouble(cut.u.z);
-				fsock.writeDouble(cut.v.x);
-				fsock.writeDouble(cut.v.y);
-				fsock.writeDouble(cut.v.z);
+				fsock.writeDouble(o.x);
+				fsock.writeDouble(o.y);
+				fsock.writeDouble(o.z);
+				fsock.writeDouble(u.x);
+				fsock.writeDouble(u.y);
+				fsock.writeDouble(u.z);
+				fsock.writeDouble(v.x);
+				fsock.writeDouble(v.y);
+				fsock.writeDouble(v.z);
 				fsock.flush();
-//				return "ox="+o.x+"&oy="+o.y+"&oz="+o.z
-//					+"&ux="+u.x+"&uy="+u.y+"&uz="+u.z
-//					+"&vx="+v.x+"&vy="+v.y+"&vz="+v.z;
+				return "ox="+o.x+"&oy="+o.y+"&oz="+o.z
+					+"&ux="+u.x+"&uy="+u.y+"&uz="+u.z
+					+"&vx="+v.x+"&vy="+v.y+"&vz="+v.z;
 			}
-
+			
 			[Bindable] internal var cut:SliceDescriptor=new SliceDescriptor(dispatchCut);
-
+			
 			private const tba:ByteArray=new ByteArray; 
 
 			private var currx:int=0;
-			protected function setXSlice(xcut:uint,force:Boolean):void {
-				const xindex:uint=xcut;
+			protected function setXSlice(xcut:uint,force:Boolean):void
+			{
+				const xindex:uint=ValueBox.flipxselected?xdim-1-xcut:xcut;
 				if(!force && (currx==xindex))return;
 				currx=xindex;
 				xsock.writeByte(ctrl_volumes.selectedIndex);
@@ -411,8 +520,10 @@
 				xsock.writeInt(xindex-1);
 				xsock.flush();
 			}
-			private function xdata(e:Event):void {
-				if(xsock.bytesAvailable>=ydim*zdim*4) {
+			private function xdata(e:Event):void
+			{
+				if(xsock.bytesAvailable>=ydim*zdim*4)
+				{
 					xsock.readBytes(tba,0,ydim*zdim*4);
 					tba.position=0;
 					var bd:BitmapData=new BitmapData(ydim,zdim,false);
@@ -420,10 +531,11 @@
 					xslice.image.source=new Bitmap(bd);
 				}
 			}
-
+			
 			private var curry:int=0;
-			protected function setYSlice(ycut:uint,force:Boolean):void {
-				const yindex:uint=ycut;
+			protected function setYSlice(ycut:uint,force:Boolean):void
+			{
+				const yindex:uint=ValueBox.flipyselected?ydim-1-ycut:ycut;
 				if(!force && (curry==yindex))return;
 				curry=yindex;
 				ysock.writeByte(ctrl_volumes.selectedIndex);
@@ -432,8 +544,10 @@
 				ysock.writeInt(yindex-1);
 				ysock.flush();
 			}
-			private function ydata(e:Event):void {
-				if(ysock.bytesAvailable>=xdim*zdim*4) {
+			private function ydata(e:Event):void
+			{
+				if(ysock.bytesAvailable>=xdim*zdim*4)
+				{
 					ysock.readBytes(tba,0,xdim*zdim*4);
 					tba.position=0;
 					var bd:BitmapData=new BitmapData(xdim,zdim,false);
@@ -441,10 +555,11 @@
 					yslice.image.source=new Bitmap(bd);
 				}
 			}
-
+			
 			private var currz:int=0;
-			protected function setZSlice(zcut:uint,force:Boolean):void {
-				const zindex:uint=zcut;
+			protected function setZSlice(zcut:uint,force:Boolean):void
+			{
+				const zindex:uint=ValueBox.flipzselected?zdim-1-zcut:zcut;
 				if(!force && (currz==zindex))return;
 				currz=zindex;
 				zsock.writeByte(ctrl_volumes.selectedIndex);
@@ -453,8 +568,10 @@
 				zsock.writeInt(zindex-1);
 				zsock.flush();
 			}
-			private function zdata(e:Event):void {
-				if(zsock.bytesAvailable>=xdim*ydim*4) {
+			private function zdata(e:Event):void
+			{
+				if(zsock.bytesAvailable>=xdim*ydim*4)
+				{
 					zsock.readBytes(tba,0,xdim*ydim*4);
 					tba.position=0;
 					var bd:BitmapData=new BitmapData(xdim,ydim,false);
@@ -462,8 +579,25 @@
 					zslice.image.source=new Bitmap(bd);
 				}
 			}
-
-			public function rearrange(fake:Event):void {
+			
+//			protected function updateTitles(title:String):void
+//			{
+//				if(title)
+//				{
+//					xwindow.title="'X' slice: "+title;
+//					ywindow.title="'Y' slice: "+title;
+//					zwindow.title="'Z' slice: "+title;
+//				}
+//				else
+//				{
+//					xwindow.title="'X' slice";
+//					ywindow.title="'Y' slice";
+//					zwindow.title="'Z' slice";
+//				}
+//			}
+			
+			public function rearrange(fake:Event):void
+			{
 				if(xwindow.minimized || xwindow.maximized)xwindow.restore();
 				if(ywindow.minimized || ywindow.maximized)ywindow.restore();
 				if(zwindow.minimized || zwindow.maximized)zwindow.restore();
@@ -482,41 +616,65 @@
 				ywindow.x=zwindow.x=width-ywindow.width;
 				ywindow.y=xwindow.height;
 				zwindow.y=ywindow.y+ywindow.height;
+//!!				snapwindow.minimize();
 				slicewindow.x=slicewindow.y=0;
 				slicewindow.width=Math.max(Math.min(xwindow.x,ywindow.x),slicewindow.minWidth);
-				if(!ctrlwindow.minimized) {
+				if(!ctrlwindow.minimized)
+				{
 					ctrlwindow.width=Math.max(Math.min(xwindow.x,ywindow.x),slicewindow.minHeight);
 					ctrlwindow.y=height-hdr-ctrlwindow.height;
 					ctrlwindow.minimize();
 				}
 				slicewindow.height=Math.max(height-hdr-slicewindow.minimizeHeight-vert/2,slicewindow.minHeight);
 			}
-
-			protected function SliceMix_mouseMoveHandler(event:MouseEvent):void {
+			
+			internal function center(event:Event):void
+			{
+				switch(event.target.label)
+				{
+					case "Center X":
+						cut.setlocation(xdim/2,cut.y,cut.z);
+						break;
+					case "Center Y":
+						cut.setlocation(cut.x,ydim/2,cut.z);
+						break;
+					case "Center Z":
+						cut.setlocation(cut.x,cut.y,zdim/2);
+						break;
+				}
+			}
+			
+			protected function SliceMix_mouseMoveHandler(event:MouseEvent):void
+			{
 				const u:Number=SliceMix.NIISlice.mouseX/SliceMix.NIISlice.contentWidth;
 				const v:Number=SliceMix.NIISlice.mouseY/SliceMix.NIISlice.contentHeight;
-				const x:Number=cut.o.x+u*cut.u.x+v*cut.v.x;
-				const y:Number=cut.o.y+u*cut.u.y+v*cut.v.y;
-				const z:Number=cut.o.z+u*cut.u.z+v*cut.v.z;
-				slicewindow.title="Slice "+x.toFixed(1)+","+y.toFixed(1)+","+z.toFixed(1);
+				const x:Number=cut.bottomleft.x+u*(cut.bottomright.x-cut.bottomleft.x)+v*(cut.topleft.x-cut.bottomleft.x);
+				const y:Number=cut.bottomleft.y+u*(cut.bottomright.y-cut.bottomleft.y)+v*(cut.topleft.y-cut.bottomleft.y);
+				const z:Number=cut.bottomleft.z+u*(cut.bottomright.z-cut.bottomleft.z)+v*(cut.topleft.z-cut.bottomleft.z);
+				slicewindow.title="Slice "+(xdim-1-x).toFixed(1)+","+(ydim-1-y).toFixed(1)+","+(zdim-1-z).toFixed(1);
+//				slicewindow.title="Slice "+(valbox.flipx.selected?xdim-1-x:x).toFixed(1)+","+(valbox.flipy.selected?ydim-1-y:y).toFixed(1)+","+(valbox.flipz.selected?zdim-1-z:z).toFixed(1);
 				labelCanvas.visible=false;
-				if(!fgotheader && (ftyp==3 || ftyp==4) && currentVolume.colors!=null && !valbox.outline.selected) {
+				if(!fgotheader && (ftyp==3 || ftyp==4) && currentVolume.colors!=null && !valbox.outline.selected)
+				{
 					const bx:int=u*fw;
 					const by:int=v*fh;
-					if(bx>=0 && bx<fw && by>=0 && by<fh) {
+					if(bx>=0 && bx<fw && by>=0 && by<fh)
+					{
 						fba.position=fw*fh*4+(bx+by*fw)*(ftyp-2);
 						var idx:uint=ftyp==3?fba.readUnsignedByte():fba.readUnsignedShort();
-						if(idx!=0) {
+						if(idx!=0)
+						{
 							labelCanvas.visible=true;
-							if(idx!=currIdx) {
+							if(idx!=currIdx)
+							{
 								currIdx=idx;
-
+								
 								labelCanvas.y=(height-header.height)*0.9;
 								labelCanvas.height=(height-header.height)*0.08;
-
+								
 								labelText.text=currentVolume.names[idx];
 								labelText.y=(labelCanvas.height-labelText.height)/2;
-
+								
 								const g:Graphics=labelCanvas.graphics;
 								g.clear();
 								g.beginFill(currentVolume.colors[idx]);
@@ -528,94 +686,167 @@
 				}
 			}
 			private var currIdx:uint;
-
-			public function Store():void {
-				if(MgmtPanel.currentidx!=-1) {
-					const w:SliceData=MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as SliceData;
-					w.setPacked(new <Number>[cut.o.x,cut.o.y,cut.o.z,cut.u.x,cut.u.y,cut.u.z,cut.v.x,cut.v.y,cut.v.z]);
+			
+			public function Store():void // NAVI here the request string is simply displayed now, but this is where it could be sent back to server as anchoring metadata
+			{
+//				Alert.show(requestString(),"Parameters");
+				const u:Vector3D=cut.bottomright.subtract(cut.bottomleft);
+				const v:Vector3D=cut.topright.subtract(cut.bottomright);
+				const o:Vector3D=cut.bottomleft.clone();
+				
+				if(ValueBox.flipxselected)
+				{
+					o.x=xdim-o.x;
+					u.x=-u.x;
+					v.x=-v.x;
+				}
+				if(ValueBox.flipyselected)
+				{
+					o.y=ydim-o.y;
+					u.y=-u.y;
+					v.y=-v.y;
+				}
+				if(ValueBox.flipzselected)
+				{
+					o.z=zdim-o.z;
+					u.z=-u.z;
+					v.z=-v.z;
+				}
+//				ctrl_requestString.text=
+				MgmtPanel.requeststring=
+					"ox="+o.x+"&oy="+o.y+"&oz="+o.z
+					+"&ux="+u.x+"&uy="+u.y+"&uz="+u.z
+					+"&vx="+v.x+"&vy="+v.y+"&vz="+v.z;
+				if(MgmtPanel.currentidx!=-1)
+				{
+					const w:Landmark=MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as Landmark;
+//					w.anchoring=ctrl_requestString.text;
+					w.anchoring=MgmtPanel.requeststring;
+					w.unpack();
 					MgmtPanel.interpolate();
 					seriescontrols();
 					MgmtPanel.save(new File(MgmtPanel.baseurl+File.separator+"~~autosave~~.xml"));
 				}
 			}
-
-			public function Restore():void {
-				cut.load(MgmtPanel.requestString);
+			
+			public function Restore():void
+			{
+				var urlVar:URLVariables=new URLVariables;
+				try
+				{
+//				urlVar.decode(ctrl_requestString.text);
+				urlVar.decode(MgmtPanel.requeststring);
+				}
+				catch(ignored:Object)
+				{}
+				cut.doInit(urlVar,xdim,ydim,zdim);
 			}
-
-			protected function volume_store():void {
+			
+			protected function volume_store():void
+			{
 				currentVolume.parammin=valbox.min.value;
 				currentVolume.parammax=valbox.max.value;
 				currentVolume.gray=valbox.gray.selected;
 			}
-
-			protected function volume_set(v:Volume):void {
+			
+			protected function volume_set(v:Volume):void
+			{
 				currentVolume=v;
+//				SliceData.sparsepalette=currentVolume.sparsepalette;
 				valbox.max.minimum=valbox.min.minimum=currentVolume.minval;
 				valbox.min.maximum=valbox.max.maximum=currentVolume.maxval;
 				valbox.min.value=isNaN(currentVolume.parammin)?currentVolume.minval:currentVolume.parammin;
 				valbox.max.value=isNaN(currentVolume.parammax)?currentVolume.maxval:currentVolume.parammax;
 				valbox.gray.selected=currentVolume.gray;
-
+				
 				dispatchCut(true);
 			}
-
-			protected function ctrl_volumes_changeHandler(event:ListEvent):void {
+			
+			protected function ctrl_volumes_changeHandler(event:ListEvent):void
+			{
 				if(event!=null)
 					volume_store();
 				volume_set(volumes[ctrl_volumes.selectedIndex]);
 			}
-
-			protected function ctrl_rotations_changeHandler(event:Event):void {
+			
+			protected function ctrl_rotations_changeHandler(event:Event):void
+			{
 				const t1:Number=Number(ctrl_rotate1.text);
 				const t2:Number=Number(ctrl_rotate2.text);
 				const t3:Number=Number(ctrl_rotate3.text);
 				cut.BuildRotation(valbox.decompcfg.selectedLabel,t1,t2,t3);
 				cut.Dispatch();
 			}
-
+			
 			private var pop:IFlexDisplayObject=null;
-			protected function aboutButton_clickHandler(event:MouseEvent):void {
+			protected function aboutButton_clickHandler(event:MouseEvent):void
+			{
 				if(pop)return;
 				hideCanvas.visible=hideCanvas.enabled=true;
 				pop=PopUpManager.createPopUp(this,AboutPop);
 				PopUpManager.centerPopUp(pop);
 			}
-			public function removePop():void {
+			public function removePop():void
+			{
 				hideCanvas.visible=hideCanvas.enabled=false;
 				PopUpManager.removePopUp(pop);
 				pop=null;
 			}
-
-			protected function hideCanvas_clickHandler(event:MouseEvent):void {
+			
+			protected function hideCanvas_clickHandler(event:MouseEvent):void
+			{
 				removePop();
+			}
+			
+			protected function screenCanvas_resizeHandler(event:ResizeEvent):void
+			{
+//				var hdr:Number=header.height;
+//				var scr:Number=/*screenCanvas.*/height;
+//				if(!isNaN(hdr) && !isNaN(scr))mdiRoot.height=scr-hdr;
 			}
 			
 			private var imageFile:File=new File;
 			[Bindable] public var imageFileSelected:Boolean=false;
-			public function loadImage(event:MouseEvent):void {
+			public function loadImage(event:MouseEvent):void
+			{
 				imageFile.addEventListener(Event.SELECT,imageSelected);
 				imageFile.browseForOpen("Histological image",[new FileFilter("Images (*.jpg, *.jpeg, *.gif, *.png)", "*.jpg;*.jpeg;*.gif;*.png")]);
 			}
-			public function imageSelected(e:Event):void {
+			public function imageSelected(e:Event):void
+			{
 				nativeWindow.title=imageFile.nativePath;
+//				Alert.show((e.target as File).nativePath);
+//				SliceMix.setSlice((e.target as File).nativePath,slicewindow);
 				SliceMix.setSlice(imageFile.url,slicewindow);
 				imageFileSelected=true;
 				MgmtPanel.currentidx=-1;seriescontrols();
 				MgmtPanel.titl=imageFile.name;
 			}
-			public function setImage(filename:String,anchoring:Vector.<Number>):void {
+			public function setImage(filename:String,anchoring:String):void
+			{
 				nativeWindow.title=filename;
 				SliceMix.setSlice(filename,slicewindow);
-				MgmtPanel.requestString=anchoring;
+//				ctrl_requestString.text=anchoring;
+				MgmtPanel.requeststring=anchoring;
 				Restore();
 				MgmtPanel.titl=filename;
 				seriescontrols();
 			}
 
+			public function unloadImage(event:MouseEvent):void
+			{
+				nativeWindow.title=setName;
+				SliceMix.setSlice(null,slicewindow);
+				MgmtPanel.currentidx=-1;seriescontrols();
+				MgmtPanel.titl="Empty";
+			}
+
+
 			private var mgmtwindow:MgmtPanel=null;
-			protected function pushButton_clickHandler(event:MouseEvent):void {
-				if((mgmtwindow==null)||(mgmtwindow.closed)) {
+			protected function pushButton_clickHandler(event:MouseEvent):void
+			{
+				if((mgmtwindow==null)||(mgmtwindow.closed))
+				{
 					mgmtwindow=new MgmtPanel;
 					MgmtPanel.main=this;
 					mgmtwindow.open();
@@ -627,15 +858,17 @@
 			}
 
 			/*private*/public var pack:String;
-			protected function invokeHandler(event:InvokeEvent):void {
+			protected function invokeHandler(event:InvokeEvent):void
+			{
 				pack=event.arguments[0];
-//				if(pack==null) {
+//				if(pack==null)
+//				{
 //					var fs:FileStream=new FileStream();
 //					fs.open(File.applicationDirectory.resolvePath("pack.txt"),FileMode.READ);
 //					pack=fs.readMultiByte(fs.bytesAvailable,"utf-8");
 //					fs.close();
 //				}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				// Linux
 				cport=parseInt(event.arguments[1]);
 				xport=parseInt(event.arguments[2]);
 				yport=parseInt(event.arguments[3]);
@@ -643,65 +876,84 @@
 				fport=parseInt(event.arguments[5]);
 			}
 
-			protected function windowedapplication1_preinitializeHandler(event:FlexEvent):void {
+			protected function windowedapplication1_preinitializeHandler(event:FlexEvent):void
+			{
 				NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE,invokeHandler);
 			}
 
-			public function refresh():void {
-				setXSlice(cut.x,true);
-				setYSlice(cut.y,true);
-				setZSlice(cut.z,true);
+			public function refresh():void
+			{
+				setXSlice(xdim-1-cut.x,true);
+				setYSlice(ydim-1-cut.y,true);
+				setZSlice(zdim-1-cut.z,true);
 				fetchSlice();
 			}
-
-			public function seriescontrols():void {
+			
+			public function seriescontrols():void
+			{
 				if(MgmtPanel.currentidx==-1)
 					btn_next.visible=btn_nextanch.visible=btn_prev.visible=btn_prevanch.visible=chk_anch.visible=false;
-				else {
+				else
+				{
 					btn_next.visible=btn_nextanch.visible=btn_prev.visible=btn_prevanch.visible=chk_anch.visible=true;
 					btn_prev.enabled=MgmtPanel.currentidx>0;
 					btn_next.enabled=MgmtPanel.currentidx<MgmtPanel.rows.length-1;
 					btn_prevanch.enabled=false;
 					for(var i:int=MgmtPanel.currentidx-1;i>=0;i--)
-						if((MgmtPanel.rows.getItemAt(i) as SliceData).hasanchoring)
+						if((MgmtPanel.rows.getItemAt(i) as Landmark).hasanchoring)
 							btn_prevanch.enabled=true;
 					btn_nextanch.enabled=false;
 					for(i=MgmtPanel.currentidx+1;i<MgmtPanel.rows.length;i++)
-						if((MgmtPanel.rows.getItemAt(i) as SliceData).hasanchoring)
+						if((MgmtPanel.rows.getItemAt(i) as Landmark).hasanchoring)
 							btn_nextanch.enabled=true;
-					if((MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as SliceData).hasanchoring) {
+//					chk_anch.selected=(MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as Landmark).hasanchoring
+					if((MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as Landmark).hasanchoring)
+					{
 						chk_anch.text="!";
+//						chk_anch.setStyle("color","#80FF80");
 						chk_anch.getTextField().backgroundColor=0x80ff80;
-					} else {
+					}
+					else
+					{
 						chk_anch.text="?";
+//						chk_anch.setStyle("color","#FF0000");
 						chk_anch.getTextField().backgroundColor=0xff0000;
 					}
 					chk_anch.getTextField().background=true;
+//					chk_anch.getTextField().backgroundColor=0;
 				}
 			}
-
-			public function serieshack():void { //!!
-				const w:SliceData=MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as SliceData;
-				setImage(MgmtPanel.baseurl+File.separator+w.filename,w.packed);
+			public function serieshack():void
+			{
+				const w:Landmark=MgmtPanel.rows.getItemAt(MgmtPanel.currentidx) as Landmark;
+				w.pack();
+				setImage(MgmtPanel.baseurl+File.separator+w.filename,w.anchoring);
 			}
-			
-			protected function btn_prevanch_clickHandler(event:MouseEvent):void {
-				while(!(MgmtPanel.rows.getItemAt(--MgmtPanel.currentidx) as SliceData).hasanchoring){}
+
+			protected function btn_prevanch_clickHandler(event:MouseEvent):void
+			{
+				while(!(MgmtPanel.rows.getItemAt(--MgmtPanel.currentidx) as Landmark).hasanchoring){}
 				serieshack();
 			}
 
-			protected function btn_prev_clickHandler(event:MouseEvent):void {
+
+			protected function btn_prev_clickHandler(event:MouseEvent):void
+			{
 				MgmtPanel.currentidx--;
 				serieshack();
 			}
 
-			protected function btn_next_clickHandler(event:MouseEvent):void {
+
+			protected function btn_next_clickHandler(event:MouseEvent):void
+			{
 				MgmtPanel.currentidx++;
 				serieshack();
 			}
 
-			protected function btn_nextanch_clickHandler(event:MouseEvent):void {
-				while(!(MgmtPanel.rows.getItemAt(++MgmtPanel.currentidx) as SliceData).hasanchoring){}
+
+			protected function btn_nextanch_clickHandler(event:MouseEvent):void
+			{
+				while(!(MgmtPanel.rows.getItemAt(++MgmtPanel.currentidx) as Landmark).hasanchoring){}
 				serieshack();
 			}
 
@@ -709,70 +961,87 @@
 			public var rot2focus:Boolean=false;
 			public var rot3focus:Boolean=false;
 
-			protected function ctrl_rotate1_focusInHandler(event:FocusEvent):void {
+			protected function ctrl_rotate1_focusInHandler(event:FocusEvent):void
+			{
 				trace("1+");
 				rot1focus=true;
 			}
 
-			protected function ctrl_rotate1_focusOutHandler(event:FocusEvent):void {
+
+			protected function ctrl_rotate1_focusOutHandler(event:FocusEvent):void
+			{
 				trace("1-");
 				rot1focus=false;
 			}
 
-			protected function ctrl_rotate2_focusInHandler(event:FocusEvent):void {
+
+			protected function ctrl_rotate2_focusInHandler(event:FocusEvent):void
+			{
 				trace("2+");
 				rot2focus=true;
 			}
 
-			protected function ctrl_rotate2_focusOutHandler(event:FocusEvent):void {
+
+			protected function ctrl_rotate2_focusOutHandler(event:FocusEvent):void
+			{
 				trace("2-");
 				rot2focus=false;
 			}
 
-			protected function ctrl_rotate3_focusInHandler(event:FocusEvent):void {
+
+			protected function ctrl_rotate3_focusInHandler(event:FocusEvent):void
+			{
 				trace("3+");
 				rot3focus=true;
 			}
 
-			protected function ctrl_rotate3_focusOutHandler(event:FocusEvent):void {
+
+			protected function ctrl_rotate3_focusOutHandler(event:FocusEvent):void
+			{
 				trace("3-");
 				rot3focus=false;
 			}
-			
-			protected function windowedapplication1_closeHandler(event:Event):void {
+
+			protected function windowedapplication1_closeHandler(event:Event):void
+			{
 				if(mgmtwindow!=null)mgmtwindow.close();
 			}
 
-			private var QS_dir:File;
-			private var QS_plan:Vector.<QS_Item>=new Vector.<QS_Item>;
-			private var QS_total:int;
-			public function QSlices():void {
+			var QS_dir:File;
+			var QS_plan:Vector.<QS_Item>=new Vector.<QS_Item>;
+			var QS_total:int;
+			public function QSlices():void{
 				if(QS_plan.length>0)return;
 				QS_dir=new File(MgmtPanel.baseurl);
 				QS_dir.addEventListener(Event.SELECT,QS_dir_selected);
 				QS_dir.browseForDirectory("Select folder for generated series");
 			}
-			public function QS_dir_selected(e:Event):void {
+			public function QS_dir_selected(e:Event):void{
+//				if(QS_plan.length>0)return;
+//				const df:DateFormatter=new DateFormatter;
+//				df.formatString="YYYYMMDDJJNNSS";
+//				QS_dir=new File(MgmtPanel.baseurl+File.separator+"Slices-"+df.format(new Date()));
+//				QS_dir.createDirectory();
 				var indexHack:Boolean=true;
-				for(var i:int=0;i<volumes.length;i++) {
+				for(var i:int=0;i<volumes.length;i++){
 					var v:Volume=volumes[i];
-					if(indexHack || (v.type!=3) && (v.type!=4)) {
-						if((v.type==3)||(v.type==4)) {
+					if(indexHack || (v.type!=3) && (v.type!=4)){
+						if((v.type==3)||(v.type==4)){
 							indexHack=false;
 							var fs:FileStream=new FileStream;
-							try {
-								fs.open(QS_dir.resolvePath(v.name+".json"),FileMode.WRITE);
-								fs.writeUTFBytes('[{"index":0,"red":0,"green":0,"blue":0,"name":"empty"}');
-								for(var j:int=1;j<v.colors.length;j++) {
-									fs.writeUTFBytes(',{"index":'+j+',"red":'+((v.colors[j]>>16)&255)+',"green":'+((v.colors[j]>>8)&255)+',"blue":'+(v.colors[j]&255)+',"name":"'+v.names[j]+'"}');
-								}
-								fs.writeUTFBytes("]");
-								fs.close()
-							} catch(ex:Error){}
+							try{
+							fs.open(QS_dir.resolvePath(v.name+".json"),FileMode.WRITE);
+							fs.writeUTFBytes('[{"index":0,"red":0,"green":0,"blue":0,"name":"empty"}');
+							for(var j:int=1;j<v.colors.length;j++){
+								fs.writeUTFBytes(',{"index":'+j+',"red":'+((v.colors[j]>>16)&255)+',"green":'+((v.colors[j]>>8)&255)+',"blue":'+(v.colors[j]&255)+',"name":"'+v.names[j]+'"}');
+							}
+							fs.writeUTFBytes("]");
+							fs.close()
+							}catch(ex:Error){}
 						}
 						var suffix:String=v.name.replace(" ","_");
-						for(j=0;j<MgmtPanel.rows.length;j++) {
-							QS_plan.push(new QS_Item(i,v,suffix,MgmtPanel.rows.getItemAt(j) as SliceData));
+						for(j=0;j<MgmtPanel.rows.length;j++){
+							QS_plan.push(new QS_Item(i,v,suffix,MgmtPanel.rows.getItemAt(j) as Landmark));
 						}
 					}
 				}
@@ -780,24 +1049,25 @@
 				MgmtPanel.pb_hack.visible=true;
 				QS_next();
 			}
-
-			private function QS_next():void {
+			
+			function QS_next():void{
 				QS_header=false;
-				if(QS_plan.length>0) {
+				if(QS_plan.length>0){
 					MgmtPanel.pb_hack.setProgress(QS_total-QS_plan.length+1,QS_total);
 					QS_plan[QS_plan.length-1].request(fsock);
-				} else {
+				}else{
 					MgmtPanel.pb_hack.visible=false;
 				}
 			}
-
-			private var QS_ba:ByteArray=new ByteArray;
-			private var QS_header:Boolean;
-			private var QS_width:int;
-			private var QS_height:int;
-			private var QS_typ:int;
-			private function QS_data():void {
-				if(!QS_header && fsock.bytesAvailable>=9) {
+			
+			var QS_ba:ByteArray=new ByteArray;
+			var QS_header:Boolean;
+			var QS_width:int;
+			var QS_height:int;
+			var QS_typ:int;
+			function QS_data():void{
+				if(!QS_header && fsock.bytesAvailable>=9)
+				{
 					QS_typ=fsock.readByte();
 					QS_width=fsock.readInt();
 					QS_height=fsock.readInt();
@@ -808,17 +1078,18 @@
 						(QS_typ!=3 && QS_typ!=4 && fsock.bytesAvailable>=QS_width*QS_height*4)
 						|| (QS_typ==3 && fsock.bytesAvailable>=QS_width*QS_height*5)
 						|| (QS_typ==4 && fsock.bytesAvailable>=QS_width*QS_height*6)
-					)) {
+					))
+				{
 					var item:QS_Item=QS_plan.pop();
 					var fs:FileStream=new FileStream;
 					fs.open(QS_dir.resolvePath(item.lm.filename.substr(0,item.lm.filename.lastIndexOf("."))+"-"+item.suffix+".png"),FileMode.WRITE);
 					fs.endian=Endian.BIG_ENDIAN;
-
+					
 					fs.writeUnsignedInt(0x89504e47);
 					fs.writeUnsignedInt(0x0D0A1A0A);
-
+					
 					QS_ba.length=0;
-
+							
 					QS_ba.writeInt(QS_width);
 					QS_ba.writeInt(QS_height);
 					QS_ba.writeByte(8);
@@ -827,12 +1098,12 @@
 					QS_ba.writeByte(0);
 					QS_ba.writeByte(0);
 					crcWrite(fs,"IHDR",QS_ba);
-
+							
 					QS_ba.length=0;
-
-					for(var y:int=0;y<QS_height;y++) {
+							
+					for(var y:int=0;y<QS_height;y++){
 						QS_ba.writeByte(0);
-						for(var x:int=0;x<QS_width;x++) {
+						for(var x:int=0;x<QS_width;x++){
 							fsock.readByte();
 							fsock.readBytes(QS_ba,QS_ba.position,3);
 							QS_ba.position+=3;
@@ -840,14 +1111,14 @@
 					}
 					QS_ba.compress();
 					crcWrite(fs,"IDAT",QS_ba);
-
+							
 					QS_ba.length=0;
-
+							
 					crcWrite(fs,"IEND",QS_ba);
-
+							
 					fs.close();
-
-					if(QS_typ==3) {
+							
+					if(QS_typ==3){
 						fsock.readBytes(QS_ba,0,QS_width*QS_height);
 						fs.open(QS_dir.resolvePath(item.lm.filename.substr(0,item.lm.filename.lastIndexOf("."))+"-"+item.suffix+".flat"),FileMode.WRITE);
 						fs.endian=Endian.BIG_ENDIAN;
@@ -857,7 +1128,7 @@
 						fs.writeBytes(QS_ba);
 						fs.close();
 					}
-					if(QS_typ==4) {
+					if(QS_typ==4){
 						fsock.readBytes(QS_ba,0,QS_width*QS_height*2);
 						fs.open(QS_dir.resolvePath(item.lm.filename.substr(0,item.lm.filename.lastIndexOf("."))+"-"+item.suffix+".flat"),FileMode.WRITE);
 						fs.endian=Endian.BIG_ENDIAN;
@@ -871,101 +1142,124 @@
 					QS_next();
 				}
 			}
-
+			
 			private static var crcHelper:Array=null;
-			private static function crcWrite(fs:FileStream,type:String,ba:ByteArray):void {
-				if(crcHelper==null) {
+			private static function crcWrite(fs:FileStream,type:String,ba:ByteArray):void{
+				if(crcHelper==null){
 					crcHelper=new Array;
-					for(var i:uint=0;i<256;i++) {
+					for(var i:uint=0;i<256;i++){
 						var c:uint=i;
-						for(var j:uint=0;j<8;j++) {
+						for(var j:uint=0;j<8;j++){
 							if(c&1)c=uint(uint(0xedb88320)^uint(c>>>1));
 							else c=uint(c>>>1);
 						}
 						crcHelper[i]=c;
 					}
 				}
-
+				
 				fs.writeUnsignedInt(ba.length);
 				fs.writeUTFBytes(type);
 				ba.position=0;
 				fs.writeBytes(ba);
 				ba.position=0;
 				c=0xFFFFFFFF;
-				for(i=0;i<4;i++) {
+				for(i=0;i<4;i++){
 					c=uint(crcHelper[(c^type.charCodeAt(i))&uint(0xFF)]^uint(c>>>8));
 				}
-				for(i=0;i<ba.length;i++) {
+				for(i=0;i<ba.length;i++){
 					c=uint(crcHelper[(c^ba.readUnsignedByte())&uint(0xFF)]^uint(c>>>8));
 				}
 				c=uint(c^uint(0xFFFFFFFF));
 				fs.writeUnsignedInt(c);
 			}
+			
 		]]>
 	</mx:Script>
-	<mx:ApplicationControlBar id="header" dock="true" width="100%" fillAlphas="[1.0, 1.0]" fillColors="[#909090, #909090]">
-		<mx:ComboBox id="ctrl_volumes" width="120" change="ctrl_volumes_changeHandler(event)"><mx:Array id="volumeLabels"/></mx:ComboBox>
-		<mx:Button label="?" width="30" click="aboutButton_clickHandler(event)" toolTip="About" enabled="{ready}"/>
-		<mx:VRule height="20"/>
-		<mx:Button label="Store" click="Store()"/>
-		<mx:Button label="Restore" click="Restore()"/>
-		<mx:VRule height="20"/>
-		<mx:Button label="Undo" click="cut.Undo()"/>
-		<mx:Button label="Redo" click="cut.Redo()"/>
-		<mx:Label text="Pan"/>
-		<mx:NumericStepper id="shiftstep" textAlign="right" width="52" minimum="0.05" maximum="20" value="1" stepSize="0.05" change="cut.shiftstep=shiftstep.value"/>
-		<mx:Label text="Rot"/>
-		<mx:NumericStepper id="rotstep" textAlign="right" width="41" minimum="0.05" maximum="90" value="1" stepSize="0.05" change="cut.rotstep=rotstep.value"/>
-		<mx:NumericStepper id="widthstep" textAlign="right" width="68" change="cut.width=widthstep.value;cut.Dispatch();"/>
-		<mx:Label text="x" width="10"/>
-		<mx:NumericStepper id="heightstep" textAlign="right" width="68" change="cut.height=heightstep.value;cut.Dispatch();"/>
-		<mx:VRule height="20"/>
-		<mx:Label id="ind_mode" fontFamily="Arial" fontSize="16" fontWeight="bold" textAlign="center"/>
-		<mx:TextInput id="ctrl_rotate1" textAlign="right" width="55" restrict="-.0-9" change="ctrl_rotations_changeHandler(event)" focusIn="ctrl_rotate1_focusInHandler(event)" focusOut="ctrl_rotate1_focusOutHandler(event)"/>
-		<mx:TextInput id="ctrl_rotate2" textAlign="right" width="55" restrict="-.0-9" change="ctrl_rotations_changeHandler(event)" focusIn="ctrl_rotate2_focusInHandler(event)" focusOut="ctrl_rotate2_focusOutHandler(event)"/>
-		<mx:TextInput id="ctrl_rotate3" textAlign="right" width="55" restrict="-.0-9" change="ctrl_rotations_changeHandler(event)" focusIn="ctrl_rotate3_focusInHandler(event)" focusOut="ctrl_rotate3_focusOutHandler(event)"/>
-		<mx:Button label="Manage data" click="pushButton_clickHandler(event)" enabled="{ready}"/>
-		<mx:Button id="btn_prevanch" label="|&lt;|" visible="false" click="btn_prevanch_clickHandler(event)"/>
-		<mx:Button id="btn_prev" label="&lt;" visible="false" click="btn_prev_clickHandler(event)"/>
-		<local:BGLabel id="chk_anch" visible="false" fontFamily="Arial" fontSize="16" fontWeight="bold" textAlign="center"/>
-		<mx:Button id="btn_next" label="&gt;" visible="false" click="btn_next_clickHandler(event)"/>
-		<mx:Button id="btn_nextanch" label="|&gt;|" visible="false" click="btn_nextanch_clickHandler(event)"/>
-	</mx:ApplicationControlBar>
-	<flexlib:MDICanvas id="mdiRoot" horizontalScrollPolicy="off" verticalScrollPolicy="off" visible="false"
-					   width="100%" height="100%"
-					   backgroundColor="#A0A0A0"
-					   snapDistance="4" tilePadding="8">
-		<flexlib:MDIWindow title="Sagittal" showCloseButton="false" id="xwindow" dropShadowEnabled="false" minWidth="142" minHeight="102">
-			<local:Slice id="xslice" ready="{ready}" sliceDescriptor="{cut}" plane="yzx"
-						 dataWidth="{ydim}" dataHeight="{zdim}"
-						 physWidth="{physydim}" physHeight="{physzdim}"
-						 leftText="labels/AnteriorR.png" rightText="labels/PosteriorR.png" topText="labels/Superior.png" bottomText="labels/Inferior.png" volume="{currentVolume}"/>
-		</flexlib:MDIWindow>
-		<flexlib:MDIWindow title="Coronal" showCloseButton="false" id="ywindow" dropShadowEnabled="false" minWidth="142" minHeight="102">
-			<local:Slice id="yslice" ready="{ready}" sliceDescriptor="{cut}" plane="xzy"
-						 dataWidth="{xdim}" dataHeight="{zdim}"
-						 physWidth="{physxdim}" physHeight="{physzdim}"
-						 leftText="labels/Right.png" rightText="labels/Left.png" topText="labels/Superior.png" bottomText="labels/Inferior.png" volume="{currentVolume}"/>
-		</flexlib:MDIWindow>
-		<flexlib:MDIWindow title="Horizontal" showCloseButton="false" id="zwindow" dropShadowEnabled="false" minWidth="142" minHeight="102">
-			<local:Slice id="zslice" ready="{ready}" sliceDescriptor="{cut}" plane="xyz"
-						 dataWidth="{xdim}" dataHeight="{ydim}"
-						 physWidth="{physxdim}" physHeight="{physydim}"
-						 leftText="labels/Right.png" rightText="labels/Left.png" topText="labels/Anterior.png" bottomText="labels/Posterior.png" volume="{currentVolume}"/>
-		</flexlib:MDIWindow>
-		<flexlib:MDIWindow title="Values and control" showCloseButton="false" id="ctrlwindow" dropShadowEnabled="false" height="350">
-			<local:ValueBox id="valbox" main="{this}" mouseOver="SliceMix.drawMidCross()" mouseOut="SliceMix.drawAnchor();"/>
-		</flexlib:MDIWindow>
-		<local:SliceWindow title="Slice" showCloseButton="false" id="slicewindow" inner="{SliceMix}" dropShadowEnabled="false" minWidth="410" minHeight="100">
-			<local:OneOrTwoImages id="SliceMix" mouseMove="SliceMix_mouseMoveHandler(event)" sliceDescriptor="{cut}" mouseOut="labelCanvas.visible=false;currIdx=0;" outer="{slicewindow}"/>
-		</local:SliceWindow>
-	</flexlib:MDICanvas>
-	<mx:Label id="indicator" text="Can not access volume" visible="false"/>
-	<mx:Canvas id="labelCanvas" width="100%" mouseEnabled="false" focusEnabled="false" mouseFocusEnabled="false" visible="false">
-		<mx:Label id="labelText" width="100%" textAlign="center" fontFamily="Verdana" fontSize="30" mouseEnabled="false" color="#0" fontWeight="bold"/>
-	</mx:Canvas>
-	<mx:Panel x="240" y="247" width="596" height="335" layout="absolute" title="ErrorLog" id="log_panel" visible="false" enabled="false">
-		<mx:TextArea x="0" y="0" width="576" height="295" id="log_console"/>
-	</mx:Panel>
+	
+<!--	<mx:Canvas id="screenCanvas" width="100%" height="100%" resize="screenCanvas_resizeHandler(event)" backgroundColor="#A0A0A0">-->
+<!--		<mx:ApplicationControlBar id="header" dock="true" dropShadowEnabled="false" width="100%" resize="screenCanvas_resizeHandler(event)">-->
+		<mx:ApplicationControlBar id="header" dock="true" width="100%" resize="screenCanvas_resizeHandler(event)" fillAlphas="[1.0, 1.0]" fillColors="[#909090, #909090]">
+			<mx:ComboBox id="ctrl_volumes" width="120" change="ctrl_volumes_changeHandler(event)"><mx:Array id="volumeLabels"/></mx:ComboBox>
+			<mx:Button label="?" width="30" click="aboutButton_clickHandler(event)" toolTip="About" enabled="{ready}"/>
+			<mx:VRule height="20"/>
+			<mx:Button label="Store" click="Store()"/><!-- // NAVI this is where the view description - practically the requeststring - could be stored. -->
+			<mx:Button label="Restore" click="Restore()"/><!-- // NAVI this is where the view description - practically the requeststring - could be stored. -->
+<!--			<mx:TextInput id="ctrl_requestString" width="20"/>-->
+<!--			<mx:VRule height="20"/>-->
+<!--			<mx:Button label="Load" click="loadImage(event)"/>-->
+<!--			<mx:Button label="Unload" click="unloadImage(event)"/>-->
+			<mx:VRule height="20"/>
+			<mx:Button label="Undo" click="cut.Undo()"/>
+			<mx:Button label="Redo" click="cut.Redo()"/>
+<!--			<mx:Label text="PanStep"/>-->
+			<mx:Label text="Pan"/>
+			<mx:NumericStepper id="shiftstep" textAlign="right" width="52" minimum="0.05" maximum="20" value="1" stepSize="0.05" change="cut.shiftstep=shiftstep.value"/>
+<!--			<mx:Label text="RotStep"/>-->
+			<mx:Label text="Rot"/>
+			<mx:NumericStepper id="rotstep" textAlign="right" width="41" minimum="0.05" maximum="90" value="1" stepSize="0.05" change="cut.rotstep=rotstep.value"/>
+<!--			<mx:Label text="Width"/>-->
+			<mx:NumericStepper id="widthstep" textAlign="right" width="68" change="cut.width=widthstep.value;cut.Dispatch();"/>
+<!--			<mx:Label text="Height"/>-->
+			<mx:Label text="x" width="10"/>
+			<mx:NumericStepper id="heightstep" textAlign="right" width="68" change="cut.height=heightstep.value;cut.Dispatch();"/>
+			<mx:VRule height="20"/>
+<!--			<mx:Label text="Orientation"/>-->
+			<mx:Label id="ind_mode" fontFamily="Arial" fontSize="16" fontWeight="bold" textAlign="center"/>
+			<mx:TextInput id="ctrl_rotate1" textAlign="right" width="55" restrict="-.0-9" change="ctrl_rotations_changeHandler(event)" focusIn="ctrl_rotate1_focusInHandler(event)" focusOut="ctrl_rotate1_focusOutHandler(event)"/>
+			<mx:TextInput id="ctrl_rotate2" textAlign="right" width="55" restrict="-.0-9" change="ctrl_rotations_changeHandler(event)" focusIn="ctrl_rotate2_focusInHandler(event)" focusOut="ctrl_rotate2_focusOutHandler(event)"/>
+			<mx:TextInput id="ctrl_rotate3" textAlign="right" width="55" restrict="-.0-9" change="ctrl_rotations_changeHandler(event)" focusIn="ctrl_rotate3_focusInHandler(event)" focusOut="ctrl_rotate3_focusOutHandler(event)"/>
+			<mx:Button label="Manage data" click="pushButton_clickHandler(event)" enabled="{ready}"/>
+<!--			<mx:Button label="Mgmt" click="pushButton_clickHandler(event)"/>-->
+			<mx:Button id="btn_prevanch" label="|&lt;|" visible="false" click="btn_prevanch_clickHandler(event)"/>
+			<mx:Button id="btn_prev" label="&lt;" visible="false" click="btn_prev_clickHandler(event)"/>
+<!--			<mx:CheckBox id="chk_anch" enabled="false" visible="false"/>-->
+			<local:BGLabel id="chk_anch" visible="false" fontFamily="Arial" fontSize="16" fontWeight="bold" textAlign="center"/>
+			<mx:Button id="btn_next" label="&gt;" visible="false" click="btn_next_clickHandler(event)"/>
+			<mx:Button id="btn_nextanch" label="|&gt;|" visible="false" click="btn_nextanch_clickHandler(event)"/>
+		</mx:ApplicationControlBar>
+	<!-- width="100%" y="{header.height}" -->
+		<flexlib:MDICanvas id="mdiRoot" horizontalScrollPolicy="off" verticalScrollPolicy="off" visible="false"
+						   width="100%" height="100%"
+						   backgroundColor="#A0A0A0"
+						   snapDistance="4" tilePadding="8">
+			<!-- 						   width="100%" top="{header.height}" bottom="{height}-{header.height}" backgroundColor="#FFFFFF" backgroundAlpha="0" -->
+			<flexlib:MDIWindow title="Sagittal" showCloseButton="false" id="xwindow" dropShadowEnabled="false" minWidth="142" minHeight="102">
+				<local:Slice id="xslice" ready="{ready}" sliceDescriptor="{cut}" plane="yzx"
+							 dataWidth="{ydim}" dataHeight="{zdim}"
+							 physWidth="{physydim}" physHeight="{physzdim}"
+							 leftText="labels/AnteriorR.png" rightText="labels/PosteriorR.png" topText="labels/Superior.png" bottomText="labels/Inferior.png" volume="{currentVolume}"/>
+			</flexlib:MDIWindow>
+			<flexlib:MDIWindow title="Coronal" showCloseButton="false" id="ywindow" dropShadowEnabled="false" minWidth="142" minHeight="102">
+				<local:Slice id="yslice" ready="{ready}" sliceDescriptor="{cut}" plane="xzy"
+							 dataWidth="{xdim}" dataHeight="{zdim}"
+							 physWidth="{physxdim}" physHeight="{physzdim}"
+							 leftText="labels/Right.png" rightText="labels/Left.png" topText="labels/Superior.png" bottomText="labels/Inferior.png" volume="{currentVolume}"/>
+			</flexlib:MDIWindow>
+			<flexlib:MDIWindow title="Horizontal" showCloseButton="false" id="zwindow" dropShadowEnabled="false" minWidth="142" minHeight="102">
+				<local:Slice id="zslice" ready="{ready}" sliceDescriptor="{cut}" plane="xyz"
+							 dataWidth="{xdim}" dataHeight="{ydim}"
+							 physWidth="{physxdim}" physHeight="{physydim}"
+							 leftText="labels/Right.png" rightText="labels/Left.png" topText="labels/Anterior.png" bottomText="labels/Posterior.png" volume="{currentVolume}"/>
+			</flexlib:MDIWindow>
+			<flexlib:MDIWindow title="Values and control" showCloseButton="false" id="ctrlwindow" dropShadowEnabled="false" height="350">
+				<local:ValueBox id="valbox" main="{this}" xdim="{xdim}" ydim="{ydim}" zdim="{zdim}"
+								mouseOver="SliceMix.drawMidCross()" mouseOut="SliceMix.drawAnchor();"/>
+			</flexlib:MDIWindow>
+			<local:SliceWindow title="Slice" showCloseButton="false" id="slicewindow" inner="{SliceMix}" dropShadowEnabled="false" minWidth="410" minHeight="100">
+				<local:OneOrTwoImages id="SliceMix" mouseMove="SliceMix_mouseMoveHandler(event)" sliceDescriptor="{cut}" mouseOut="labelCanvas.visible=false;currIdx=0;" outer="{slicewindow}"/>
+			</local:SliceWindow>
+<!--//!!			<flexlib:MDIWindow title="Snap Tools" showCloseButton="false" id="snapwindow" resizable="false" width="374" height="271" dropShadowEnabled="false">
+				<local:SnapTools sliceDescriptor="{cut}" main="{this}"/>
+			</flexlib:MDIWindow>-->
+		</flexlib:MDICanvas>
+		<mx:Label id="indicator" text="Can not access volume" visible="false"/>
+		<mx:Canvas id="labelCanvas" width="100%" mouseEnabled="false" focusEnabled="false" mouseFocusEnabled="false" visible="false">
+			<mx:Label id="labelText" width="100%" textAlign="center" fontFamily="Verdana" fontSize="30" mouseEnabled="false" color="#0" fontWeight="bold"/>
+		</mx:Canvas>
+		<mx:Panel x="240" y="247" width="596" height="335" layout="absolute" title="ErrorLog" id="log_panel" visible="false" enabled="false">
+			<mx:TextArea x="0" y="0" width="576" height="295" id="log_console"/>
+		</mx:Panel>
+<!--	</mx:Canvas>-->
 	<mx:Canvas id="hideCanvas" width="100%" height="100%" click="hideCanvas_clickHandler(event)" enabled="false" visible="false"/>
+	
 </mx:WindowedApplication>
